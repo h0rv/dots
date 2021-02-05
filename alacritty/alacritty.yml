@@ -3,8 +3,8 @@ import:
 
 window:
   padding:
-    x: 24 
-    y: 24 
+    x: 8
+    y: 8
   dynamic_padding: true
 
 font: 
