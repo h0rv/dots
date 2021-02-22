@@ -10,16 +10,13 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 call plug#begin('~/.vim/plugged')
 
-Plug 'preservim/nerdtree' |
-\ Plug 'Xuyuanp/nerdtree-git-plugin'
-
 Plug 'dracula/vim'
-
-Plug 'Valloric/YouCompleteMe'
 
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'chiel92/vim-autoformat'
+
+Plug 'vim-airline/vim-airline'
 
 call plug#end()
 
