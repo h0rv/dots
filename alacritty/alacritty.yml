@@ -9,12 +9,6 @@ window:
 
 font: 
   size: 13
-  normal:
-    family: 'Hack'
-  bold:
-    family: 'Hack'
-  italic:
-    family: 'Hack'
 
 shell:
   program: /bin/fish
