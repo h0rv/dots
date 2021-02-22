@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp ~/.vimrc ~/Documents/Projects/dotfiles/vim/vimrc
+cp ~/.vimrc ~/Documents/Projects/dotfiles/vim/.vimrc
 
 cp ~/.config/alacritty/alacritty.yml ~/Documents/Projects/dotfiles/alacritty/alacritty.yml
 
