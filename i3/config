@@ -41,9 +41,7 @@ new_window pixel 2
 
 # Set inner/outer gaps
 gaps inner 4
-gaps outer 4
-
-
+gaps outer 2
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -194,7 +192,7 @@ bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
 bindsym $mod+w exec /usr/bin/firefox
-bindsym $mod+n exec pcmanfm
+bindsym $mod+n exec nautilus
 bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 
 ##########################################
@@ -233,9 +231,6 @@ bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 #get auth work with polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# dex execute .desktop files
-exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
-
 # num lock activated
 #exec --no-startup-id numlockx on
 
@@ -246,9 +241,6 @@ exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
 exec --no-startup-id ~/.screenlayout/laptop.sh
 
-# start blueberry app for managing bluetooth devices from tray:
-exec --no-startup-id blueberry-tray
-
 #transparency 
 #exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
 exec --no-startup-id picom -CGb
@@ -258,7 +250,6 @@ exec --no-startup-id nm-applet
 
 # set wallpaper
 exec --no-startup-id nitrogen --restore
-#exec --no-startup-id feh --bg-fill /usr/share/endeavouros/backgrounds/endeavouros_i3.png
 
 #set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
@@ -267,8 +258,8 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 
 # Autostart apps as you like
-#exec --no-startup-id sleep 2 && xfce4-terminal
-#exec --no-startup-id firefox
+exec --no-startup-id ulauncher
+
 
 # set floating (nontiling)for apps needing it
 for_window [class="Yad" instance="yad"] floating enable
@@ -324,7 +315,7 @@ client.background       #F8F8F2
 # Start i3bar to display a workspace bar 
 # (plus the system information i3status finds out, if available)
 bar {
-    font pango:Noto Sans Regular 12, FontAwesome 12
+    font pango:Roboto 11, FontAwesome 11
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
         position bottom 
 # i3bar_command i3bar --transparency
@@ -343,26 +334,3 @@ bar {
         }  tray_padding 0
 }
 
-#####################################
-# Application menu handled by rofi: #
-#####################################
-
-## rofi bindings fancy application menu (two bindings F9/$mod+d)
-
-bindsym $mod+d exec rofi -modi drun -show drun -display-drun "Apps : " -line-padding 4 \
-            -columns 2 -padding 50 -hide-scrollbar \
-            -show-icons -drun-icon-theme "Dracula" -font "Noto Sans Regular 12"
-
-            bindsym F9 exec rofi -modi drun -show drun -display-drun "Apps : " -line-padding 4 \
-                -columns 2 -padding 30 -hide-scrollbar \
-                -show-icons -drun-icon-theme "Dracula" -font "Noto Sans Regular 12"
-
-## rofi bindings for window menu (two bindings F10/$mod+t)
-
-                bindsym $mod+Shift+t exec rofi -show window -display-window "Window : " -line-padding 4 \
-                    -lines 10 -padding 50 -hide-scrollbar \
-                    -show-icons -drun-icon-theme "Arc-X-D" -font "Noto Sans Regular 12"
-
-                    bindsym F10 exec rofi -show window -display-window "Window : " -line-padding 4 \
-                        -lines 10 -padding 50 -hide-scrollbar \
-                        -show-icons -drun-icon-theme "Arc-X-D" -font "Noto Sans Regular 12"
