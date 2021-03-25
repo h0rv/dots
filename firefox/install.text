@@ -1,0 +1,41 @@
+Github: https://github.com/mut-ex/minimal-functional-fox
+Dracula colors:
+
+:root {
+	/* Minimal Functional Fox variables*/
+	--mff-bg: #282a36;
+	--mff-icon-color: #f8f8f2;
+	--mff-nav-toolbar-padding: 8px;
+	--mff-sidebar-bg: var(--mff-bg);
+	--mff-sidebar-color: #282a36;
+	--mff-tab-border-radius: 2px;
+	--mff-tab-color: #f8f8f2;
+	--mff-tab-font-family: 'Cantarell', sans;
+	--mff-tab-font-size: 10pt;
+	--mff-tab-font-weight: 400;
+	--mff-tab-height: 24px;
+	--mff-tab-pinned-bg: #282a36;
+	--mff-tab-selected-bg: #bd93f9;
+	--mff-tab-soundplaying-bg: #ff79c6;
+	--mff-urlbar-color: #bd93f9;
+	--mff-urlbar-focused-color: #8be9fd;
+	--mff-urlbar-font-family: 'Cantarell', serif;
+	--mff-urlbar-font-size: 11pt;
+	--mff-urlbar-font-weight: 700;
+	--mff-urlbar-results-color: #f8f8f2;
+	--mff-urlbar-results-font-family: 'mononoki Nerd Font', serif;
+	--mff-urlbar-results-font-size: 11pt;
+	--mff-urlbar-results-font-weight: 700;
+	--mff-urlbar-results-url-color: #6272a4;
+	/*   --mff-tab-selected-bg: linear-gradient(90deg, rgba(232,74,95,1) 0%, rgba(255,132,124,1) 50%, rgba(254,206,168,1) 100%); */
+	/*   --mff-urlbar-font-weight: 600; */
+
+	/* Overriden Firefox variables*/
+	--autocomplete-popup-background: var(--mff-bg) !important;
+	--default-arrowpanel-background: var(--mff-bg) !important;
+	--default-arrowpanel-color: #f8f8f2 !important;
+	--lwt-toolbarbutton-icon-fill: var(--mff-icon-color) !important;
+	--panel-disabled-color: #6272a4;
+	--toolbar-bgcolor: var(--mff-bg) !important;
+	--urlbar-separator-color: transparent !important;
+}
