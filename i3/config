@@ -106,6 +106,11 @@ bindsym $mod+r mode "resize"
 # start a terminal
 bindsym $mod+Return exec alacritty
 
+# open rofi
+bindsym Control+space exec "rofi -show drun "
+bindsym $mod+c exec "rofi -show calc "
+bindsym $mod+d exec "rofi -show run "
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -113,9 +118,6 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+e exec ~/.config/i3/scripts/shutdown_menu -p rofi -c
 
 # Lock the system
-# lock with a picture:
-#bindsym $mod+l exec i3lock -i  ~/.config/i3/i3-lock-screen.png -p default|win -t
-# lock by blurring the screen:
 bindsym $mod+0 exec ~/.config/i3/scripts/blur-lock.sh
 
 # reload the configuration file
@@ -130,23 +132,12 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+g split h
@@ -176,6 +167,12 @@ bindsym $mod+a focus parent
 bindsym XF86AudioRaiseVolume exec pulseaudio-ctl up
 bindsym XF86AudioLowerVolume exec pulseaudio-ctl down
 bindsym XF86AudioMute exec pulseaudio-ctl mute
+
+# Alternatively on external keyboard
+bindsym $mod+Up exec pulseaudio-ctl up
+bindsym $mod+Down exec pulseaudio-ctl down
+bindsym $mod+Left exec playerctl previous
+bindsym $mod+Right exec playerctl next
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -231,8 +228,8 @@ bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 #get auth work with polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# num lock activated
-#exec --no-startup-id numlockx on
+# lock script 
+exec --no-startup-id xss-lock -l ~/.config/i3/scripts/blur-lock.sh
 
 # start conky: 
 #exec_always --no-startup-id conky
@@ -258,8 +255,10 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 
 # Autostart apps as you like
-exec --no-startup-id ulauncher
+exec --no-startup-id rofi
 
+# Autostart redshift
+exec --no-startup-id redshift
 
 # set floating (nontiling)for apps needing it
 for_window [class="Yad" instance="yad"] floating enable
@@ -300,7 +299,7 @@ for_window [class="Pamac-manager"] floating enable
 # client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 
 # class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused          #bd93f9 #6272A4 #F8F8F2 #6272A4   #bd93f9
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555

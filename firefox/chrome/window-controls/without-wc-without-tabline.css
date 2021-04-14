@@ -1,0 +1,16 @@
+:root:not([inFullscreen]) toolbar#nav-bar {
+    z-index: 1 !important;
+    position: relative !important;
+}
+
+#TabsToolbar .toolbar-items {
+    display: none !important;
+}
+
+.titlebar-buttonbox {
+    display: none !important;
+}
+
+#TabsToolbar.browser-toolbar {
+    display: none !important;
+}
