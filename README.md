@@ -1,2 +1,2 @@
 # dotfiles
-Dots for my EndeavourOS i3-gaps rice.
+Dots for my Manjaro i3-gaps rice.
