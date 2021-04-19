@@ -1,13 +1,15 @@
 #!/bin/bash
 
-cp ~/.vimrc ~/Projects/dotfiles/vim/.vimrc
+wd=~/Documents/Projects/dotfiles
 
-cp ~/.config/alacritty/alacritty.yml ~/Projects/dotfiles/alacritty/alacritty.yml
+cp ~/.vimrc $wd/vim/.vimrc
 
-cp ~/.config/i3/config ~/Projects/dotfiles/i3/config
-cp ~/.config/i3/i3blocks.conf ~/Projects/dotfiles/i3/i3blocks.conf
+cp ~/.config/alacritty/alacritty.yml $wd/alacritty/alacritty.yml
 
-cp ~/.config/gtk-3.0/settings.ini ~/Projects/dotfiles/gtk/settings.ini
+cp ~/.config/i3/config $wd/i3/config
+cp ~/.config/i3/i3blocks.conf $wd/i3/i3blocks.conf
 
-cp ~/.config/dunst/dunstrc ~/Projects/dotfiles/dunst/dunstrc
+cp ~/.config/gtk-3.0/settings.ini $wd/gtk/settings.ini
+
+cp ~/.config/dunst/dunstrc $wd/dunst/dunstrc
 
