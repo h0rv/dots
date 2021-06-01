@@ -40,8 +40,8 @@ new_window pixel 2
 # hide_edge_borders both
 
 # Set inner/outer gaps
-gaps inner 4
-gaps outer 2
+gaps inner 8
+gaps outer 0
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -56,17 +56,6 @@ bindsym $mod+6    workspace  6
 bindsym $mod+7    workspace  7
 bindsym $mod+8    workspace  8
 bindsym $mod+9    workspace  9
-
-# switch to workspace with numpad keys
-bindcode $mod+87 workspace 1
-bindcode $mod+88 workspace 2
-bindcode $mod+89 workspace 3
-bindcode $mod+83 workspace 4
-bindcode $mod+84 workspace 5
-bindcode $mod+85 workspace 6
-bindcode $mod+79 workspace 7
-bindcode $mod+80 workspace 8
-bindcode $mod+81 workspace 9
 
 # move focused container to workspace
 bindsym $mod+Shift+1    move container to workspace  1
@@ -181,8 +170,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # brightness
-bindsym XF86MonBrightnessUp exec xbacklight +10
-bindsym XF86MonBrightnessDown exec xbacklight -10
+bindsym XF86MonBrightnessUp exec xbacklight +5.3
+bindsym XF86MonBrightnessDown exec xbacklight -5.3
 
 # Redirect sound to headphones
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
@@ -232,7 +221,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id xss-lock -l ~/.config/i3/scripts/blur-lock.sh
 
 # start conky: 
-#exec_always --no-startup-id conky
+#exec --no-startup-id conky
 
 # start a script to setup displays
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
@@ -256,47 +245,12 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 
 # Autostart apps as you like
 exec --no-startup-id rofi
+exec_always --no-startup-id ~/.config/polybar/launch.sh &
 
-# Autostart redshift
-exec --no-startup-id redshift
-
-# set floating (nontiling)for apps needing it
-for_window [class="Yad" instance="yad"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-
-#set floating (nontiling) for special apps
-for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
-for_window [class="Pamac-manager"] floating enable
 
 ######################################
 # color settings for bar and windows #
 ######################################
-
-
-# Define colors variables: 
-# set $darkbluetrans	#08052be6
-# set $darkblue		#08052b
-# set $lightblue		#5294e2
-# set $urgentred		#e53935
-# set $white		#ffffff
-# set $black		#000000
-# set $purple		#e345ff
-# set $darkgrey		#383c4a
-# set $grey		#b0b5bd
-# set $mediumgrey		#8b8b8b
-# set $yellowbrown	#e1b700
-# 
-# # define colors for windows:
-# #class		        	border		bground		text		indicator	child_border
-# client.focused		    $lightblue	$darkblue	$white		$purple		$mediumgrey
-# client.unfocused	    $darkblue	$darkblue	$grey		$purple		$darkgrey
-# client.focused_inactive	$darkblue	$darkblue	$grey		$purple		$black
-# client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 
 # class                 border  bground text    indicator child_border
 client.focused          #bd93f9 #6272A4 #F8F8F2 #6272A4   #bd93f9
@@ -307,29 +261,29 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
 
-############################################
-# bar settings (input comes from i3blocks) #
-############################################
-
-# Start i3bar to display a workspace bar 
-# (plus the system information i3status finds out, if available)
-bar {
-    font pango:Roboto 11, FontAwesome 11
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-        position bottom 
-# i3bar_command i3bar --transparency
-        output primary
-        tray_output primary
-        colors {
-            background #282A36
-                statusline #F8F8F2
-                separator  #44475A
-
-                focused_workspace  #44475A #44475A #F8F8F2
-                active_workspace   #282A36 #44475A #F8F8F2
-                inactive_workspace #282A36 #282A36 #BFBFBF
-                urgent_workspace   #FF5555 #FF5555 #F8F8F2
-                binding_mode       #FF5555 #FF5555 #F8F8F2
-        }  tray_padding 0
-}
+# ############################################
+# # bar settings (input comes from i3blocks) #
+# ############################################
+# 
+# # Start i3bar to display a workspace bar 
+# # (plus the system information i3status finds out, if available)
+# bar {
+#     font pango:Roboto 11, FontAwesome 11
+#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
+#         position bottom 
+# # i3bar_command i3bar --transparency
+#         output primary
+#         tray_output primary
+#         colors {
+#             background #282A36
+#                 statusline #F8F8F2
+#                 separator  #44475A
+# 
+#                 focused_workspace  #44475A #44475A #F8F8F2
+#                 active_workspace   #282A36 #44475A #F8F8F2
+#                 inactive_workspace #282A36 #282A36 #BFBFBF
+#                 urgent_workspace   #FF5555 #FF5555 #F8F8F2
+#                 binding_mode       #FF5555 #FF5555 #F8F8F2
+#         }  tray_padding 0
+# }
 

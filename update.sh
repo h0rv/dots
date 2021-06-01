@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wd=~/Documents/Projects/dotfiles
+wd=$(pwd)
 
 cp ~/.vimrc $wd/vim/.vimrc
 
@@ -12,4 +12,6 @@ cp ~/.config/i3/i3blocks.conf $wd/i3/i3blocks.conf
 cp ~/.config/gtk-3.0/settings.ini $wd/gtk/settings.ini
 
 cp ~/.config/dunst/dunstrc $wd/dunst/dunstrc
+
+cp ~/.config/polybar/* $wd/polybar
 

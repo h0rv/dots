@@ -8,7 +8,10 @@ window:
   dynamic_padding: true
 
 font: 
-  size: 13
+  size: 12
+  normal:
+      family: monospace
+      style: regular
 
 shell:
   program: /bin/fish
