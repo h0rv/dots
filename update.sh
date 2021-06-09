@@ -15,3 +15,7 @@ cp ~/.config/dunst/dunstrc $wd/dunst/dunstrc
 
 cp ~/.config/polybar/* $wd/polybar
 
+cp ~/.mozilla/firefox/*/chrome/userChrome.css $wd/firefox
+
+cp ~/.config/nvim/init.vim $wd/neovim/
+
