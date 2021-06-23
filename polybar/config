@@ -1,145 +1,232 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
 [colors]
-background = #282a36
-background-alt = #44475a
-foreground = #f8f8f2
-foreground-alt = #6272a4
-primary = #bd93f9
-secondary = #8be9fd
-alert = #ff5555
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+foreground-alt = ${xrdb:color7:#222}
+primary = ${xrdb:color2:#222}
+secondary = ${xrdb:color4:#222}
+alert = ${xrdb:color3:#222}
 
 [bar/main]
 ;monitor = ${env:MONITOR:}
 enable-ipc = true
 width = 100%
-height = 2.5%
+height = 30
 fixed-center = true
 bottom = false
-padding = 2
+margin = 2
+padding-left = 2 
+padding-right = 2
+radius = 8
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
 border-left-size = 8
-border-right-size = 8
+border-right-size = 0
 border-top-size = 8
 line-size = 2
 
 
-font-0 = "Roboto:style=Retina,Regular:size=9;2"
-font-1=FontAwesome5Free:style=Regular:size=9:antialias=true;3
-font-2=FontAwesome5Free:style=Solid:size=9:antialias=true;3
+font-0 =Roboto:style=Regular:size=10;2
+font-1=RobotoMonoNerdFont:style=Regular:size=10:antialias=true;2
 
-modules-left = i3
-modules-center = now_playing
-modules-right = pulseaudio filler backlight filler battery filler date filler powermenu
+modules-left = powermenu battery pulseaudio backlight i3
+modules-center = date
+modules-right = now_playing 
 
 tray-position = right
-tray-maxsize = 20
-tray-padding = 6 
-
-[module/filler]
-type = custom/text
-content = "     "
+# tray-position = center
+tray-offset-x = -8
+tray-padding = 6
 
 [module/battery]
 type = internal/battery
 battery = BAT0
 full-at = 95
-format-charging =  <label-charging>
-format-charging-underline = #50fa7b
-format-charging-padding = 1
+format-charging =    <label-charging>
+format-charging-padding = 4
 
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = #f1fa8c
-format-discharging-padding = 1
+format-discharging = <ramp-capacity>   <label-discharging>
+format-discharging-padding = 4
 
-format-full =  <label-full>
-format-full-underline = #50fa7b
-format-full-padding = 1
+format-full =    100%
+format-full-padding = 4
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-0 =  
+ramp-capacity-1 =  
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 =  
+ramp-capacity-5 =  
+ramp-capacity-6 =  
+ramp-capacity-7 =  
+ramp-capacity-8 =  
 
 [module/backlight]
 type = internal/backlight
 card = intel_backlight
-format =  <label>
-format-underline = #ff79c6
-format-padding = 1
-label = %percentage%%
+format =    <label>
+format-padding = 4
+label= %percentage:3:3%%
 
 [module/date]
 type = internal/date
-interval = 1
+interval = 10 
+format-margin = 4 
 
-date = %A %B %d
-
+date = %B %d
 time = %I:%M
 
-format-padding = 1
-format-underline =#ffb86c
-
-label = %date% %time%
-
-[module/powermenu]
-type = custom/text
-content = 
-click-left = exec ~/.config/i3/scripts/shutdown_menu -p rofi -c
+# label =     %date%  %time%
+# label =    %time%
+label = %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
-format-volume = <ramp-volume> <label-volume>
-format-volume-underline = #8be9fd
-format-volume-padding = 1
-label-volume = %percentage%%
-label-muted =  
+format-volume = <ramp-volume>   <label-volume>
+format-volume-padding = 4
+label-volume = %percentage:3:3%%
+label-muted = 婢
 label-muted-underline = ${colors.alert}
-label-muted-padding = 1
+label-muted-padding = 4
 click-right = pavucontrol
 enable-scroll = false
 use-ui-max = false
 interval = 5
 
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
+ramp-volume-0 =  
+ramp-volume-1 =  
+ramp-volume-2 = 
+ramp-volume-3 = 墳
+ramp-volume-4 = 
+
+#[module/i3]
+#type = internal/i3
+#pin-workspaces = true
+#enable-scroll = false
+
+#format = <label-state> <label-mode>
+#format-padding = 0
+
+#label-mode = %mode%
+#label-mode-background = ${colors.background}
+#label-mode-padding = 2
+
+#label-focused = %index%
+#label-focused-foreground = ${colors.foreground}
+#label-focused-underline = ${colors.primary}
+#label-focused-padding = 2
+
+#label-unfocused = %index%
+#label-unfocused-padding = 2
+
+#label-visible = %index%
+#label-visible-padding = 2
+
+#label-urgent = %index%
+#label-urgent-foreground = ${colors.foreground}
+#label-urgent-background = ${colors.alert}
+
+#label-urgent-padding = 2
+
+[module/wsnumber]
+type = custom/script
+exec = ~/.config/polybar/get_workspace
+tail = true
+interval = 0
+format = "<label>  "
+format-padding = 0
+format-foreground = ${colors.background}
+format-background = ${colors.color1}
+scroll-up = i3 workspace next
+scroll-down = i3 workspace prev
 
 [module/i3]
 type = internal/i3
-pin-workspaces = true
-enable-scroll = false
-
 format = <label-state> <label-mode>
-format-padding = 0
+format-padding = 1
+index-sort = true
+wrapping-scroll = false
 
-label-mode = %mode%
-label-mode-background = ${colors.background}
-label-mode-padding = 2
+enable-click = true
+reverse-scroll = false
 
-label-focused = %index%
-label-focused-foreground = ${colors.foreground}
-label-focused-underline = ${colors.primary}
+label-focused = 
+label-focused-foreground = ${colors.primary}
 label-focused-padding = 2
 
-label-unfocused = %index%
+label-unfocused = 
 label-unfocused-padding = 2
 
-label-visible = %index%
-label-visible-padding = 2
+label-empty = 
+label-empty-padding = 2
 
-label-urgent = %index%
-label-urgent-foreground = ${colors.foreground}
-label-urgent-background = ${colors.alert}
-
+label-urgent = 
+label-urgent-foreground = ${colors.secondary}
 label-urgent-padding = 2
-
-#label-separator = |
-#label-separator-foreground = ${colors.primary}
 
 [module/now_playing]
 type = custom/script
 tail = true
-format = <label>
-format-padding = 1
+format =   <label>
+format-padding = 4
 exec = zscroll -l 30 --scroll-padding "          " --match-command "$HOME/.config/polybar/now_playing.sh" --update-check true "$HOME/.config/polybar/now_playing.sh" & wait
+
+[module/powermenu]
+type = custom/menu
+
+expand-right = true
+
+format-spacing = 4
+
+label-open = 
+label-close = ﰸ  cancel
+label-separator = |
+format-margin = 4
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-exec = menu-open-2
+menu-0-2 = log off
+menu-0-2-exec = menu-open-3
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = reboot
+
+menu-2-0 = power off
+menu-2-0-exec = poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+menu-3-0 = log off
+menu-3-0-exec = pkill -KILL -u $USER
+menu-3-1 = cancel
+menu-3-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
