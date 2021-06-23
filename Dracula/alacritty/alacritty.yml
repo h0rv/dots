@@ -1,3 +1,6 @@
+import:
+  - /home/horv/.config/alacritty/dracula.yml
+
 window:
   padding:
     x: 8
@@ -7,7 +10,8 @@ window:
 font: 
   size: 12
   normal:
-    family: RobotoMono Nerd Font
+      family: monospace
+      style: regular
 
 shell:
   program: /bin/fish

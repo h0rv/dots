@@ -26,15 +26,15 @@ workspace_layout default
 # extra options for windows: #
 ##############################
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 0
-default_floating_border pixel 0
+default_border pixel 2 
+default_floating_border pixel 2 
 
 # Hide borders
 hide_edge_borders none
 smart_borders on
 
 #border indicator on windows: 
-# new_window pixel 2
+new_window pixel 2
 
 # thin borders
 # hide_edge_borders both
@@ -229,14 +229,13 @@ exec --no-startup-id ~/.screenlayout/laptop.sh
 
 #transparency 
 #exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
-exec --no-startup-id picom -CGb 
-exec --no-startup-id picom -bcf
+exec --no-startup-id picom -CGb
 
 #networkmanager-applet
 exec --no-startup-id nm-applet
 
 # set wallpaper
-# exec --no-startup-id nitrogen --restore
+exec --no-startup-id nitrogen --restore
 
 #set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
@@ -248,31 +247,20 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id rofi
 exec_always --no-startup-id ~/.config/polybar/launch.sh &
 
-# pywal
-exec --no-startup-id wal -R 
-
 
 ######################################
 # color settings for bar and windows #
 ######################################
 
-# Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use 
-# from the generated scheme.
-# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
-# it fails to get colors from Xresources.
-set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color0 #f0f0f0
-set_from_resource $primary i3wm.color2 #f0f0f0
+# class                 border  bground text    indicator child_border
+client.focused          #bd93f9 #44475A #F8F8F2 #282A36   #bd93f9
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
-# class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $primary
-client.focused_inactive $bg     $bg     $fg  $bg       $bg
-client.unfocused        $bg     $bg     $fg  $bg       $bg
-client.urgent           $bg     $bg     $fg  $bg       $bg
-client.placeholder      $bg     $bg     $fg  $bg       $bg
+client.background       #F8F8F2
 
-client.background       $bg
 # ############################################
 # # bar settings (input comes from i3blocks) #
 # ############################################
