@@ -16,11 +16,13 @@ Plug 'wadackel/vim-dogrun'
 Plug 'connorholyday/vim-snazzy'
 Plug 'zeis/vim-kolor'
 Plug 'challenger-deep-theme/vim'
+Plug 'nekonako/xresources-nvim'
 Plug 'dylanaraps/wal.vim'
 Plug 'folke/lsp-colors.nvim'
 Plug 'savq/melange'
-" Plugin
-Plug 'itchyny/lightline.vim'
+Plug 'NLKNguyen/papercolor-theme'
+" Plugins
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'davidhalter/jedi-vim'
 Plug 'kyazdani42/nvim-tree.lua'
     nnoremap <C-n> :NvimTreeToggle<CR>
@@ -29,13 +31,14 @@ Plug 'kyazdani42/nvim-tree.lua'
     " Exit Vim if NERDTree is the only window left.
     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NvimTree') && b:NvimTree.isTabTree() |
     \ quit | endif
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
 Plug 'yggdroot/indentline'
-" Plug 'uiiaoo/java-syntax.vim'
+Plug 'uiiaoo/java-syntax.vim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -76,17 +79,19 @@ Plug 'romgrk/barbar.nvim'
     nnoremap <silent> <Space>bd :BufferOrderByDirectory<CR>
     nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-Plug 'uiiaoo/java-syntax.vim'
+" Plug 'uiiaoo/java-syntax.vim'
 Plug 'iamcco/markdown-preview.vim'
+Plug 'neovim/nvim-lsp'
 
 call plug#end()
 
-colorscheme wal
-if g:colors_name !=# 'wal'
-    set termguicolors
-endif
-let g:lightline = { 'colorscheme': 'wal', }
+
+colorscheme xresources
+set termguicolors
+set background=dark
 highlight link javaDelimiter NONE
+lua require('galaxy_line')
+
 
 let bufferline = get(g:, 'bufferline', {})
 " Configure icons on the bufferline.
@@ -114,6 +119,7 @@ set undofile
 set incsearch
 set scrolloff=8
 set signcolumn=yes
+set autochdir
 " Ctrl-c copy in visual mode
 map <C-c> "+y<CR>
 
@@ -376,27 +382,43 @@ let g:indentLine_fileTypeExclude = ['dashboard']
 
 
 let g:dashboard_custom_header = [
-    \'                    ▄▄▄▄▄▄▀▄            ',
-    \'            ▄▄▄▓▓▓▀▀        ▀█▄         ',
-    \'      ▄▄▄▓▀▀▀                 ▀█▄       ',
-    \'   ▄█▀▀                         ▀█▄     ',
-    \'  ▄█             ▄██▄  ███▄       ▀█▄   ',
-    \' ▐█            ▄████▌ ▓█████        █▄  ',
-    \' ▐█           ██████▌ ▀██████▄       █▌ ',
-    \' ▐█         ▄███████▌ ▐███████▄      ▓█ ',
-    \'  █        ██████████ ▐█████████     ▓█ ',
-    \'  █      ▄██████████▌ ▐██████████    ▐█ ',
-    \'  █▌    ▐███████████   ▐██████▀▀     █▀ ',
-    \'  ▐█▌     ▀▀▀▀▀▀▀▀ ▄█▄█▓           ▄▓▀  ',
-    \'    ▐▀▓▌▄▄        ███ ███      ▄▄█▀     ',
-    \'         ▀██      ▀▀▀ ███▀     █▌       ',
-    \'          ▐█             ▄     █▌       ',
-    \'          ▐█  ▄█  ▐██   ▓█▌▄█▌▄█▀       ',
-    \'          ▐█▓▓███▓███▀▀▀██  █▀          ',
-    \'              ▐█▌  ██   ██ ▐█▄          ',
-    \'           ▐█▀▀██▀▀██▌▀▀██▀▓█▀██        ',
-    \'           ▐█  ▀▀  ▐█▌     ▐▀ ▓▌        ',
-    \'            ▓▌                █▌        ',
-    \'             █▓▄▄             █         ',
-    \'                ▀▀▀▀▀▀▀▀▀▓▀▄▓█▌         ',
+    \'                          ',
+    \'         ▄▄▄▄▀▀▀▀▀▄▄      ',  
+    \'   ▄▄▄▀▀▀           ▀▄    ',  
+    \' ▄█        ▄▄  ▄▄     █▄  ',  
+    \'▐█        ███▌▐███▄    ▀▄ ',  
+    \'▐▌      ▄████▌▐████▌    █▌',  
+    \' ▌    ▄██████▌▐██████   ▐▌',  
+    \' █   ▐███████  ██████▀  ▐▌',  
+    \' ▀█   ▀▀▀▀▀▀▄██▄      ▄▄▀ ',  
+    \'    ▀▀▄▄   ▀█▌██▌   █▀    ',  
+    \'      ▐▌    ▄   ▄   █     ',  
+    \'      ▐▌▄██▄██▄██▀█▀▀     ',  
+    \'         █▌ ██ ▐█▄█▄▄     ',  
+    \'       █▌▀█ ▐█ ▐▀ █ █     ',  
+    \'       ▐█          ▐▌     ',  
+    \'         ▀█▄▄▄▄▄▄▄▄█      ',
     \]
+
+" let g:dashboard_custom_header = [
+"     \'                                      ',
+"     \'                                      ',
+"     \'              ▄▄▄███████▄▄▄           ',
+"     \'           ▄▄▀▀▄   ▀██████████▄▄      ',
+"     \'         ▄█▀▄▀ ▄█▄   ████████████▄    ',
+"     \'       ▄██  ▀██▀  █  ██████████████▄  ',
+"     \'      ████   █▄▄▄▀ ▄████████████████▄ ',   
+"     \'     ██████▄▄   ▄▄███████████████████ ',   
+"     \'    ▐████████████████████████████████▌',   
+"     \'    ▐████████████████████████████████▌',   
+"     \'    ▐████████████████████████████████▌',   
+"     \'     ████████████████████████████████ ',   
+"     \'     ▐██████████████████████████████  ',   
+"     \'      ▀████████████████████████████▀  ',   
+"     \'        ██████████████████████████    ',   
+"     \'         ▀██████████████████████      ',   
+"     \'            ▀████████████████▀        ',   
+"     \'               ▀▀▀▀████▀▀▀            ',   
+"     \'                                      ',
+"     \'                                      ',
+"     \]
