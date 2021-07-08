@@ -28,7 +28,7 @@ Plug 'kyazdani42/nvim-tree.lua'
     nnoremap <C-n> :NvimTreeToggle<CR>
     nnoremap <leader>r :NvimTreeRefresh<CR>
     nnoremap <leader>n :NvimTreeFindFile<CR>
-    " Exit Vim if NERDTree is the only window left.
+    " Exit Vim if NvimTree is the only window left.
     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NvimTree') && b:NvimTree.isTabTree() |
     \ quit | endif
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -82,6 +82,7 @@ Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'uiiaoo/java-syntax.vim'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'neovim/nvim-lsp'
+Plug 'folke/which-key.nvim'
 
 call plug#end()
 
