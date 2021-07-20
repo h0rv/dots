@@ -134,7 +134,7 @@ mode "$mode_gaps_outer" {
 ######################################
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # open rofi
 bindsym Control+space exec "rofi -show drun "
@@ -148,7 +148,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+e exec ~/.config/i3/scripts/shutdown_menu -p rofi -c
 
 # Lock the system
-bindsym $mod+0 exec ~/.config/i3/scripts/blur-lock.sh
+bindsym $mod+0 exec i3lock -c 000000
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -211,8 +211,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # brightness
-bindsym XF86MonBrightnessUp exec xbacklight +5.3
-bindsym XF86MonBrightnessDown exec xbacklight -5.3
+bindsym XF86MonBrightnessUp exec brightnessctl s 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
 
 # Redirect sound to headphones
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
@@ -255,14 +255,8 @@ bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 # autostart applications/services on login: #
 #############################################
 
-#get auth work with polkit-gnome
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
 # lock script 
-exec --no-startup-id xss-lock -l ~/.config/i3/scripts/blur-lock.sh
-
-# start conky: 
-#exec --no-startup-id conky
+exec --no-startup-id xss-lock -l i3lock -c 000000
 
 # start a script to setup displays
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
@@ -270,8 +264,7 @@ exec --no-startup-id ~/.screenlayout/laptop.sh
 
 #transparency 
 #exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
-exec --no-startup-id picom -CGb 
-exec --no-startup-id picom -bcf
+# exec --no-startup-id picom -CGb 
 
 #networkmanager-applet
 exec --no-startup-id nm-applet
@@ -290,7 +283,7 @@ exec --no-startup-id rofi
 exec_always --no-startup-id ~/.config/polybar/launch.sh &
 
 # pywal
-exec --no-startup-id wal -R 
+exec_always --no-startup-id wal -R 
 
 
 ######################################
@@ -314,29 +307,3 @@ client.urgent           $bg     $bg     $fg  $bg       $bg
 client.placeholder      $bg     $bg     $fg  $bg       $bg
 
 client.background       $bg
-# ############################################
-# # bar settings (input comes from i3blocks) #
-# ############################################
-# 
-# # Start i3bar to display a workspace bar 
-# # (plus the system information i3status finds out, if available)
-# bar {
-#     font pango:Roboto 11, FontAwesome 11
-#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-#         position bottom 
-# # i3bar_command i3bar --transparency
-#         output primary
-#         tray_output primary
-#         colors {
-#             background #282A36
-#                 statusline #F8F8F2
-#                 separator  #44475A
-# 
-#                 focused_workspace  #44475A #44475A #F8F8F2
-#                 active_workspace   #282A36 #44475A #F8F8F2
-#                 inactive_workspace #282A36 #282A36 #BFBFBF
-#                 urgent_workspace   #FF5555 #FF5555 #F8F8F2
-#                 binding_mode       #FF5555 #FF5555 #F8F8F2
-#         }  tray_padding 0
-# }
-

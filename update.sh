@@ -19,3 +19,6 @@ cp ~/.mozilla/firefox/*/chrome/userChrome.css $wd/firefox
 
 # cp -r ~/.config/nvim/* $wd/neovim/
 
+cp ~/.config/nvim/lv-config.lua $wd/lunarvim
+
+cp ~/.config/kitty/kitty.conf $wd/kitty
