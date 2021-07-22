@@ -1,2 +1,2 @@
 # dotfiles
-Dots for my Manjaro i3-gaps rice.
+Dots for my Arch Linux i3-gaps rice.
