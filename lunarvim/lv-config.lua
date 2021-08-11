@@ -21,7 +21,7 @@ vim.cmd([[
   function! Compile()
       let extension = expand('%:e')
       if extension == "md"
-          execute "! pandoc '%:p' -s -o /tmp/op.pdf"
+          execute "! pandoc '%:p' -s -V geometry:margin=.1in -o /tmp/op.pdf"
       elseif extension == "tex"
           execute "! pandoc -f latex -t latex % -o /tmp/op.pdf"
       endif
@@ -41,7 +41,7 @@ O.scrolloff = 8
 O.colorcolumn = "0" -- fixes indentline for now
 O.format_on_save = false
 O.auto_complete = true
-O.colorscheme = "xresources"
+O.coloscheme = "xresources"
 O.auto_close_tree = 0
 O.wrap_lines = true
 O.timeoutlen = 100
@@ -83,7 +83,8 @@ O.user_plugins = {
   { 'iamcco/markdown-preview.nvim',
     ft = 'markdown',
     run = 'cd app && yarn install'
-  }
+  },
+  {"Shadorain/shadotheme"},
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)

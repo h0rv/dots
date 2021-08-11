@@ -41,7 +41,7 @@ smart_borders on
 
 # Set inner/outer gaps
 gaps inner 8
-gaps outer 0
+gaps outer 4
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -58,8 +58,8 @@ bindsym $mod+8    workspace  8
 bindsym $mod+9    workspace  9
 
 #navigate workspaces next / previous
-bindsym $mod+Ctrl+l workspace next
-bindsym $mod+Ctrl+h workspace prev
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+1    move container to workspace  1
@@ -137,7 +137,8 @@ mode "$mode_gaps_outer" {
 bindsym $mod+Return exec kitty
 
 # open rofi
-bindsym Control+space exec "rofi -show drun "
+# bindsym $mod+m exec "rofi -show drun "
+bindsym $mod+m exec "rofi -no-config -no-lazy-grab -show drun -modi drun -show-icons -theme ~/.config/rofi/launcher.rasi; exec killall dunst"
 bindsym $mod+c exec "rofi -show calc "
 bindsym $mod+d exec "rofi -show run "
 
@@ -148,7 +149,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+e exec ~/.config/i3/scripts/shutdown_menu -p rofi -c
 
 # Lock the system
-bindsym $mod+0 exec i3lock -c 000000
+bindsym $mod+0 exec ~/.config/i3/scripts/lock.sh
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -179,7 +180,6 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
 bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -221,6 +221,8 @@ bindsym $mod+p exec /usr/local/bin/switch-audio-port
 bindsym $mod+w exec /usr/bin/firefox
 bindsym $mod+n exec nautilus
 bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
+bindsym $mod+s exec spotify
+
 
 ##########################################
 # configuration for workspace behaviour: #
@@ -255,16 +257,12 @@ bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 # autostart applications/services on login: #
 #############################################
 
-# lock script 
-exec --no-startup-id xss-lock -l i3lock -c 000000
-
 # start a script to setup displays
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
 exec --no-startup-id ~/.screenlayout/laptop.sh
 
-#transparency 
-#exec --no-startup-id xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
-# exec --no-startup-id picom -CGb 
+# picom
+exec --no-startup-id picom -b 
 
 #networkmanager-applet
 exec --no-startup-id nm-applet
@@ -273,18 +271,21 @@ exec --no-startup-id nm-applet
 # exec --no-startup-id nitrogen --restore
 
 #set powersavings for display:
-exec --no-startup-id xset s 480 dpms 600 600 600
+# exec --no-startup-id xset s 480 dpms 600 600 600
 
 # Desktop notifications
 exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 
 # Autostart apps as you like
 exec --no-startup-id rofi
-exec_always --no-startup-id ~/.config/polybar/launch.sh &
+# exec_always --no-startup-id ~/.config/polybar/launch.sh &
+exec_always killall polybar; polybar main
 
 # pywal
-exec_always --no-startup-id wal -R 
+exec_always --no-startup-id wal --theme paint 
 
+# i3-auto-layout (https://github.com/chmln/i3-auto-layout)
+exec_always --no-startup-id i3-auto-layout
 
 ######################################
 # color settings for bar and windows #
