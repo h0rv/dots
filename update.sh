@@ -17,7 +17,7 @@ cp ~/.config/polybar/* $wd/polybar
 
 cp ~/.mozilla/firefox/*/chrome/userChrome.css $wd/firefox
 
-cp -r ~/.config/nvim/* $wd/nvim/
+# cp -r ~/.config/nvim/* $wd/nvim/
 
 cp ~/.config/lvim/lv-config.lua $wd/lvim
 

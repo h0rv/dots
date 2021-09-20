@@ -34,7 +34,7 @@ bottom = false
 margin = 2
 ;padding-left = 2 
 padding-right = 32
-radius = 12
+radius = 16
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -50,7 +50,7 @@ font-1=RobotoMonoNerdFont:style=Regular:size=10:antialias=true;2
 
 modules-left = launcher battery pulseaudio backlight i3
 modules-center = date
-modules-right = now_playing powermenu
+modules-right = now_playing 
 
 tray-position = right
 # tray-position = center
