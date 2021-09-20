@@ -21,8 +21,6 @@ cp ~/.mozilla/firefox/*/chrome/userChrome.css $wd/firefox
 
 cp ~/.config/lvim/config.lua $wd/lvim
 
-cp ~/.config/kitty/kitty.conf $wd/kitty
-
 cp ~/.config/wal/colorschemes/dark/* $wd/pywal/colorschemes/dark
 cp ~/.config/wal/colorschemes/light/* $wd/pywal/colorschemes/light
 

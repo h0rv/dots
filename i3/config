@@ -142,7 +142,7 @@ mode "$mode_gaps_outer" {
 ######################################
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # open rofi
 # bindsym $mod+m exec "rofi -show drun "
