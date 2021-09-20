@@ -124,10 +124,6 @@ lvim.plugins = {
      config = function()
      require"zen-mode".setup {
        backdrop = 1.0,
-       kitty = {
-         enabled = true,
-         font = "+2", -- font size increment
-       },
      }
      end,
     },

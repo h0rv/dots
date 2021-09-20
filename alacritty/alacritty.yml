@@ -1,15 +1,22 @@
+env:
+  WINIT_X11_SCALE_FACTOR: '1.0'
+
 window:
   padding:
-    x: 8
-    y: 8
+    x: 16
+    y: 16
   dynamic_padding: true
 
 font: 
   size: 12
-  normal:
-    family: Hack Nerd Font
-  italic:
-    family: Hack Italic 
+
+  offset:
+    x: 0
+    y: 0
+
+  lyph_offset:
+    x: 0
+    y: 0
 
 shell:
   program: /bin/fish
