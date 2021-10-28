@@ -1,3 +1,7 @@
+import:
+  # - ~/.config/alacritty/spaceduck.yml
+  - ~/.config/alacritty/challenger-deep.yml
+
 env:
   WINIT_X11_SCALE_FACTOR: '1.0'
 
