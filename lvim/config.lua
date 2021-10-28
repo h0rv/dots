@@ -1,22 +1,13 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
-lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.lint_on_save = true
-lvim.colorscheme = "nord"
-vim.opt.scrolloff = 8 
+lvim.colorscheme = "tokyonight"
+vim.opt.scrolloff = 8
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.shell = "/bin/fish"
+vim.opt.wrap = true
 lvim.builtin.terminal.shell = "/bin/fish"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -57,11 +48,13 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
+lvim.builtin.gitsigns.active = true
+lvim.builtin.nvimtree.active = true
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = "maintained"
+lvim.builtin.treesitter.ensure_installed = {}
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
@@ -108,38 +101,41 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- Additional Plugins
 lvim.plugins = {
-    {"folke/tokyonight.nvim"}, {
-        "ray-x/lsp_signature.nvim",
-        config = function() require"lsp_signature".on_attach() end,
-        event = "InsertEnter"
-    },
-    {"nekonako/xresources-nvim"},
-    {"andweeb/presence.nvim"},
-    { 'iamcco/markdown-preview.nvim',
-      ft = 'markdown',
-      run = 'cd app && yarn install'
-    },
-    {"Shadorain/shadotheme"},
-    {"folke/zen-mode.nvim",
-     config = function()
-     require"zen-mode".setup {
-       backdrop = 1.0,
-     }
-     end,
-    },
-    {"folke/twilight.nvim"},
-    {"sonph/onehalf",
-        rtp = "vim" },
-    {"norcalli/nvim-colorizer.lua"},
-    {"rose-pine/neovim"},
-    {"ellisonleao/gruvbox.nvim"}, 
-    {"rktjmp/lush.nvim"},
-    {"metakirby5/codi.vim"},
-    {"shaunsingh/nord.nvim"},
-    {"savq/melange"},
-    {"wadackel/vim-dogrun"},
+  -- Themes
+  {"folke/tokyonight.nvim"}, {
+      "ray-x/lsp_signature.nvim",
+      config = function() require"lsp_signature".on_attach() end,
+      event = "InsertEnter",
+  },
+  {"sonph/onehalf",
+      rtp = "vim" },
+  {"rose-pine/neovim"},
+  {"shaunsingh/nord.nvim"},
+  {"savq/melange"},
+  {"wadackel/vim-dogrun"},
+  {"Mofiqul/dracula.nvim"},
+  {"sainnhe/everforest"},
+  {"sainnhe/gruvbox-material"},
+  {"pineapplegiant/spaceduck"},
+  {"challenger-deep-theme/vim"},
+  -- {"nekonako/xresources-nvim"},
+  -- Plugins
+  {"andweeb/presence.nvim"},
+  { 'iamcco/markdown-preview.nvim',
+    ft = 'markdown',
+    run = 'cd app && yarn install'
+  },
+  {"folke/zen-mode.nvim",
+   config = function()
+   require"zen-mode".setup {
+     backdrop = 1.0,
+   }
+   end,
+  },
+  {"folke/twilight.nvim"},
+  {"norcalli/nvim-colorizer.lua"},
 }
-
+vim.g.tokyonight_style = "night"
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
@@ -151,7 +147,7 @@ vim.cmd([[
   " Call compile
   " Open the PDF from /tmp/"
   function! Preview()
-      :call Compile()<CR><CR>
+      :call Compile()
       execute "! zathura /tmp/op.pdf &"
   endfunction
   " [1] Get the extension of the file
@@ -160,9 +156,7 @@ vim.cmd([[
   function! Compile()
       let extension = expand('%:e')
       if extension == "md"
-          execute "! pandoc '%:p' -s -V geometry:margin=1.0in -o /tmp/op.pdf"
-      elseif extension == "tex"
-          execute "! pandoc -f latex -t latex % -o /tmp/op.pdf"
+          execute "! pandoc '%:p' -o /tmp/op.pdf"
       endif
   endfunction
 
