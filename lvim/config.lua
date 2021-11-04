@@ -1,5 +1,3 @@
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.format_on_save = false
 lvim.lint_on_save = true
@@ -48,10 +46,11 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.gitsigns.active = true
+lvim.builtin.gitsigns.active = false
 lvim.builtin.nvimtree.active = true
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.guibg = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {}
@@ -102,11 +101,10 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- Additional Plugins
 lvim.plugins = {
   -- Themes
-  {"folke/tokyonight.nvim"}, {
-      "ray-x/lsp_signature.nvim",
+  {"folke/tokyonight.nvim"},
+  { "ray-x/lsp_signature.nvim",
       config = function() require"lsp_signature".on_attach() end,
-      event = "InsertEnter",
-  },
+      event = "InsertEnter", },
   {"sonph/onehalf",
       rtp = "vim" },
   {"rose-pine/neovim"},
@@ -118,7 +116,7 @@ lvim.plugins = {
   {"sainnhe/gruvbox-material"},
   {"pineapplegiant/spaceduck"},
   {"challenger-deep-theme/vim"},
-  -- {"nekonako/xresources-nvim"},
+  {"nekonako/xresources-nvim"},
   -- Plugins
   {"andweeb/presence.nvim"},
   { 'iamcco/markdown-preview.nvim',
@@ -132,7 +130,7 @@ lvim.plugins = {
    }
    end,
   },
-  {"folke/twilight.nvim"},
+  -- {"folke/twilight.nvim"},
   {"norcalli/nvim-colorizer.lua"},
 }
 vim.g.tokyonight_style = "night"

@@ -53,6 +53,8 @@ for_window [class="pavucontrol"] floating enable
 for_window [class="NetworkManager"] floating enable
 for_window [class="nm-applet"] floating enable
 for_window [class="zoom"] floating enable
+for_window [class="feh"] floating enable
+for_window [class="Qalculate"] floating enable
 # Matlab floating figures/plots
 for_window [title="Figure 1"] floating enable
 for_window [title="Figure 2"] floating enable
@@ -151,8 +153,6 @@ bindsym $mod+Return exec alacritty
 # open rofi
 # bindsym $mod+m exec "rofi -show drun "
 bindsym $mod+m exec --no-startup-id ~/.config/rofi/launchers/misc/launcher.sh
-bindsym $mod+c exec "rofi -show calc "
-bindsym $mod+d exec "rofi -show run "
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -161,7 +161,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+p exec --no-startup-id ~/.config/rofi/applets/menu/powermenu.sh
 
 # Lock the system
-bindsym $mod+0 exec ~/.config/i3/scripts/lock.sh
+# bindsym $mod+0 exec ~/.config/i3/scripts/lock.sh
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -277,7 +277,7 @@ exec --no-startup-id picom -b
 exec --no-startup-id nm-applet
 
 # pywal
-exec_always --no-startup-id wal -R
+exec_always --no-startup-id wal -Rn
 
 # set wallpaper
 exec --no-startup-id nitrogen --restore
@@ -297,7 +297,7 @@ exec --no-startup-id rofi
 exec_always killall polybar; polybar main
 
 # https://github.com/olemartinorg/i3-alternating-layout
-exec --no-startup-id alternating_layouts.py
+# exec --no-startup-id alternating_layouts.py
 
 # lock laptop on close
 exec --no-startup-id xss-lock -- ~/.config/i3/scripts/lock.sh
