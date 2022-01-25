@@ -1,0 +1,27 @@
+{
+    "wallpaper": "/home/horv/Projects/dotfiles/walls/wallpapers/minimalistic/catppuccin_triangle.png",
+    "alpha": "100",
+    "special": {
+        "background": "#1E1D2F",
+        "foreground": "#DADAE8",
+        "cursor": "#DADAE8"
+    },
+    "colors": {
+        "color0":  "#1E1D2F",
+        "color1":  "#E38C8F",
+        "color2":  "#B1E3AD",
+        "color3":  "#EBDDAA",
+        "color4":  "#A4B9EF",
+        "color5":  "#C6AAE8",
+        "color6":  "#E5B4E2",
+        "color7":  "#DADAE8",
+        "color8":  "#6E6C7E",
+        "color9":  "#E38C8F",
+        "color10": "#B1E3AD",
+        "color11": "#EBDDAA",
+        "color12": "#A4B9EF",
+        "color13": "#C6AAE8",
+        "color14": "#E5B4E2",
+        "color15": "#DADAE8"
+    }
+}
