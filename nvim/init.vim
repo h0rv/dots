@@ -22,7 +22,6 @@ Plug 'folke/lsp-colors.nvim'
 Plug 'savq/melange'
 Plug 'NLKNguyen/papercolor-theme'
 " Plugins
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'davidhalter/jedi-vim'
 Plug 'kyazdani42/nvim-tree.lua'
     nnoremap <C-n> :NvimTreeToggle<CR>
@@ -37,9 +36,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
-Plug 'yggdroot/indentline'
 Plug 'uiiaoo/java-syntax.vim'
-Plug 'glepnir/dashboard-nvim'
+" Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -48,59 +46,21 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'luochen1990/rainbow'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
-Plug 'romgrk/barbar.nvim'
-    " Move to previous/next
-    nnoremap <silent>    <A-h> :BufferPrevious<CR>
-    nnoremap <silent>    <A-l> :BufferNext<CR>
-    " Re-order to previous/next
-    nnoremap <silent>    <A-,> :BufferMovePrevious<CR>
-    nnoremap <silent>    <A-.> :BufferMoveNext<CR>
-    " Goto buffer in position...
-    nnoremap <silent>    <A-1> :BufferGoto 1<CR>
-    nnoremap <silent>    <A-2> :BufferGoto 2<CR>
-    nnoremap <silent>    <A-3> :BufferGoto 3<CR>
-    nnoremap <silent>    <A-4> :BufferGoto 4<CR>
-    nnoremap <silent>    <A-5> :BufferGoto 5<CR>
-    nnoremap <silent>    <A-6> :BufferGoto 6<CR>
-    nnoremap <silent>    <A-7> :BufferGoto 7<CR>
-    nnoremap <silent>    <A-8> :BufferGoto 8<CR>
-    nnoremap <silent>    <A-9> :BufferLast<CR>
-    " Close buffer
-    nnoremap <silent>    <A-c> :BufferClose<CR>
-    " Wipeout buffer
-    "                          :BufferWipeout<CR>
-    " Close commands
-    "                          :BufferCloseAllButCurrent<CR>
-    "                          :BufferCloseBuffersLeft<CR>
-    "                          :BufferCloseBuffersRight<CR>
-    " Magic buffer-picking mode
-    nnoremap <silent> <C-s>    :BufferPick<CR>
-    " Sort automatically by...
-    nnoremap <silent> <Space>bd :BufferOrderByDirectory<CR>
-    nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'uiiaoo/java-syntax.vim'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'neovim/nvim-lsp'
-Plug 'folke/which-key.nvim'
 
 call plug#end()
 
+"Faster ESC.
+inoremap jk <ESC>
+inoremap kj <ESC>
 
 colorscheme xresources
 set termguicolors
 set background=dark
 highlight link javaDelimiter NONE
-lua require('galaxy_line')
-
-
-let bufferline = get(g:, 'bufferline', {})
-" Configure icons on the bufferline.
-highlight buffer_current guibg=red
-let bufferline.icon_separator_active = ''
-let bufferline.icon_separator_inactive = ''
-let bufferline.icon_close_tab = ''
-let bufferline.icon_close_tab_modified = ''
 
 set encoding=UTF-8
 set tabstop=4 softtabstop=4
@@ -206,19 +166,19 @@ endif
 
 
 " Start Dashboard when Vim is started without file arguments.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | Dashboard | endif
-let g:mapleader="\<Space>"
-let g:dashboard_default_executive = 'telescope'
-nmap <Leader>ss :<C-u>SessionSave<CR>
-nmap <Leader>sl :<C-u>SessionLoad<CR>
-nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
-nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
-nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
-nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
-nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
-nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
-let g:indentLine_fileTypeExclude = ['dashboard']
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | Dashboard | endif
+" let g:mapleader="\<Space>"
+" let g:dashboard_default_executive = 'telescope'
+" nmap <Leader>ss :<C-u>SessionSave<CR>
+" nmap <Leader>sl :<C-u>SessionLoad<CR>
+" nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
+" nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
+" nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
+" nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
+" nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
+" nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
+" let g:indentLine_fileTypeExclude = ['dashboard']
 
 " let g:dashboard_custom_header = [
 " \ '',

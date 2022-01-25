@@ -17,12 +17,13 @@ cp ~/.config/polybar/* $wd/polybar
 
 cp ~/.mozilla/firefox/*/chrome/userChrome.css $wd/firefox
 
-# cp -r ~/.config/nvim/* $wd/nvim/
+cp -r ~/.config/nvim/* $wd/nvim/
 
 cp ~/.config/lvim/config.lua $wd/lvim
 
+cp ~/.config/picom/picom.conf $wd/picom
+
 cp ~/.config/wal/colorschemes/dark/* $wd/pywal/colorschemes/dark
-cp ~/.config/wal/colorschemes/light/* $wd/pywal/colorschemes/light
 
 cp ~/.config/wal/templates/* $wd/pywal/templates
 cp ~/.config/wpg/templates/* $wd/pywal/wpgtk-templates

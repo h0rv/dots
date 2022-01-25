@@ -1,11 +1,13 @@
 -- general
 lvim.format_on_save = false
 lvim.lint_on_save = true
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "catppuccin"
 vim.opt.scrolloff = 8
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.wrap = true
+vim.opt.sidescrolloff = 8
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.relativenumber = true
+vim.opt.spelllang = "en"
 lvim.builtin.terminal.shell = "/bin/fish"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -105,6 +107,7 @@ lvim.plugins = {
   { "ray-x/lsp_signature.nvim",
       config = function() require"lsp_signature".on_attach() end,
       event = "InsertEnter", },
+  {	"catppuccin/nvim", as = "catppuccin"},
   {"sonph/onehalf",
       rtp = "vim" },
   {"rose-pine/neovim"},
@@ -116,9 +119,10 @@ lvim.plugins = {
   {"sainnhe/gruvbox-material"},
   {"pineapplegiant/spaceduck"},
   {"challenger-deep-theme/vim"},
+  {"numToStr/Sakura.nvim"},
   {"nekonako/xresources-nvim"},
   -- Plugins
-  {"andweeb/presence.nvim"},
+  -- {"andweeb/presence.nvim"},
   { 'iamcco/markdown-preview.nvim',
     ft = 'markdown',
     run = 'cd app && yarn install'
@@ -132,6 +136,7 @@ lvim.plugins = {
   },
   -- {"folke/twilight.nvim"},
   {"norcalli/nvim-colorizer.lua"},
+  {"dccsillag/magma-nvim", run = ":UpdateRemotePlugins"},
 }
 vim.g.tokyonight_style = "night"
 
