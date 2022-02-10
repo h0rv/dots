@@ -151,6 +151,8 @@ mode "$mode_gaps_outer" {
 
 # start a terminal
 bindsym $mod+Return exec alacritty
+# start new terminal instance
+bindsym $mod+Shift+Return exec alacritty --working-directory $PWD &
 
 # open rofi
 # bindsym $mod+m exec "rofi -show drun "

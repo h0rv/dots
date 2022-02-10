@@ -1,5 +1,5 @@
-import:
-  - ~/.config/alacritty/catppuccin.yml
+# import:
+  # - ~/.config/alacritty/catppuccin.yml
   # - ~/.config/alacritty/spaceduck.yml
   # - ~/.config/alacritty/challenger-deep.yml
 
@@ -8,11 +8,13 @@ env:
 
 window:
   padding:
-    x: 16
-    y: 16
+    # x: 16
+    # y: 16
+    x: 32
+    y: 32
   dynamic_padding: true
 
-font: 
+font:
   normal:
     family: Fira Code Nerd Font
     style: Regular
@@ -30,6 +32,24 @@ font:
     style: Bold Italic
   size: 12
 
+# font:
+#   normal:
+#     family: TerminessTTF Nerd Font
+#     style: Regular
+
+#   bold:
+#     family: TerminessTTF Nerd Font
+#     style: Bold
+
+#   italic:
+#     family: TerminessTTF Nerd Font
+#     style: Italic
+
+#   bold_italic:
+#     family: TerminessTTF Nerd Font
+#     style: Bold Italic
+#   size: 13
+
   offset:
     x: 0
     y: 0
@@ -40,3 +60,6 @@ font:
 
 shell:
   program: /bin/fish
+
+key_bindings:
+  - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
