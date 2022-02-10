@@ -6,9 +6,11 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.numberwidth = 2 -- set number column width to 2 {default 4}
 vim.opt.relativenumber = true
 vim.opt.spelllang = "en"
 lvim.builtin.terminal.shell = "/bin/fish"
+lvim.builtin.lualine.style = "lvim" -- or "none"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -128,15 +130,15 @@ lvim.plugins = {
     run = 'cd app && yarn install'
   },
   {"folke/zen-mode.nvim",
-   config = function()
-   require"zen-mode".setup {
-     backdrop = 1.0,
-   }
-   end,
+    config = function() require"zen-mode".setup {
+      window = {
+        backdrop = 1.0,
+      },
+    }
+    end
   },
-  -- {"folke/twilight.nvim"},
+  {"folke/twilight.nvim"},
   {"norcalli/nvim-colorizer.lua"},
-  {"dccsillag/magma-nvim", run = ":UpdateRemotePlugins"},
 }
 vim.g.tokyonight_style = "night"
 
