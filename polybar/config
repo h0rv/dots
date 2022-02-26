@@ -17,11 +17,11 @@
 ;==========================================================
 
 [colors]
-;background =       ${xrdb:color0:#222}
+background =       ${xrdb:color0:#222}
 ;tokyonight
 ;background =       #16161e
 ;tranparent
-background =       
+;background =       
 foreground =       ${xrdb:color7:#222}
 ; Dark text
 ;foreground =       ${xrdb:color0:#222}
@@ -34,22 +34,22 @@ alert =            ${xrdb:color3:#222}
 ;monitor = ${env:MONITOR:}
 enable-ipc = true
 width = 100%
-height = 12
+height = 24
 fixed-center = true
-bottom = false
+bottom = true
 margin = 0
-padding-left = 2
-padding-right = 6
+padding-left = 8
+padding-right = 8
 ;radius = 16
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-border-top-size = 6
+;border-top-size = 4
 ;border-left-size = 12
 ;border-right-size = 12
 ;border-bottom-size = 0
-;line-size = 2
+line-size = 2
 
 
 font-0 = FiraCode:style=Regular:size=10;2

@@ -6,6 +6,8 @@ cp ~/.vimrc $wd/vim/.vimrc
 
 cp ~/.config/alacritty/alacritty.yml $wd/alacritty/alacritty.yml
 
+cp ~/.config/kitty/kitty.conf $wd/kitty/kitty.conf
+
 cp ~/.config/i3/config $wd/i3/config
 cp ~/.config/i3/i3blocks.conf $wd/i3/i3blocks.conf
 
