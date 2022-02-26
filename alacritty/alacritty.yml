@@ -1,5 +1,5 @@
-# import:
-  # - ~/.config/alacritty/catppuccin.yml
+import:
+  - ~/.config/alacritty/catppuccin.yml
   # - ~/.config/alacritty/spaceduck.yml
   # - ~/.config/alacritty/challenger-deep.yml
 
