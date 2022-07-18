@@ -9,9 +9,10 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
+lvim.builtin.terminal.shell = "/bin/fish"
+lvim.colorscheme = "catppuccin"
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "catppuccin"
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.tabstop = 2
@@ -20,7 +21,10 @@ vim.opt.numberwidth = 4
 vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.opt.linebreak = true
-lvim.builtin.terminal.shell = "/bin/fish"
+vim.cmd([[
+  map j gj
+  map k gk
+]])
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -55,20 +59,20 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   name = "+Trouble",
 --   r = { "<cmd>Trouble lsp_references<cr>", "References" },
 --   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
+--   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
 --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.gitsigns.active = false
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.gitsigns.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -77,9 +81,9 @@ lvim.builtin.treesitter.ensure_installed = {
   "javascript",
   "json",
   "lua",
-  "markdown",
   "python",
   "typescript",
+  "tsx",
   "css",
   "rust",
   "java",
@@ -87,20 +91,24 @@ lvim.builtin.treesitter.ensure_installed = {
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
+-- lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
 -- ---@usage disable automatic installation of servers
 -- lvim.lsp.automatic_servers_installation = false
 
--- ---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
--- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
--- vim.list_extend(lvim.lsp.override, { "pyright" })
-
--- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
+-- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
+-- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pylsp", opts)
+-- require("lvim.lsp.manager").setup("pyright", opts)
+
+-- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
+-- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
+-- vim.tbl_map(function(server)
+--   return server ~= "emmet_ls"
+-- end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -154,7 +162,9 @@ lvim.plugins = {
     {"rose-pine/neovim"},
     {"sainnhe/gruvbox-material"},
     {"challenger-deep-theme/vim"},
-    {"nekonako/xresources-nvim"},
+    {"savq/melange"},
+    {"tiagovla/tokyodark.nvim"},
+    -- {"nekonako/xresources-nvim"},
     -- Plugins
     {"folke/zen-mode.nvim",
       config = function() require"zen-mode".setup {
@@ -162,7 +172,22 @@ lvim.plugins = {
       end
     },
     {"norcalli/nvim-colorizer.lua"},
+    {
+      "lukas-reineke/indent-blankline.nvim",
+      event = "BufRead",
+      setup = function()
+        vim.g.indentLine_enabled = 1
+        vim.g.indent_blankline_char = "▏"
+        vim.g.show_current_context = true
+        vim.g.show_current_context_start = true
+        vim.g.indent_blankline_filetype_exclude = {"help", "terminal", "dashboard"}
+        vim.g.indent_blankline_buftype_exclude = {"terminal"}
+        vim.g.indent_blankline_show_trailing_blankline_indent = false
+        vim.g.indent_blankline_show_first_indent_level = false
+      end
+    },
 }
+
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
