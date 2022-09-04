@@ -29,3 +29,7 @@ cp ~/.config/wal/colorschemes/dark/* $wd/pywal/colorschemes/dark
 
 cp ~/.config/wal/templates/* $wd/pywal/templates
 cp ~/.config/wpg/templates/* $wd/pywal/wpgtk-templates
+
+cp ~/.config/flashfocus/* $wd/flashfocus
+
+cp ~/.config/libinput-gestures.conf $wd/.config/
