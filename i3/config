@@ -244,7 +244,6 @@ bindsym $mod+w exec /usr/bin/firefox
 bindsym $mod+n exec nautilus
 bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
 bindsym $mod+s exec spotify
-bindsym $mod+c exec qalculate-gtk
 
 
 ##########################################
@@ -289,6 +288,10 @@ exec --no-startup-id picom -b
 
 #networkmanager-applet
 # exec --no-startup-id nm-applet
+
+# Flash focus
+exec_always --no-startup-id flashfocus
+bindsym $mod+c exec --no-startup-id flash_window
 
 # pywal
 exec_always --no-startup-id wal -Rn

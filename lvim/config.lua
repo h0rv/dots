@@ -11,6 +11,7 @@ an executable
 -- general
 lvim.builtin.terminal.shell = "/bin/fish"
 lvim.colorscheme = "catppuccin"
+vim.g.catppuccin_flavour = "mocha"
 lvim.log.level = "warn"
 lvim.format_on_save = false
 vim.opt.scrolloff = 8
@@ -186,6 +187,7 @@ lvim.plugins = {
         vim.g.indent_blankline_show_first_indent_level = false
       end
     },
+    {"simrat39/rust-tools.nvim"},
 }
 
 
