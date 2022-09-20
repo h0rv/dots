@@ -160,6 +160,8 @@ lvim.plugins = {
     -- Themes
     {"catppuccin/nvim", as = "catppuccin"},
     {"folke/tokyonight.nvim"},
+    {"sam4llis/nvim-tundra"},
+    {"Everblush/everblush.nvim", as = "everblush"},
     {"rose-pine/neovim"},
     {"sainnhe/gruvbox-material"},
     {"challenger-deep-theme/vim"},
@@ -187,7 +189,6 @@ lvim.plugins = {
         vim.g.indent_blankline_show_first_indent_level = false
       end
     },
-    {"simrat39/rust-tools.nvim"},
 }
 
 

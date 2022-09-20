@@ -46,7 +46,6 @@ gaps outer 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-for_window [class="Microsoft Teams - Preview"] floating enable
 for_window [class="PulseAudio Volume Control"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [class="pavucontrol"] floating enable
@@ -293,8 +292,11 @@ exec --no-startup-id picom -b
 exec_always --no-startup-id flashfocus
 bindsym $mod+c exec --no-startup-id flash_window
 
+# Gestures
+exec_always --no-startup-id libinput-gestures-setup start
+
 # pywal
-exec_always --no-startup-id wal -Rn
+# exec_always --no-startup-id wal -Rn
 
 # set wallpaper
 exec --no-startup-id nitrogen --restore
