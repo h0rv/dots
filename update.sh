@@ -33,3 +33,5 @@ cp ~/.config/wpg/templates/* $wd/pywal/wpgtk-templates
 cp ~/.config/flashfocus/* $wd/flashfocus
 
 cp ~/.config/libinput-gestures.conf $wd/.config/
+
+cp ~/.tmux.conf $wd/tmux/.tmux.conf
