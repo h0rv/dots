@@ -22,7 +22,7 @@
   /*
    *  Workbench
    */
-  "workbench.colorTheme": "Rosé Pine Moon",
+  "workbench.colorTheme": "Serendipity Morning",
   "workbench.iconTheme": "spectrum-vscode-icons",
   "workbench.activityBar.visible": false,
   "workbench.statusBar.visible": false,
@@ -31,13 +31,6 @@
   "workbench.colorCustomizations": { // object that allows you to customize your color theme: https://code.visualstudio.com/docs/getstarted/theme-color-reference
     "tab.activeBorder": "#0000" // removes border to highlight active tabs (the colors formats are: #RGB, #RGBA, #RRGGBB or #RRGGBBAA)
   },
-  /*
-   *  Misc.
-   */
-  "window.zoomLevel": 1,
-  "redhat.telemetry.enabled": true,
-  "vscode-neovim.neovimExecutablePaths.darwin": "/usr/local/bin/nvim",
-  "vscode-neovim.neovimInitVimPaths.darwin": "/Users/robby/.config/nvim/init.vim",
   /*
    *  JavaScript
    */
@@ -48,4 +41,14 @@
   // For path intellisense extension
   "javascript.suggest.paths": false,
   "typescript.suggest.paths": false,
+  /*
+   *  Misc.
+   */
+  "window.zoomLevel": 1,
+  "redhat.telemetry.enabled": true,
+  "vscode-neovim.neovimExecutablePaths.darwin": "/usr/local/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.darwin": "/Users/robby/.config/nvim/init.vim",
+
+  "gruvboxMaterial.darkContrast": "hard",
+  "editor.fontLigatures": true,
 }
