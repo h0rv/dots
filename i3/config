@@ -158,15 +158,7 @@ bindsym $mod+Return exec kitty
 # start new terminal instance
 bindsym $mod+Shift+Return exec alacritty --working-directory $PWD &
 
-# open rofi
-# bindsym $mod+m exec "rofi -show drun "
-bindsym $mod+m exec --no-startup-id ~/.config/rofi/launchers/colorful/launcher.sh
-# applets
-bindsym $mod+p exec --no-startup-id ~/.config/rofi/applets/applets/powermenu.sh
-bindsym $mod+b exec --no-startup-id ~/.config/rofi/applets/applets/battery.sh
-bindsym $mod+d exec --no-startup-id ~/.config/rofi/applets/applets/time.sh
-bindsym $mod+Shift+v exec --no-startup-id ~/.config/rofi/applets/applets/volume.sh
-bindsym $mod+Shift+b exec --no-startup-id ~/.config/rofi/applets/applets/backlight.sh
+exec --no-startup-id ulauncher & 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -313,8 +305,8 @@ exec --no-startup-id redshift -l 40.44062:-79.99589
 exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 
 # Autostart apps as you like
-# exec --no-startup-id rofi
 exec_always --no-startup-id ~/.config/polybar/launch.sh &
+bindsym $mod+b exec ~/.config/i3/scripts/toggle_polybar.sh
 
 # https://github.com/olemartinorg/i3-alternating-layout
 # exec --no-startup-id alternating_layouts.py

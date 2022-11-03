@@ -3,11 +3,11 @@ env:
 
 window:
   padding:
-    # x: 16
-    # y: 16
+  #   # x: 16
+  #   # y: 16
     x: 8
     y: 8
-  dynamic_padding: true
+  dynamic_padding: false
 
 font:
   normal:
@@ -56,5 +56,5 @@ font:
 shell:
   program: /bin/fish
 
-key_bindings:
-  - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
+# key_bindings:
+#   - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
