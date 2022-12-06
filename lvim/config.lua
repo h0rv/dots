@@ -17,12 +17,15 @@ lvim.format_on_save = false
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.relativenumber = true
+vim.opt.wrap = false
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
+lvim.keys.insert_mode["jk"] = "<Esc>"
+lvim.keys.insert_mode["kj"] = "<Esc>"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
@@ -70,7 +73,7 @@ lvim.builtin.telescope.defaults.mappings = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.terminal.active = true
+lvim.builtin.terminal.active = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.gitsigns.opts.signcolumn = false
@@ -182,8 +185,53 @@ lvim.plugins = {
     -- Plugins
     { "folke/zen-mode.nvim",
         config = function() require "zen-mode".setup {
-                window = { backdrop = 1.0, },
-            }
+              window = {
+                backdrop = 1.00, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
+                -- height and width can be:
+                -- * an absolute number of cells when > 1
+                -- * a percentage of the width / height of the editor when <= 1
+                -- * a function that returns the width or the height
+                -- width = 120, -- width of the Zen window
+                -- height = 1, -- height of the Zen window
+                -- by default, no options are changed for the Zen window
+                -- uncomment any of the options below, or add other vim.wo options you want to apply
+                options = {
+                  signcolumn = "no", -- disable signcolumn
+                  number = false, -- disable number column
+                  relativenumber = false, -- disable relative numbers
+                  -- cursorline = false, -- disable cursorline
+                  -- cursorcolumn = false, -- disable cursor column
+                  -- foldcolumn = "0", -- disable fold column
+                  -- list = false, -- disable whitespace characters
+                },
+              },
+              plugins = {
+                -- disable some global vim options (vim.o...)
+                -- comment the lines to not apply the options
+                options = {
+                  enabled = true,
+                  ruler = false, -- disables the ruler text in the cmd line area
+                  showcmd = false, -- disables the command in the last line of the screen
+                },
+                twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
+                gitsigns = { enabled = false }, -- disables git signs
+                tmux = { enabled = false }, -- disables the tmux statusline
+                -- this will change the font size on kitty when in zen mode
+                -- to make this work, you need to set the following kitty options:
+                -- - allow_remote_control socket-only
+                -- - listen_on unix:/tmp/kitty
+                kitty = {
+                  enabled = true,
+                  font = "+4", -- font size increment
+                },
+              },
+              -- callback where you can add custom code when the Zen window opens
+              on_open = function(win)
+              end,
+              -- callback where you can add custom code when the Zen window closes
+              on_close = function()
+              end,
+        }
         end
     },
 }

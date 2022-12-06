@@ -37,3 +37,5 @@ cp ~/.config/libinput-gestures.conf $wd/.config/
 cp ~/.tmux.conf $wd/tmux/.tmux.conf
 
 cp ~/.config/zellij/config.yaml $wd/zellij/
+
+cp ~/.newsboat/urls $wd/.newsboat/urls
