@@ -26,8 +26,8 @@ workspace_layout default
 # extra options for windows: #
 ##############################
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 0
-default_floating_border pixel 0
+default_border pixel 4
+default_floating_border pixel 4
 
 # Hide borders
 hide_edge_borders none
@@ -46,7 +46,7 @@ gaps outer 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-for_window [all] border pixel 0
+# for_window [all] border pixel 0
 for_window [class="PulseAudio Volume Control"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [class="pavucontrol"] floating enable
@@ -233,9 +233,8 @@ bindsym XF86MonBrightnessUp exec brightnessctl s 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
 
 ## App shortcuts
-bindsym $mod+w exec /usr/bin/firefox
-bindsym $mod+n exec nautilus
-bindsym Print exec "scrot ~/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png"
+# bindsym $mod+w exec /usr/bin/firefox
+bindsym $mod+n exec thunar
 bindsym $mod+s exec spotify
 
 
@@ -283,8 +282,8 @@ exec --no-startup-id picom -b
 # exec --no-startup-id nm-applet
 
 # Flash focus
-exec_always --no-startup-id flashfocus
-bindsym $mod+c exec --no-startup-id flash_window
+# exec_always --no-startup-id flashfocus
+# bindsym $mod+c exec --no-startup-id flash_window
 
 # Gestures
 exec_always --no-startup-id libinput-gestures-setup start
@@ -323,16 +322,16 @@ exec --no-startup-id xss-lock -- ~/.config/i3/scripts/lock.sh
 # from the generated scheme.
 # NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
 # it fails to get colors from Xresources.
-set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color0 #f0f0f0
-set_from_resource $bglight i3wm.color8 #f0f0f0
-set_from_resource $primary i3wm.color2 #f0f0f0
+set_from_resource $fg      i3wm.color7     #f0f0f0
+set_from_resource $bg      i3wm.background #1E1E2E
+set_from_resource $bglight i3wm.color8     #f0f0f0
+set_from_resource $primary i3wm.color0     #f0f0f0
 
-# class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bglight
-client.focused_inactive $bg     $bg     $fg  $bg       $bg
-# client.unfocused        $bglight     $bg     $fg  $bg       $bg
-client.urgent           $bg     $bg     $fg  $bg       $bg
-client.placeholder      $bg     $bg     $fg  $bg       $bg
+# class                 border   backgr. text indicator child_border
+client.focused          $bg      $bg     $fg  $bg       $primary
+client.focused_inactive $bg      $bg     $fg  $bg       $bg
+client.unfocused        $bglight $bg     $fg  $bg       $bg
+client.urgent           $bg      $bg     $fg  $bg       $bg
+client.placeholder      $bg      $bg     $fg  $bg       $bg
 
 client.background       $bg
