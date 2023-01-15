@@ -17,7 +17,6 @@ lvim.format_on_save = false
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.relativenumber = true
-vim.opt.wrap = false
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -74,6 +73,9 @@ lvim.builtin.telescope.defaults.mappings = {
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = false
+lvim.builtin.lualine.active = false
+vim.opt.laststatus = 0 -- hide file name at bottom
+lvim.builtin.breadcrumbs = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.gitsigns.opts.signcolumn = false
@@ -182,6 +184,7 @@ lvim.plugins = {
     { "sainnhe/gruvbox-material" },
     { "challenger-deep-theme/vim" },
     { "savq/melange" },
+    { "nyoom-engineering/oxocarbon.nvim" },
     -- Plugins
     { "folke/zen-mode.nvim",
         config = function() require "zen-mode".setup {
