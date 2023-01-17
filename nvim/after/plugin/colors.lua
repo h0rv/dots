@@ -32,11 +32,9 @@ require('catppuccin').setup({
 	custom_highlights = {},
 	integrations = {
 		cmp = true,
-		gitsigns = true,
-		nvimtree = true,
+		nvimtree = false,
 		telescope = true,
-		notify = false,
-		mini = false,
+		markdown = true,
 		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 	},
 })

@@ -1,14 +1,13 @@
 local set = vim.opt
 
-vim.g.mapleader = ' '
-
 set.number = true
 set.relativenumber = true
+set.ruler = false
 
 set.tabstop = 4
 set.softtabstop = 4
 set.shiftwidth = 4
-set.expandtab = true
+set.expandtab = false
 
 set.smartindent = true
 
@@ -19,6 +18,8 @@ set.backup = false
 set.undodir = os.getenv('HOME') .. '/.vim/undodir'
 set.undofile = true
 
+set.ignorecase = true
+set.smartcase = true
 set.hlsearch = false
 set.incsearch = true
 
@@ -27,4 +28,8 @@ set.termguicolors = true
 set.scrolloff = 8
 set.signcolumn = "yes"
 
-set.updatetime = 50
+set.updatetime = 250
+
+set.fillchars='eob: ' -- removes '~' at end of buffer
+
+set.completeopt = 'menuone,noselect'
