@@ -1,1 +1,5 @@
-require("horv")
+require('horv.set')
+require('horv.keymap')
+require('horv.pandoc')
+require('horv.packer')
+require('horv.netrw')
