@@ -4,7 +4,6 @@ lsp.preset('recommended')
 
 lsp.ensure_installed {
 	'eslint',
-	'sumneko_lua',
 	'rust_analyzer',
 }
 
@@ -45,12 +44,18 @@ local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
 	['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
 	['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-Space>'] = cmp.mapping.complete(),
 	['<C-l>'] = cmp.mapping.confirm({ select = true }),
+	['<C-Space>'] = cmp.mapping.complete(),
 })
 
 lsp.setup_nvim_cmp({
-	mapping = cmp_mappings
+	mapping = cmp_mappings,
+	sources = {
+		{ name = 'path' },
+		{ name = 'nvim_lsp', keyword_length = 1 },
+		{ name = 'buffer', keyword_length = 3 },
+		{ name = 'luasnip', keyword_length = 2 },
+	}
 })
 
 lsp.setup()

@@ -30,6 +30,14 @@ set.signcolumn = "yes"
 
 set.updatetime = 250
 
-set.fillchars='eob: ' -- removes '~' at end of buffer
+set.fillchars = 'eob: ' -- removes '~' at end of buffer
 
 set.completeopt = 'menuone,noselect'
+
+set.showcmd = false
+
+-- Haskell
+vim.cmd [[autocmd FileType haskell setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 ]]
+
+-- Markdown
+vim.cmd [[autocmd FileType markdown setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 wrap breakindent lbr]]
