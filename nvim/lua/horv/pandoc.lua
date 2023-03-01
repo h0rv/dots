@@ -14,12 +14,12 @@ function Compile()
 end
 
 -- Open the PDF from /tmp/
-function Preview()
+function Open()
     Compile()
     os.execute('zathura ' .. pdfPath .. ' &')
 end
 
 -- alt + p: Compile
-vim.keymap.set('n', '<A-p>', Preview)
+vim.keymap.set('n', '<leader>op', Open)
 -- alt + c: Preview
-vim.keymap.set('n', '<A-c>', Compile)
+vim.keymap.set('n', '<leader>cp', Compile)

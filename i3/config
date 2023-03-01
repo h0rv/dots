@@ -160,6 +160,9 @@ bindsym $mod+Shift+Return exec alacritty --working-directory $PWD &
 
 exec --no-startup-id ulauncher & 
 
+# sticky note
+exec --no-startup-id sleek & 
+
 # kill focused window
 bindsym $mod+Shift+q kill
 

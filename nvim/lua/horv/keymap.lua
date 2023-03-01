@@ -7,13 +7,13 @@ g.maplocalleader = ' '
 
 set('n', '<leader>e', cmd.NvimTreeToggle)
 
-set('n', '<leader>W', cmd.w)
-set('n', '<leader>Q', cmd.q)
+set('n', '<leader>W', cmd.w, { desc = '[W]rite' })
+set('n', '<leader>Q', cmd.q, { desc = '[Q]uit' })
 
-set('n', '<S-h>', '<C-w>h')
-set('n', '<S-j>', '<C-w>j')
-set('n', '<S-k>', '<C-w>k')
-set('n', '<S-l>', '<C-w>l')
+set('n', '<C-h>', '<C-w>h')
+set('n', '<C-j>', '<C-w>j')
+set('n', '<C-k>', '<C-w>k')
+set('n', '<C-l>', '<C-w>l')
 
 set('i', 'jk', '<ESC>')
 set('i', 'kj', '<ESC>')
@@ -33,10 +33,10 @@ set('n', '<leader>Y', '\"+Y')
 
 set('n', 'Q', '<nop>')
 
-set('n', '<leader>f', vim.lsp.buf.format)
-set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+set('n', '<leader>f', vim.lsp.buf.format, { desc = '[F]ormat file' })
 
-set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/packer.lua<CR>');
+-- Open package manager
+set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/packer.lua<CR>', { desc = '[P]ackage [M]anager' });
 
 -- Diagnostic keymaps
 local diag = vim.diagnostic

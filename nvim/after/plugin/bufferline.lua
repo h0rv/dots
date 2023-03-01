@@ -2,26 +2,26 @@ local set = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- Move to previous/next
-set('n', '<A-h>', '<Cmd>BufferPrevious<CR>', opts)
-set('n', '<A-l>', '<Cmd>BufferNext<CR>', opts)
--- Re-order to previous/next
-set('n', '<A-H>', '<Cmd>BufferMovePrevious<CR>', opts)
-set('n', '<A-L>', '<Cmd>BufferMoveNext<CR>', opts)
--- Goto buffer in position...
-set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
-set('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
-set('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
-set('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts)
-set('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts)
-set('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts)
-set('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts)
-set('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts)
-set('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts)
-set('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
--- Pin/unpin buffer
-set('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
+set('n', '<A-H>', '<Cmd>BufferPrevious<CR>', opts)
+set('n', '<A-L>', '<Cmd>BufferNext<CR>', opts)
 -- Close buffer
 set('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+-- Re-order to previous/next
+-- set('n', '<A-H>', '<Cmd>BufferMovePrevious<CR>', opts)
+-- set('n', '<A-L>', '<Cmd>BufferMoveNext<CR>', opts)
+-- Goto buffer in position...
+-- set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
+-- set('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
+-- set('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
+-- set('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts)
+-- set('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts)
+-- set('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts)
+-- set('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts)
+-- set('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts)
+-- set('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts)
+-- set('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
+-- Pin/unpin buffer
+-- set('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
 -- Wipeout buffer
 --                 :BufferWipeout
 -- Close commands
@@ -31,12 +31,12 @@ set('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
 --                 :BufferCloseBuffersLeft
 --                 :BufferCloseBuffersRight
 -- Magic buffer-picking mode
-set('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
+set('n', '<A-p>', '<Cmd>BufferPick<CR>', opts)
 -- Sort automatically by...
-set('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
-set('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
-set('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
-set('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
+-- set('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts)
+-- set('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts)
+-- set('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
+-- set('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
 
 -- Other:
 -- :BarbarEnable - enables barbar (enabled by default)
@@ -48,7 +48,7 @@ require('bufferline').setup {
 	animation = true,
 
 	-- Enable/disable auto-hiding the tab bar when there is a single buffer
-	auto_hide = false,
+	auto_hide = true,
 
 	-- Enable/disable current/total tabpages indicator (top right corner)
 	tabpages = true,
@@ -92,7 +92,7 @@ require('bufferline').setup {
 	-- Enable/disable icons
 	-- if set to 'numbers', will show buffer index in the tabline
 	-- if set to 'both', will show buffer index and icons in the tabline
-	icons = true,
+	icons = false,
 
 	-- If set, the icon color will follow its corresponding buffer
 	-- highlight group. By default, the Buffer*Icon group is linked to the
