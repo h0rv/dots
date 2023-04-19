@@ -51,6 +51,7 @@ for_window [class="PulseAudio Volume Control"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [class="pavucontrol"] floating enable
 for_window [class="NetworkManager"] floating enable
+for_window [class="xpad"] floating enable
 for_window [class="nm-applet"] floating enable
 for_window [class="zoom"] floating enable
 for_window [class="feh"] floating enable
@@ -156,12 +157,13 @@ mode "$mode_gaps_outer" {
 bindsym $mod+Return exec kitty
 
 # start new terminal instance
-bindsym $mod+Shift+Return exec alacritty --working-directory $PWD &
+# bindsym $mod+Shift+Return exec alacritty --working-directory $PWD &
 
+# Start app picker
 exec --no-startup-id ulauncher & 
 
-# sticky note
-exec --no-startup-id sleek & 
+# Toggle open sticker notes (xpad)
+# bindsym $mod+s exec xpad -t
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -238,7 +240,6 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
 ## App shortcuts
 # bindsym $mod+w exec /usr/bin/firefox
 bindsym $mod+n exec nautilus
-bindsym $mod+s exec spotify
 
 
 ##########################################

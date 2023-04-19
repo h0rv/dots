@@ -43,7 +43,8 @@ set('n', '<A-p>', '<Cmd>BufferPick<CR>', opts)
 -- :BarbarDisable - very bad command, should never be used
 
 -- Set barbar's options
-require('bufferline').setup {
+-- -- Set barbar's options
+require 'bufferline'.setup {
 	-- Enable/disable animations
 	animation = true,
 
@@ -51,61 +52,66 @@ require('bufferline').setup {
 	auto_hide = true,
 
 	-- Enable/disable current/total tabpages indicator (top right corner)
-	tabpages = true,
-
-	-- Enable/disable close button
-	closable = false,
+	tabpages = false,
 
 	-- Enables/disable clickable tabs
 	--  - left-click: go to buffer
 	--  - middle-click: delete buffer
-	clickable = false,
-
-	-- Enables / disables diagnostic symbols
-	diagnostics = {
-		-- you can use a list
-		{ enabled = false, icon = 'ﬀ' }, -- ERROR
-		{ enabled = false }, -- WARN
-		{ enabled = false }, -- INFO
-		{ enabled = false }, -- HINT
-
-		-- OR `vim.diagnostic.severity`
-		[vim.diagnostic.severity.ERROR] = { enabled = false, icon = 'ﬀ' },
-		[vim.diagnostic.severity.WARN] = { enabled = false },
-		[vim.diagnostic.severity.INFO] = { enabled = false },
-		[vim.diagnostic.severity.HINT] = { enabled = false },
-	},
+	clickable = true,
 
 	-- Excludes buffers from the tabline
 	-- exclude_ft = { 'javascript' },
 	-- exclude_name = { 'package.json' },
 
+	-- A buffer to this direction will be focused (if it exists) when closing the current buffer.
+	-- Valid options are 'left' (the default) and 'right'
+	focus_on_close = 'left',
+
 	-- Hide inactive buffers and file extensions. Other options are `alternate`, `current`, and `visible`.
-	hide = { extensions = false, inactive = false },
+	hide = { extensions = true, inactive = false },
 
 	-- Disable highlighting alternate buffers
-	highlight_alternate = true,
+	highlight_alternate = false,
+
+	-- Disable highlighting file icons in inactive buffers
+	highlight_inactive_file_icons = false,
 
 	-- Enable highlighting visible buffers
 	highlight_visible = true,
 
-	-- Enable/disable icons
-	-- if set to 'numbers', will show buffer index in the tabline
-	-- if set to 'both', will show buffer index and icons in the tabline
-	icons = false,
-
-	-- If set, the icon color will follow its corresponding buffer
-	-- highlight group. By default, the Buffer*Icon group is linked to the
-	-- Buffer* group (see Highlighting below). Otherwise, it will take its
-	-- default value as defined by devicons.
-	icon_custom_colors = false,
-
-	-- Configure icons on the bufferline.
-	icon_separator_active = '',
-	icon_separator_inactive = '',
-	icon_close_tab = '',
-	icon_close_tab_modified = '',
-	icon_pinned = '車',
+	icons = {
+		-- Configure the base icons on the bufferline.
+		buffer_index = false,
+		buffer_number = false,
+		-- button = '',
+		button = '',
+		-- Enables / disables diagnostic symbols
+		diagnostics = {
+			[vim.diagnostic.severity.ERROR] = { enabled = false, icon = '' },
+			[vim.diagnostic.severity.WARN] = { enabled = false },
+			[vim.diagnostic.severity.INFO] = { enabled = false },
+			[vim.diagnostic.severity.HINT] = { enabled = false },
+		},
+		filetype = {
+			-- Sets the icon's highlight group.
+			-- If false, will use nvim-web-devicons colors
+			custom_colors = false,
+			-- Requires `nvim-web-devicons` if `true`
+			enabled = false,
+		},
+		separator = { left = '▎', right = '' },
+		-- Configure the icons on the bufferline when modified or pinned.
+		-- Supports all the base icon options.
+		modified = { button = '●' },
+		pinned = { button = '車' },
+		-- Configure the icons on the bufferline based on the visibility of a buffer.
+		-- Supports all the base icon options, plus `modified` and `pinned`.
+		alternate = { filetype = { enabled = false } },
+		current = { buffer_index = false },
+		inactive = { button = '' },
+		-- inactive = { button = '×' },
+		visible = { modified = { buffer_number = false } },
+	},
 
 	-- If true, new buffers will be inserted at the start/end of the list.
 	-- Default is to insert after current buffer.
@@ -113,7 +119,7 @@ require('bufferline').setup {
 	insert_at_start = false,
 
 	-- Sets the maximum padding width with which to surround each tab
-	maximum_padding = 1,
+	maximum_padding = 2,
 
 	-- Sets the minimum padding width with which to surround each tab
 	minimum_padding = 1,
