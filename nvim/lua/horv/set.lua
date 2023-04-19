@@ -41,3 +41,5 @@ vim.cmd [[autocmd FileType haskell setlocal expandtab tabstop=2 softtabstop=2 sh
 
 -- Markdown
 vim.cmd [[autocmd FileType markdown setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 wrap breakindent lbr]]
+-- Text
+vim.cmd [[autocmd FileType text setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 wrap breakindent lbr]]

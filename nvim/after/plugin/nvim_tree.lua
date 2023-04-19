@@ -32,7 +32,7 @@ require("nvim-tree").setup {
         debounce_delay = 15,
         width = 30,
         hide_root_folder = false,
-        side = "left",
+        side = "right",
         preserve_window_proportions = false,
         number = false,
         relativenumber = false,
@@ -44,7 +44,7 @@ require("nvim-tree").setup {
             },
         },
         float = {
-            enable = true,
+            enable = false,
             quit_on_focus_loss = true,
             open_win_config = {
                 relative = "editor",
