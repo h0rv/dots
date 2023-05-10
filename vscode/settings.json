@@ -22,7 +22,7 @@
   /*
    *  Workbench
    */
-  "workbench.colorTheme": "Serendipity Morning",
+  "workbench.colorTheme": "One Dark Pro",
   "workbench.iconTheme": "spectrum-vscode-icons",
   "workbench.activityBar.visible": false,
   "workbench.statusBar.visible": false,
