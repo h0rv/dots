@@ -1,0 +1,10 @@
+[user]
+	email = h0rv@users.noreply.github.com
+	name = Robby
+[init]
+	defaultBranch = main
+[alias]
+    st = status
+    br = branch
+    co = checkout
+    undo = reset HEAD~1 --mixed
