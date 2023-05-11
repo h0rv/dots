@@ -51,4 +51,5 @@
 
   "gruvboxMaterial.darkContrast": "hard",
   "editor.fontLigatures": true,
+  "json.schemas": [],
 }
