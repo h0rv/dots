@@ -3,6 +3,7 @@ export PATH="/home/horv/.local/bin:$PATH"
 export PATH="/home/horv/.cargo/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="nvim"
+export BROWSER="firefox"
 # Ruby
 export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
