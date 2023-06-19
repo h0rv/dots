@@ -40,6 +40,6 @@ map ctrl+home resize_window reset
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# Catppuccin-Latte
 include current-theme.conf
 # END_KITTY_THEME
