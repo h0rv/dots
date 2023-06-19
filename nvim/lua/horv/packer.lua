@@ -20,8 +20,7 @@ return require('packer').startup(function(use)
 	use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end }
 	use { 'numToStr/Comment.nvim' }
 	use { 'nvim-tree/nvim-web-devicons' }
-	use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
-	use { 'eandrju/cellular-automaton.nvim' }
+	-- use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
 
 	use {
 		'nvim-tree/nvim-tree.lua',

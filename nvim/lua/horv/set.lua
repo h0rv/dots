@@ -3,6 +3,7 @@ local set = vim.opt
 set.number = true
 set.relativenumber = true
 set.ruler = false
+set.showtabline = 0 -- remove tab line
 
 set.tabstop = 4
 set.softtabstop = 4
