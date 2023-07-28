@@ -66,6 +66,7 @@ return require('packer').startup(function(use)
 	-- Theme
 	use { 'folke/zen-mode.nvim' }
 	use { 'folke/twilight.nvim' }
+	use { 'HampusHauffman/block.nvim' }
 
 	use { 'nvim-lualine/lualine.nvim' }
 	use { 'lukas-reineke/indent-blankline.nvim' }
