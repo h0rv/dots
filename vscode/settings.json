@@ -3,7 +3,7 @@
   "editor.fontLigatures": true,
   "editor.guides.indentation": false,
   "editor.hideCursorInOverviewRuler": true, // hides cursor mark in the overview ruler
-  "editor.lineNumbers": "relative", // removes the status bar
+  //"editor.lineNumbers": "relative", // removes the status bar
   "editor.minimap.enabled": false, // removes minimap
   "editor.occurrencesHighlight": false, // removes highlights occurrences (still works when you select a word)
   "editor.overviewRulerBorder": false, // removes border from overview ruler (located on the right, same position as the scrollbar)
@@ -11,15 +11,23 @@
   "editor.scrollbar.vertical": "hidden",
   "explorer.openEditors.visible": 0, // removes the open editors section at the top of the sidebar, you can see the opened files with ⌘ + ⌥ + Tab
   "window.menuBarVisibility": "toggle",
-  "window.zoomLevel": 2,
   "workbench.activityBar.visible": false, // removes the activity bar (the 4 icons at the left of the screen), so now you will have to open the explorer, git, debugger and extension with shortcuts or through the Command Palette
   "workbench.colorCustomizations": { // object that allows you to customize your color theme: https://code.visualstudio.com/docs/getstarted/theme-color-reference 
     "tab.activeBorder": "#0000" // removes border to highlight active tabs (the colors formats are: #RGB, #RGBA, #RRGGBB or #RRGGBBAA)
   },
-  "workbench.colorTheme": "Catppuccin Mocha",
   "workbench.editor.showIcons": false, // removes icon from opened files in tabs
-  "workbench.editor.tabCloseButton": "off", // removes cross icon from tabs
-  "workbench.sideBar.location": "right",
+  "workbench.editor.tabCloseButton": "off",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.statusBar.visible": false
+  "workbench.statusBar.visible": false,
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "redhat.telemetry.enabled": true,
+  "eslint.validate": [
+    "javascript"
+  ],
+  "workbench.sideBar.location": "right",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "window.zoomLevel": -1
 }

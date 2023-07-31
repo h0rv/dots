@@ -1,15 +1,18 @@
 require('telescope').setup {
-	defaults = {
-		mappings = {
-			i = {
-				['<C-j>'] = require('telescope.actions').move_selection_next,
-				['<C-k>'] = require('telescope.actions').move_selection_previous,
-				['<C-l>'] = require('telescope.actions').select_default,
-				['kj'] = 'close',
-				['jk'] = 'close',
-			},
-		},
-	},
+    defaults = {
+        file_ignore_patterns = {
+            "node_modules"
+        },
+        mappings = {
+            i = {
+                ['<C-j>'] = require('telescope.actions').move_selection_next,
+                ['<C-k>'] = require('telescope.actions').move_selection_previous,
+                ['<C-l>'] = require('telescope.actions').select_default,
+                ['kj'] = 'close',
+                ['jk'] = 'close',
+            },
+        },
+    },
 }
 
 -- Enable telescope fzf native, if installed
@@ -22,13 +25,13 @@ set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files
 set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
 set('n', '<leader>sf',
-	function()
-		builtin.find_files({
-			hidden = true,
-			no_ignore = true,
-			no_ignore_parent = true
-		})
-	end, { desc = '[S]earch [F]iles' })
+    function()
+        builtin.find_files({
+            hidden = true,
+            no_ignore = false,
+            no_ignore_parent = false
+        })
+    end, { desc = '[S]earch [F]iles' })
 set('n', '<leader>sgf', builtin.git_files, { desc = '[S]earch [G]it [F]iles' })
 set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [H]elp' })

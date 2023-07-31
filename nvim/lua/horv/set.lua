@@ -8,7 +8,7 @@ set.showtabline = 0 -- remove tab line
 set.tabstop = 4
 set.softtabstop = 4
 set.shiftwidth = 4
-set.expandtab = false
+set.expandtab = true
 
 set.smartindent = true
 
@@ -21,7 +21,7 @@ set.undofile = true
 
 set.ignorecase = true
 set.smartcase = true
-set.hlsearch = false
+set.hlsearch = true
 set.incsearch = true
 
 set.termguicolors = true
@@ -36,6 +36,14 @@ set.fillchars = 'eob: ' -- removes '~' at end of buffer
 set.completeopt = 'menuone,noselect'
 
 set.showcmd = false
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.api.nvim_exec('silent! normal! g`"zv', false)
+    end,
+})
 
 -- Haskell
 vim.cmd [[autocmd FileType haskell setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 ]]
