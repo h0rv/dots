@@ -5,11 +5,13 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export BROWSER="firefox"
 # Ruby
-export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+# export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
 # Go
 export GOPATH="$HOME/.go"
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+
+source ~/.config/fish/ibm.fish
 
 # Aliases
 
@@ -23,13 +25,14 @@ if type -q exa
   alias la "exa -a"
   alias lla "ll -a"
 end
-alias cat="bat"
+# alias cat="bat"
 alias g="git"
 alias ...="cd ..; cd .."
 alias ....="...; cd .."
 alias jp="jupyter"
 
 # tmux
+tmux source ~/.config/tmux/tmux.conf
 if not set -q TMUX
     set -g TMUX tmux new-session -d -s base
     eval $TMUX
@@ -41,16 +44,9 @@ end
 #     eval (zellij setup --generate-auto-start fish | string collect)
 # end
 
-
 function zathura --wraps zathura
     nohup zathura $argv &> /dev/null &
 end
-
-function p2e
-  set filename (echo (string split -r -m1 . $argv)[1])
-  ebook-convert $argv $filename.epub --enable-heuristics
-end
-
 
 # Opens web browser with URL of git remote repository
 function gremote
@@ -73,3 +69,6 @@ end
 export LC_ALL="en_US.UTF-8"
 
 starship init fish | source
+
+# Generated for envman. Do not edit.
+test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
