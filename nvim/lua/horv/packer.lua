@@ -31,16 +31,14 @@ return require('packer').startup(function(use)
         requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } }
     }
 
-    use {
-        'nvim-tree/nvim-tree.lua',
+    use { 'nvim-tree/nvim-tree.lua',
         requires = { 'nvim-tree/nvim-web-devicons', },
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
     use { 'sbdchd/neoformat' }
 
-    use {
-        'VonHeikemen/lsp-zero.nvim',
+    use { 'VonHeikemen/lsp-zero.nvim',
         requires = {
             -- LSP Support
             { 'neovim/nvim-lspconfig' },
@@ -63,19 +61,25 @@ return require('packer').startup(function(use)
     }
 
     -- Lua
-    use {
-        "folke/which-key.nvim",
+    use { "folke/which-key.nvim",
         config = function()
             vim.o.timeout = true
             vim.o.timeoutlen = 300
         end
     }
 
+    -- Start screen
+    use { 'goolord/alpha-nvim',
+        requires = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require 'alpha'.setup(require 'alpha.themes.startify'.config)
+        end
+    }
 
-	-- Theme
-	use { 'folke/zen-mode.nvim' }
-	use { 'folke/twilight.nvim' }
-	use { 'HampusHauffman/block.nvim' }
+    -- Theme
+    use { 'folke/zen-mode.nvim' }
+    use { 'folke/twilight.nvim' }
+    -- use { 'HampusHauffman/block.nvim' }
 
     use { 'nvim-lualine/lualine.nvim' }
     use { 'lukas-reineke/indent-blankline.nvim' }
