@@ -4,15 +4,15 @@
 ---@field colors string [] | nil -- A list of colors to use instead. If this is set percent and depth are not taken into account.
 ---@field bg string? -- If you'd prefer to use a different color other than the default "Normal" highlight.
 
-require("block").setup({
-	percent = 0.8,
-	depth = 4,
-	colors = nil,
-	automatic = false,
-	--      bg = nil,
-	--      colors = {
-	--          "#ff0000"
-	--          "#00ff00"
-	--          "#0000ff"
-	--      },
-})
+-- require("block").setup({
+--     percent = 0.8,
+--     depth = 2,
+--     colors = nil,
+--     automatic = false,
+--     bg = nil,
+--     -- colors = {
+--     --     "#ff0000",
+--     --     "#00ff00",
+--     --     "#0000ff",
+--     -- },
+-- })

@@ -37,6 +37,11 @@ set.completeopt = 'menuone,noselect'
 
 set.showcmd = false
 
+-- folding
+set.foldmethod = 'expr'
+set.foldexpr = 'nvim_treesitter#foldexpr()'
+set.foldlevel = 10
+
 -- Restore cursor position
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     pattern = { "*" },
