@@ -23,8 +23,17 @@ return require('packer').startup(function(use)
     -- use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
 
     -- debug
+    -- https://miguelcrespo.co/posts/debugging-javascript-applications-with-neovim
     use { 'mfussenegger/nvim-dap' }
-    use { 'rcarriga/nvim-dap-ui' }
+    use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
+    use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+    use { "microsoft/vscode-js-debug",
+        opt = true,
+        run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    }
+    use { 'Joakker/lua-json5',
+        run = './install.sh'
+    }
 
     -- refactoring
     use { "ThePrimeagen/refactoring.nvim",
@@ -69,12 +78,7 @@ return require('packer').startup(function(use)
     }
 
     -- Start screen
-    use { 'goolord/alpha-nvim',
-        requires = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            require 'alpha'.setup(require 'alpha.themes.startify'.config)
-        end
-    }
+    use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
 
     -- Theme
     use { 'folke/zen-mode.nvim' }
