@@ -47,6 +47,14 @@ return require('packer').startup(function(use)
 
     use { 'sbdchd/neoformat' }
 
+    -- navigation
+    use { 'ggandor/leap.nvim',
+        requires = { 'tpope/vim-repeat', },
+        config = function()
+            require('leap').add_default_mappings()
+        end
+    }
+
     use { 'VonHeikemen/lsp-zero.nvim',
         requires = {
             -- LSP Support
@@ -69,7 +77,6 @@ return require('packer').startup(function(use)
         }
     }
 
-    -- Lua
     use { "folke/which-key.nvim",
         config = function()
             vim.o.timeout = true
@@ -92,7 +99,7 @@ return require('packer').startup(function(use)
     use { 'kyazdani42/blue-moon' }
     use { 'navarasu/onedark.nvim' }
     use { 'Everblush/everblush.nvim', as = 'everblush' }
-    use { 'rose-pine/neovim' }
+    -- use { 'rose-pine/neovim' }
     use { 'sainnhe/gruvbox-material' }
     use { 'nyoom-engineering/oxocarbon.nvim' }
     use { 'rebelot/kanagawa.nvim' }
