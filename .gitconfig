@@ -8,3 +8,5 @@
     br = branch
     co = checkout
     undo = reset HEAD~1 --mixed
+[core]
+	editor = nvim
