@@ -72,6 +72,7 @@ return require('packer').startup(function(use)
 
             -- Snippets
             { 'L3MON4D3/LuaSnip' },
+            { 'David-Kunz/cmp-npm',               requires = { 'nvim-lua/plenary.nvim', } },
             -- Snippet Collection (Optional)
             { 'rafamadriz/friendly-snippets' },
         }
@@ -84,6 +85,16 @@ return require('packer').startup(function(use)
         end
     }
 
+    use { "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    }
+
+    use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
+
+    use { 'nvim-pack/nvim-spectre', requires = { 'nvim-lua/plenary.nvim' } }
+
+    use { 'ThePrimeagen/harpoon', require = { 'nvim-lua/plenary.nvim', }, }
+
     -- Start screen
     use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
 
@@ -91,6 +102,14 @@ return require('packer').startup(function(use)
     use { 'folke/zen-mode.nvim' }
     use { 'folke/twilight.nvim' }
     -- use { 'HampusHauffman/block.nvim' }
+    use { 'tamton-aquib/zone.nvim' }
+
+    use { 'folke/noice.nvim',
+        requires = {
+            'MunifTanjim/nui.nvim',
+            -- 'rcarriga/nvim-notify', -- optional
+        }
+    }
 
     use { 'nvim-lualine/lualine.nvim' }
     use { 'lukas-reineke/indent-blankline.nvim' }
