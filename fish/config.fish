@@ -13,6 +13,9 @@ export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 
 source ~/.config/fish/ibm.fish
 
+set -g fish_greeting
+set -g fish_theme "Catppuccin Mocha"
+
 # Aliases
 
 alias vi="nvim"
