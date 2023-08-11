@@ -16,11 +16,13 @@ return require('packer').startup(function(use)
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use { 'filNaj/tree-setter' }
     use { 'tpope/vim-fugitive' }
     use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end }
     use { 'numToStr/Comment.nvim' }
     use { 'nvim-tree/nvim-web-devicons' }
-    -- use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
+    use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
+    use { 'willothy/flatten.nvim' }
 
     -- debug
     -- https://miguelcrespo.co/posts/debugging-javascript-applications-with-neovim
@@ -38,11 +40,6 @@ return require('packer').startup(function(use)
     -- refactoring
     use { "ThePrimeagen/refactoring.nvim",
         requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } }
-    }
-
-    use { 'nvim-tree/nvim-tree.lua',
-        requires = { 'nvim-tree/nvim-web-devicons', },
-        tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
     use { 'sbdchd/neoformat' }
