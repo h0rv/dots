@@ -68,8 +68,11 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lua' },
 
             -- Snippets
-            { 'L3MON4D3/LuaSnip' },
-            { 'David-Kunz/cmp-npm',               requires = { 'nvim-lua/plenary.nvim', } },
+            use { 'L3MON4D3/LuaSnip',
+                tag = 'v2.*',                  -- follow latest release. Replace <CurrentMajor> by the latest released major (first number of latest release)
+                run = 'make install_jsregexp', -- install jsregexp (optional!:).
+            },
+            { 'David-Kunz/cmp-npm',          requires = { 'nvim-lua/plenary.nvim', } },
             -- Snippet Collection (Optional)
             { 'rafamadriz/friendly-snippets' },
         }
