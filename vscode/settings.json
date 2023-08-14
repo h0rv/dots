@@ -20,7 +20,7 @@
   "workbench.startupEditor": "newUntitledFile",
   "workbench.statusBar.visible": false,
   "workbench.iconTheme": "catppuccin-mocha",
-  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.colorTheme": "Everblush",
   "redhat.telemetry.enabled": true,
   "eslint.validate": [
     "javascript"
@@ -29,5 +29,5 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.python"
   },
-  "window.zoomLevel": -1
+  "window.zoomLevel": 2
 }
