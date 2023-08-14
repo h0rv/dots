@@ -16,7 +16,7 @@ return require('packer').startup(function(use)
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use { 'filNaj/tree-setter' }
+    -- use { 'filNaj/tree-setter' }
     use { 'tpope/vim-fugitive' }
     use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end }
     use { 'numToStr/Comment.nvim' }

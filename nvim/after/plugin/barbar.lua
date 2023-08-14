@@ -2,7 +2,7 @@ local set = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- Magic buffer-picking mode
-set('n', '<S-p>', '<Cmd>BufferPick<CR>', opts)
+set('n', '<C-p>', '<Cmd>BufferPick<CR>', opts)
 -- Move to previous/next
 set('n', '<S-h>', '<Cmd>BufferPrevious<CR>', opts)
 set('n', '<S-l>', '<Cmd>BufferNext<CR>', opts)
