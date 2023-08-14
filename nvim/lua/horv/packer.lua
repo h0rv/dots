@@ -22,7 +22,6 @@ return require('packer').startup(function(use)
     use { 'numToStr/Comment.nvim' }
     use { 'nvim-tree/nvim-web-devicons' }
     use { 'romgrk/barbar.nvim', wants = 'nvim-web-devicons' }
-    use { 'willothy/flatten.nvim' }
 
     -- debug
     -- https://miguelcrespo.co/posts/debugging-javascript-applications-with-neovim
