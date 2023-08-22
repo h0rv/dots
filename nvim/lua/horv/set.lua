@@ -4,6 +4,9 @@ set.number = true
 set.relativenumber = true
 set.ruler = false
 set.showtabline = 0 -- remove tab line
+-- current line number highlight
+set.cursorline = true
+set.cursorlineopt = 'number'
 
 set.tabstop = 4
 set.softtabstop = 4
