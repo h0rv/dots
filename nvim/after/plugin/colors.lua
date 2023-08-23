@@ -57,5 +57,5 @@ require('catppuccin').setup({
 
 vim.cmd.colorscheme 'everblush'
 local everblush = require("everblush.palette")
-vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = true, }) -- Set current line number color and text style
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
 
