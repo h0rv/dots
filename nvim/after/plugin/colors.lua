@@ -51,11 +51,11 @@ require('catppuccin').setup({
 
 -- setup must be called before loading
 
--- vim.cmd.colorscheme 'catppuccin'
--- local mocha = require("catppuccin.palettes").get_palette "mocha"
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = mocha.green, cterm = bold, bold = true, }) -- Set current line number color and text style
+vim.cmd.colorscheme 'catppuccin'
+local mocha = require("catppuccin.palettes").get_palette "mocha"
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = mocha.green, cterm = bold, bold = true, }) -- Set current line number color and text style
 
-vim.cmd.colorscheme 'everblush'
-local everblush = require("everblush.palette")
-vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
+-- vim.cmd.colorscheme 'everblush'
+-- local everblush = require("everblush.palette")
+-- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
 
