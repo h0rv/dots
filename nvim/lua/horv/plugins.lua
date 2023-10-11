@@ -1,13 +1,13 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -26,7 +26,7 @@ require("lazy").setup({
 
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     { 'tpope/vim-fugitive' },
-    { "windwp/nvim-autopairs",           config = function() require("nvim-autopairs").init {} end },
+    { 'windwp/nvim-autopairs',           event = "InsertEnter",             opts = {} },
     { 'numToStr/Comment.nvim' },
     { 'nvim-tree/nvim-web-devicons' },
     { 'romgrk/barbar.nvim',              dependencies = 'nvim-web-devicons' },
@@ -71,7 +71,7 @@ require("lazy").setup({
             -- Snippets
             {
                 'L3MON4D3/LuaSnip',
-                version = 'v2.*',                    -- follow latest release. Replace <CurrentMajor> by the latest released major (first number of latest release)
+                version = 'v2.*',                -- follow latest release. Replace <CurrentMajor> by the latest released major (first number of latest release)
                 build = 'make install_jsregexp', -- install jsregexp (optional!:).
             },
             { 'David-Kunz/cmp-npm',          dependencies = { 'nvim-lua/plenary.nvim', } },
@@ -107,10 +107,11 @@ require("lazy").setup({
         }
     },
     { 'nvim-lualine/lualine.nvim' },
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl",       opts = {} },
     -- Colorschemes
-    { 'catppuccin/nvim',                    name = 'catppuccin' },
-    { 'Everblush/everblush.nvim',           name = 'everblush' },
+    { 'catppuccin/nvim',                     name = 'catppuccin' },
+    { 'Everblush/everblush.nvim',            name = 'everblush' },
+    { "folke/tokyonight.nvim",               lazy = false,       priority = 1000, opts = {}, },
     { 'navarasu/onedark.nvim' },
     { 'sainnhe/gruvbox-material' },
     { 'nyoom-engineering/oxocarbon.nvim' },
