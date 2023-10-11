@@ -28,13 +28,11 @@ return require('packer').startup(function(use)
     use { 'mfussenegger/nvim-dap' }
     use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
     use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-    use { "microsoft/vscode-js-debug",
-        opt = true,
-        run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
-    }
-    use { 'Joakker/lua-json5',
-        run = './install.sh'
-    }
+    use { 'Joakker/lua-json5', run = './install.sh' }
+    -- use { "microsoft/vscode-js-debug",
+    --     opt = true,
+    --     run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+    -- }
 
     -- refactoring
     use { "ThePrimeagen/refactoring.nvim",
@@ -109,6 +107,7 @@ return require('packer').startup(function(use)
             -- 'rcarriga/nvim-notify', -- optional
         }
     }
+    use { 'kvrohit/mellow.nvim' }
 
     use { 'nvim-lualine/lualine.nvim' }
     use { 'lukas-reineke/indent-blankline.nvim' }
