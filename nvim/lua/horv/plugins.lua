@@ -11,6 +11,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Open package manager
+local set = vim.keymap.set
+set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/plugins.lua.lua<CR>', { desc = '[P]lugin [M]anager' });
+set('n', '<leader>ps', require('lazy').sync, { desc = '[P]lugin [S]ync' });
+
 require("lazy").setup({
     -- Fuzzy Finder (files, lsp, etc)
     {
@@ -99,13 +104,13 @@ require("lazy").setup({
     { 'folke/zen-mode.nvim' },
     { 'folke/twilight.nvim' },
     { 'tamton-aquib/zone.nvim' },
-    {
-        'folke/noice.nvim',
-        dependencies = {
-            'MunifTanjim/nui.nvim',
-            -- 'rcarriga/nvim-notify', -- optional
-        }
-    },
+    -- {
+    --     'folke/noice.nvim',
+    --     dependencies = {
+    --         'MunifTanjim/nui.nvim',
+    --         -- 'rcarriga/nvim-notify', -- optional
+    --     }
+    -- },
     { 'nvim-lualine/lualine.nvim' },
     { "lukas-reineke/indent-blankline.nvim", main = "ibl",       opts = {} },
     -- Colorschemes
@@ -119,3 +124,4 @@ require("lazy").setup({
     { 'Yazeed1s/oh-lucy.nvim' },
     { 'kvrohit/mellow.nvim' },
 })
+
