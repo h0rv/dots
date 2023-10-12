@@ -2,11 +2,6 @@ local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
-lsp.ensure_installed {
-	'eslint',
-	'rust_analyzer',
-}
-
 local set = function(keys, func, desc)
 	if desc then
 		desc = 'LSP: ' .. desc
@@ -26,17 +21,16 @@ set('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
-
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+local mason_lspconfig = require('mason-lspconfig')
 
-mason_lspconfig.setup_handlers {
+mason_lspconfig.setup_handlers({
 	function(server_name)
 		require('lspconfig')[server_name].setup {
 			on_attach = on_attach,
 		}
 	end,
-}
+})
 
 -- Completion settings
 local cmp = require('cmp')
@@ -48,7 +42,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 	['<C-Space>'] = cmp.mapping.complete(),
 })
 
-lsp.setup_nvim_cmp({
+cmp.setup({
 	mapping = cmp_mappings,
 	sources = {
 		{ name = 'path' },

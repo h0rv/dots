@@ -26,5 +26,3 @@ set('n', 'Q', '<nop>')
 set('n', '<leader>f', function() vim.lsp.buf.format() end)
 
 set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
-set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/packer.lua<CR>');

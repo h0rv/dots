@@ -35,10 +35,6 @@ set('n', 'Q', '<nop>')
 
 set('n', '<leader>f', vim.lsp.buf.format, { desc = '[F]ormat file' })
 
--- Open package manager
-set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/packer.lua<CR>', { desc = '[P]ackage [M]anager' });
-set('n', '<leader>ps', require('packer').sync, { desc = '[P]acker [S]ync' });
-
 -- Diagnostic keymaps
 local diag = vim.diagnostic
 set('n', '[d', diag.goto_prev)

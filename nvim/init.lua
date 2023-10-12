@@ -1,6 +1,6 @@
 require('horv.set')
 require("horv.remap")
 require('horv.keymap')
-require('horv.pandoc')
 require('horv.plugins')
+require('horv.pandoc')
 require('horv.netrw')
