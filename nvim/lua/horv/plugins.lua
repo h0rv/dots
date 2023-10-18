@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Open package manager
 local set = vim.keymap.set
-set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/plugins.lua.lua<CR>', { desc = '[P]lugin [M]anager' });
+set('n', '<leader>pm', '<cmd>e ~/.config/nvim/lua/horv/plugins.lua<CR>', { desc = '[P]lugin [M]anager' });
 set('n', '<leader>ps', require('lazy').sync, { desc = '[P]lugin [S]ync' });
 
 require("lazy").setup({
