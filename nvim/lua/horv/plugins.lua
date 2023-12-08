@@ -94,11 +94,10 @@ require("lazy").setup({
     },
 
     { "kylechui/nvim-surround", },
-
-    { 'kevinhwang91/nvim-ufo',  dependencies = 'kevinhwang91/promise-async' },
+    { 'kevinhwang91/nvim-ufo',               dependencies = 'kevinhwang91/promise-async' },
 
     -- Start screen
-    { 'goolord/alpha-nvim',     dependencies = { 'nvim-tree/nvim-web-devicons' } },
+    { 'goolord/alpha-nvim',                  dependencies = { 'nvim-tree/nvim-web-devicons' } },
 
     -- Theme
     { 'folke/zen-mode.nvim' },
@@ -112,11 +111,18 @@ require("lazy").setup({
     --     }
     -- },
     { 'nvim-lualine/lualine.nvim' },
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl",       opts = {} },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl",                                    opts = {} },
     -- Colorschemes
     { 'catppuccin/nvim',                     name = 'catppuccin' },
     { 'Everblush/everblush.nvim',            name = 'everblush' },
-    { "folke/tokyonight.nvim",               lazy = false,       priority = 1000, opts = {}, },
+    {
+        'jesseleite/nvim-noirbuddy',
+        name = 'noirbuddy',
+        lazy = false,
+        priority = 1000,
+        dependencies = { 'tjdevries/colorbuddy.nvim', branch = 'dev' },
+    },
+    { "folke/tokyonight.nvim",           lazy = false, priority = 1000, opts = {}, },
     { 'navarasu/onedark.nvim' },
     { 'sainnhe/gruvbox-material' },
     { 'nyoom-engineering/oxocarbon.nvim' },
@@ -124,4 +130,3 @@ require("lazy").setup({
     { 'Yazeed1s/oh-lucy.nvim' },
     { 'kvrohit/mellow.nvim' },
 })
-
