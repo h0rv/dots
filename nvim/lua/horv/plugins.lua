@@ -29,6 +29,13 @@ require("lazy").setup({
         cond = vim.fn.executable 'make' == 1
     },
 
+    {
+        'nvim-tree/nvim-tree.lua',
+        version = '*',
+        lazy = false,
+        dependencies = { 'nvim-tree/nvim-web-devicons', },
+    },
+
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     { 'tpope/vim-fugitive' },
     { 'windwp/nvim-autopairs',           event = "InsertEnter",             opts = {} },
@@ -84,7 +91,6 @@ require("lazy").setup({
             { 'rafamadriz/friendly-snippets' },
         }
     },
-
     {
         "folke/which-key.nvim",
         config = function()
@@ -92,7 +98,6 @@ require("lazy").setup({
             vim.o.timeoutlen = 300
         end
     },
-
     { "kylechui/nvim-surround", },
     { 'kevinhwang91/nvim-ufo',               dependencies = 'kevinhwang91/promise-async' },
 
@@ -129,4 +134,5 @@ require("lazy").setup({
     { 'rebelot/kanagawa.nvim' },
     { 'Yazeed1s/oh-lucy.nvim' },
     { 'kvrohit/mellow.nvim' },
+    { "craftzdog/solarized-osaka.nvim",      lazy = false,                                    priority = 1000, opts = {}, }
 })

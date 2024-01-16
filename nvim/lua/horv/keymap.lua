@@ -5,7 +5,7 @@ local g = vim.g
 g.mapleader = ' '
 g.maplocalleader = ' '
 
--- set('n', '<leader>e', cmd.NvimTreeToggle, { desc = "File [E]xplorer" })
+set('n', '<leader>e', cmd.NvimTreeToggle, { desc = "File [E]xplorer" })
 
 set('n', '<leader>W', cmd.w, { desc = '[W]rite' })
 set('n', '<leader>Q', cmd.q, { desc = '[Q]uit' })

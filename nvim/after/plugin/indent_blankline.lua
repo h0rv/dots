@@ -1,6 +1,6 @@
 require('ibl').setup({
     indent = {
-        char = '|', -- '┊',
+        char = '┃', -- '|' '┊',
     },
     -- whitespace = { highlight = { "Whitespace", "NonText" } },
     -- scope = { exclude = { language = {} } },
