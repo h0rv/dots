@@ -42,5 +42,5 @@ vscode:
 		@ln -nfs "$(pwd)/vscode/keybindings.json" ~/.config/Code/User/keybindings.json
 
 firefox:
-		@ln -nfs "${pwd}/chrome" ~/.mozilla/firefox/*-release/
+		@ln -nfs "${pwd}/firefox/chrome" ~/.mozilla/firefox/*-release/
 

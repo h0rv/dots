@@ -9,7 +9,7 @@ function Compile()
     local file = vim.fn.expand('%:p') -- Get current file name
     local extension = vim.bo.filetype
     if extension == 'markdown' then
-        os.execute('pandoc \'' .. file .. '\' --pdf-engine=xelatex -o ' .. pdfPath .. ' &')
+        os.execute('pandoc \'' .. file .. '\' -o ' .. pdfPath .. ' &')
     end
 end
 
@@ -18,7 +18,5 @@ function Open()
     os.execute('zathura ' .. pdfPath .. ' &')
 end
 
--- alt + p: Compile
 vim.keymap.set('n', '<leader>op', Open)
--- alt + c: Preview
 vim.keymap.set('n', '<leader>cp', Compile)
