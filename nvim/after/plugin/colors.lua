@@ -71,3 +71,5 @@ vim.api.nvim_set_hl(0, "CursorLineNr", { fg = mocha.green, cterm = bold, bold = 
 -- vim.cmd.colorscheme 'everblush'
 -- local everblush = require("everblush.palette")
 -- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
+
+-- require 'nordic'.load()
