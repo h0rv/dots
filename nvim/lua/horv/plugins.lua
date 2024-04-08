@@ -30,6 +30,11 @@ require("lazy").setup({
     },
 
     {
+        "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+    },
+
+    {
         'nvim-tree/nvim-tree.lua',
         version = '*',
         lazy = false,
@@ -165,4 +170,16 @@ require("lazy").setup({
     { "Yazeed1s/oh-lucy.nvim" },
     { "kvrohit/mellow.nvim" },
     { "AlexvZyl/nordic.nvim",            lazy = false, priority = 1000, },
+    { "marko-cerovac/material.nvim" },
+    {
+        "ribru17/bamboo.nvim",
+        lazy = false,
+        priority = 1000,
+        -- config = function()
+        --     require("bamboo").setup {
+        --         -- optional configuration here
+        --     }
+        --     require("bamboo").load()
+        -- end,
+    },
 })
