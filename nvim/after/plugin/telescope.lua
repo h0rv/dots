@@ -16,6 +16,8 @@ require('telescope').setup {
     },
 }
 
+require("telescope").load_extension "file_browser"
+
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -39,3 +41,6 @@ set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [H]elp' })
 set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 set('n', '<leader>st', builtin.live_grep, { desc = '[S]earch by [T]ext' })
 set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+
+-- file_browser extension
+set("n", "<space>fb", function() require("telescope").extensions.file_browser.file_browser() end)
