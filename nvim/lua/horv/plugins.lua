@@ -143,25 +143,9 @@ require("lazy").setup({
     -- Colorschemes
     { "catppuccin/nvim",          name = "catppuccin" },
     { "Everblush/everblush.nvim", name = "everblush" },
-    {
-        "jesseleite/nvim-noirbuddy",
-        name = "noirbuddy",
-        lazy = false,
-        priority = 1000,
-        dependencies = { "tjdevries/colorbuddy.nvim", branch = "dev" },
-        config = function()
-            -- load the colorscheme here
-            -- vim.cmd.colorscheme("noirbuddy")
-            -- require("noirbuddy").setup({
-            --     preset = "slate",
-            -- })
-        end,
+    { "jesseleite/nvim-noirbuddy", name = "noirbuddy", lazy = false, priority = 1000, dependencies = { "tjdevries/colorbuddy.nvim", branch = "dev" },
     },
-    {
-        "oxfist/night-owl.nvim",
-        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-        priority = 1000, -- make sure to load this before all the other start plugins
-    },
+    { "oxfist/night-owl.nvim",           lazy = false, priority = 1000, },
     { "folke/tokyonight.nvim",           lazy = false, priority = 1000, opts = {}, },
     { "navarasu/onedark.nvim" },
     { "sainnhe/gruvbox-material" },
@@ -171,15 +155,7 @@ require("lazy").setup({
     { "kvrohit/mellow.nvim" },
     { "AlexvZyl/nordic.nvim",            lazy = false, priority = 1000, },
     { "marko-cerovac/material.nvim" },
-    {
-        "ribru17/bamboo.nvim",
-        lazy = false,
-        priority = 1000,
-        -- config = function()
-        --     require("bamboo").setup {
-        --         -- optional configuration here
-        --     }
-        --     require("bamboo").load()
-        -- end,
-    },
+    { "ribru17/bamboo.nvim",             lazy = false, priority = 1000, },
+    { "daschw/leaf.nvim" },
+    { "Verf/deepwhite.nvim",             lazy = false, priority = 1000 },
 })

@@ -82,3 +82,7 @@ if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+if test -f (dirname (status -f))/secrets.fish
+    source (dirname (status -f))/secrets.fish
+end

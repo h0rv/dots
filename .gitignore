@@ -1,3 +1,4 @@
+walls/
 nvim/spell
 nvim/plugin
 tmux/plugins
@@ -5,3 +6,4 @@ fish/completions
 fish/conf.d
 fish/functions
 fish/fish_variables
+fish/secrets.fish
