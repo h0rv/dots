@@ -68,29 +68,29 @@ require('catppuccin').setup({
 -- local mocha = require("catppuccin.palettes").get_palette "mocha"
 -- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = mocha.green, cterm = bold, bold = true, }) -- Set current line number color and text style
 
--- vim.cmd.colorscheme 'everblush'
--- local everblush = require("everblush.palette")
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
+vim.cmd.colorscheme 'everblush'
+local everblush = require("everblush.palette")
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = everblush.color5, cterm = bold, bold = false, }) -- Set current line number color and text style
 
 -- require 'nordic'.load()
 
-vim.cmd.colorscheme 'deepwhite'
-require('deepwhite').setup({
-    -- If you have some anti-blue light setting (f.lux, light bulb, or low blue light mode monitor),
-    -- turn it on, this will set the background color to a cooler color to prevent the background from being too warm.
-    low_blue_light = false
-})
--- for lualine
-require('lualine').setup({
-        options = {
-            theme = 'deepwhite',
-        },
-    })
--- for barbar
-require('barbar').setup({
-        icons = {
-            filetype = {
-                custom_colors = true,
-            },
-        },
-})
+-- vim.cmd.colorscheme 'deepwhite'
+-- require('deepwhite').setup({
+--     -- If you have some anti-blue light setting (f.lux, light bulb, or low blue light mode monitor),
+--     -- turn it on, this will set the background color to a cooler color to prevent the background from being too warm.
+--     low_blue_light = false
+-- })
+-- -- for lualine
+-- require('lualine').setup({
+--         options = {
+--             theme = 'deepwhite',
+--         },
+--     })
+-- -- for barbar
+-- require('barbar').setup({
+--         icons = {
+--             filetype = {
+--                 custom_colors = true,
+--             },
+--         },
+-- })
