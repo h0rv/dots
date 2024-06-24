@@ -158,4 +158,5 @@ require("lazy").setup({
     { "ribru17/bamboo.nvim",             lazy = false, priority = 1000, },
     { "daschw/leaf.nvim" },
     { "Verf/deepwhite.nvim",             lazy = false, priority = 1000 },
+    { "daschw/leaf.nvim",                lazy = false, priority = 1000 },
 })

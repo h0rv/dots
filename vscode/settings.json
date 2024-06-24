@@ -19,7 +19,7 @@
   "workbench.startupEditor": "newUntitledFile",
   "workbench.statusBar.visible": false,
   "workbench.iconTheme": "catppuccin-mocha",
-  "workbench.colorTheme": "Blackdot",
+  "workbench.colorTheme": "Everblush",
   "redhat.telemetry.enabled": true,
   "eslint.validate": [
     "javascript"
