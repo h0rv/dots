@@ -103,13 +103,20 @@ require("lazy").setup({
             { "rafamadriz/friendly-snippets" },
         }
     },
+    -- {
+    --     "folke/which-key.nvim",
+    --     config = function()
+    --         vim.o.timeout = true
+    --         vim.o.timeoutlen = 300
+    --     end
+    -- },
     {
-        "folke/which-key.nvim",
+        'MagicDuck/grug-far.nvim',
         config = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
+            require('grug-far').setup({});
         end
     },
+
     { "kylechui/nvim-surround", },
     { "kevinhwang91/nvim-ufo",               dependencies = "kevinhwang91/promise-async" },
 
