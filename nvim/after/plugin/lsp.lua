@@ -1,13 +1,15 @@
+vim.opt.signcolumn = 'yes'
+
 local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
 local set = function(keys, func, desc)
-	if desc then
-		desc = 'LSP: ' .. desc
-	end
+    if desc then
+        desc = 'LSP: ' .. desc
+    end
 
-	vim.keymap.set('n', keys, func, { desc = desc })
+    vim.keymap.set('n', keys, func, { desc = desc })
 end
 
 set('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -25,31 +27,36 @@ require('mason').setup()
 local mason_lspconfig = require('mason-lspconfig')
 
 mason_lspconfig.setup_handlers({
-	function(server_name)
-		require('lspconfig')[server_name].setup {
-			on_attach = on_attach,
-		}
-	end,
+    function(server_name)
+        require('lspconfig')[server_name].setup {
+            on_attach = on_attach,
+        }
+    end,
 })
 
 -- Completion settings
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-l>'] = cmp.mapping.confirm({ select = true }),
-	['<C-Space>'] = cmp.mapping.complete(),
-})
 
 cmp.setup({
-	mapping = cmp_mappings,
-	sources = {
-		{ name = 'path' },
-		{ name = 'nvim_lsp', keyword_length = 1 },
-		{ name = 'buffer', keyword_length = 3 },
-		{ name = 'luasnip', keyword_length = 2 },
-	}
+    mapping = {
+        ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-l>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-Space>'] = cmp.mapping.complete(),
+    },
+    sources = {
+        { name = 'path' },
+        { name = 'nvim_lsp', keyword_length = 1 },
+        { name = 'buffer',   keyword_length = 3 },
+        { name = 'luasnip',  keyword_length = 2 },
+    },
+    snippet = {
+        expand = function(args)
+            -- You need Neovim v0.10 to use vim.snippet
+            vim.snippet.expand(args.body)
+        end,
+    },
 })
 
 lsp.setup()
