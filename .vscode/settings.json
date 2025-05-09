@@ -1,8 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "/home/horv/.vscode-oss/extensions/continue.continue-0.0.412-linux-x64"
-    ],
-    "python.autoComplete.extraPaths": [
-        "/home/horv/.vscode-oss/extensions/continue.continue-0.0.412-linux-x64"
-    ]
-}
