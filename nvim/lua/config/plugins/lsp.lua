@@ -14,16 +14,11 @@ return {
         },
     },
     config = function()
-        require("lspconfig").lua_ls.setup {}
-        require("lspconfig").pylsp.setup {
-            plugins = {}
-        }
-        require("lspconfig").ruff.setup {
-            init_options = { settings = {} }
-        }
-
         local capabilities = require('blink.cmp').get_lsp_capabilities()
+
         require('lspconfig').lua_ls.setup { capabilities = capabilities }
+        require("lspconfig").pylsp.setup { capabilities = capabilities }
+        require("lspconfig").ruff.setup { capabilities = capabilities }
 
         vim.api.nvim_create_autocmd('LspAttach', {
             callback = function(args)

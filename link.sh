@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
-mv ~/.config/nvim ~/.config/nvim.bak
-ln -s nvim ~/.config/nvim
+set -e
 
+if [ -d ~/.config/nvim ]; then
+    mv ~/.config/nvim ~/.config/nvim.bak
+fi
+
+ln -s "$(pwd)/nvim" ~/.config

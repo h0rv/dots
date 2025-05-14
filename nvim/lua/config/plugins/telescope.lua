@@ -13,12 +13,22 @@ return {
                     find_files = {
                         theme = "ivy",
                     },
+                    live_grep = {
+                        theme = "ivy",
+                    },
+                    help_tags = {
+                        theme = "ivy",
+                    },
                 },
                 extensions = {},
             }
 
+            require('telescope').load_extension('fzf')
+
             -- search files in cwd
             vim.keymap.set("n", "<leader>sf", require('telescope.builtin').find_files)
+            -- search files in cwd
+            vim.keymap.set("n", "<leader>st", require('telescope.builtin').live_grep)
             -- search neovim config files
             vim.keymap.set("n", "<leader>sn", function()
                 require('telescope.builtin').find_files {
