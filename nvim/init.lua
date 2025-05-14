@@ -1,8 +1,8 @@
-require("config.lazy")
-
 local g = vim.g
 g.mapleader = ' '
 g.maplocalleader = ' '
+
+require("config.lazy")
 
 local opt = vim.opt
 opt.shiftwidth = 4
