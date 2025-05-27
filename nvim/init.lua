@@ -12,6 +12,8 @@ opt.number = true
 opt.relativenumber = true
 opt.clipboard = "unnamedplus"
 
+vim.wo.wrap = false
+
 local set = vim.keymap.set
 local cmd = vim.cmd
 set('i', 'jk', '<ESC>')
