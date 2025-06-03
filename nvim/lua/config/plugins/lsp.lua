@@ -12,6 +12,16 @@ return {
                 },
             },
         },
+        {
+            "rachartier/tiny-inline-diagnostic.nvim",
+            event = "LspAttach",
+            priority = 1000,
+            config = function()
+                require('tiny-inline-diagnostic').setup({
+                    preset = "minimal",
+                })
+            end
+        },
     },
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()

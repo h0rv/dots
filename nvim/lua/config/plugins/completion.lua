@@ -6,13 +6,7 @@ return {
                 'rafamadriz/friendly-snippets',
             },
             {
-                "giuxtaposition/blink-cmp-copilot",
-                config = function()
-                    require("copilot").setup({
-                        suggestion = { enabled = false },
-                        panel = { enabled = false },
-                    })
-                end,
+                "fang2hou/blink-copilot",
             },
         },
         version = '1.*',
@@ -39,12 +33,19 @@ return {
 
             signature = { enabled = true },
 
+            completion = {
+                ghost_text = {
+                    enabled = true,
+                    show_without_selection = true,
+                },
+                menu = { auto_show = true },
+            },
             sources = {
                 default = { "lsp", "path", "snippets", "buffer", "copilot" },
                 providers = {
                     copilot = {
                         name = "copilot",
-                        module = "blink-cmp-copilot",
+                        module = "blink-copilot",
                         score_offset = 100,
                         async = true,
                     },
