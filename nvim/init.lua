@@ -11,6 +11,7 @@ opt.expandtab = true
 opt.number = true
 opt.relativenumber = true
 opt.clipboard = "unnamedplus"
+opt.scrolloff = 20
 
 vim.wo.wrap = false
 
