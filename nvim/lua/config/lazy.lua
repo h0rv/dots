@@ -28,9 +28,43 @@ require("lazy").setup({
         { 'AlexvZyl/nordic.nvim' },
         { "ilof2/posterpole.nvim" },
         { "mellow-theme/mellow.nvim" },
+        {
+            'everviolet/nvim',
+            name = 'evergarden',
+            opts = {
+                theme = {
+                    variant = 'fall', -- 'winter'|'fall'|'spring'|'summer'
+                    accent = 'green',
+                },
+            }
+        },
+        {
+            "loctvl842/monokai-pro.nvim",
+            config = function()
+                require("monokai-pro").setup({
+                    filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+                })
+            end
+        },
+        {
+            "darianmorat/gruvdark.nvim",
+            lazy = false,
+            priority = 1000,
+            opts = {},
+        },
+        {
+            "gruvw/strudel.nvim",
+            build = "npm install",
+            config = function()
+                require("strudel").setup()
+            end,
+        },
         { import = "config.plugins" },
     },
 })
 
-vim.cmd.colorscheme "tokyonight-night"
+-- vim.cmd.colorscheme "tokyonight-night"
+-- vim.cmd.colorscheme "evergarden"
 -- vim.cmd.colorscheme "posterpole"
+vim.cmd.colorscheme "monokai-pro"
+-- vim.cmd.colorscheme "gruvdark"
