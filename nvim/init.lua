@@ -21,6 +21,7 @@ set('i', 'jk', '<ESC>')
 set('i', 'kj', '<ESC>')
 set('n', '<leader>W', cmd.w, { desc = '[W]rite' })
 set("n", "<leader>f", vim.lsp.buf.format)
+set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP Code Action' })
 set("n", "<leader>r",
     function()
         -- when rename opens the prompt, this autocommand will trigger
@@ -47,7 +48,19 @@ set("n", "<leader>r",
         end, 500)
     end
 )
-set("n", "<leader>e", MiniFiles.open)
+set('n', '<leader>e', function()
+    local MiniFiles = require('mini.files')
+    MiniFiles.open(vim.api.nvim_buf_get_name(0), false) -- false = don’t reuse old state
+end, { desc = 'MiniFiles: open at current file' })
+-- Better window navigation
+set('n', '<leader>h', '<C-w>h', { desc = 'Move to left window' })
+set('n', '<leader>j', '<C-w>j', { desc = 'Move to below window' })
+set('n', '<leader>k', '<C-w>k', { desc = 'Move to above window' })
+set('n', '<leader>l', '<C-w>l', { desc = 'Move to right window' })
+-- buffers
+set('n', '<leader>bd', function() cmd('bdelete') end, { desc = 'Close Buffer' })
+set('n', '<leader>l', function() cmd('bnext') end, { desc = 'Next Buffer' })
+set('n', '<leader>h', function() cmd('bprevious') end, { desc = 'Previous Buffer' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
