@@ -4,27 +4,653 @@
 local g = vim.g
 local opt = vim.opt
 
+-- ============================================================================
 -- Leader keys (must be set before keymaps)
-g.mapleader = ' '              -- Set the leader key to space, used as a prefix for custom key mappings
-g.maplocalleader = ' '         -- Set the local leader key to space, used for buffer-local key mappings
+-- ============================================================================
+g.mapleader = ' '      -- Set the leader key to space, used as a prefix for custom key mappings
+g.maplocalleader = ' ' -- Set the local leader key to space, used for buffer-local key mappings
 
+-- ============================================================================
+-- UI / Display
+-- ============================================================================
+opt.termguicolors = true -- Enable 24-bit RGB color support in the terminal
+-- opt.background = "dark"     -- Background color: "dark" or "light" (default: "dark")
+-- opt.ambiwidth = "single"   -- How to display ambiguous-width characters (East Asian Width Class Ambiguous)
+-- opt.arabic = false          -- Start editing Arabic text (sets rightleft, arabicshape, keymap, delcombine)
+-- opt.arabicshape = true      -- Enable visual character corrections for Arabic language display
+-- opt.cursorcolumn = false    -- Highlight the screen column of the cursor with CursorColumn highlight
+-- opt.cursorlineopt = "both" -- Options for cursorline: "line", "number", "screenline", "both", "all"
+-- opt.display = "lastline"    -- How to display text that doesn't fit in the window
+-- opt.eadirection = "both"    -- In which direction 'equalalways' works: "both", "hor", "ver"
+-- opt.emoji = true            -- Emoji characters are considered full width
+-- opt.fillchars = ""          -- Characters to use for displaying special items (e.g., folds, separators)
+-- opt.laststatus = 2          -- When the last window has a status line: 0=never, 1=only if 2+ windows, 2=always
+-- opt.linespace = 0           -- Number of pixel lines to use between characters (GUI only)
+-- opt.list = false            -- Show <Tab> and <EOL> characters
+-- opt.listchars = "tab:> ,trail:-,nbsp:+" -- Characters to use for list mode
+-- opt.numberwidth = 4         -- Minimal number of columns to use for the line number
+-- opt.pumblend = 0            -- Pseudo-transparency for the popup menu (0-100)
+-- opt.pumborder = false       -- Draw a border around the popup menu
+-- opt.pumheight = 0            -- Maximum number of items to show in the popup menu (0=no limit)
+-- opt.pummaxwidth = 0         -- Maximum width of popup menu items (0=no limit)
+-- opt.pumwidth = 15           -- Minimum width for the popup menu
+-- opt.ruler = true            -- Show cursor position in status line
+-- opt.rulerformat = ""        -- Custom format for the ruler
+-- opt.scrolloff = 0           -- Minimal number of screen lines to keep above and below the cursor (default: 0)
+-- opt.sidescroll = 1          -- Minimal number of columns to scroll horizontally
+-- opt.sidescrolloff = 0       -- Minimal number of screen columns to keep left and right of the cursor
+-- opt.showbreak = ""          -- String to put at the start of wrapped lines
+-- opt.showcmd = true          -- Show (partial) command in the last line of the screen
+-- opt.showcmdloc = "last"     -- Where to show showcmd: "last", "statusline", "tabline"
+-- opt.showfulltag = false     -- When completing tags, show the full tag pattern
+-- opt.showmatch = false       -- Show matching brackets when a bracket is inserted
+-- opt.showmode = true         -- Show mode messages (e.g., "-- INSERT --")
+-- opt.showtabline = 0         -- When to show the tabline: 0=never, 1=only if 2+ tabs, 2=always
+-- opt.smoothscroll = false    -- Smooth scrolling for CTRL-U and CTRL-D
+-- opt.statuscolumn = ""       -- Custom format for the status column (line numbers area)
+-- opt.statusline = ""         -- Custom format for the status line
+-- opt.synmaxcol = 3000        -- Maximum column to look for syntax items
+-- opt.termbidi = false       -- Terminal is in bidirectional mode
+-- opt.termencoding = ""      -- Character encoding used by the terminal
+-- opt.termsync = false        -- Synchronize with terminal updates more often
+-- opt.title = true            -- Let Vim set the title of the window
+-- opt.titlelen = 85           -- Percentage of 'columns' used for the window title
+-- opt.titleold = ""           -- Old title, restored when exiting
+-- opt.titlestring = ""        -- String to use for the Vim window title
+-- opt.visualbell = false     -- Use visual bell instead of beeping
+-- opt.winbar = ""             -- Custom format for the window bar
+-- opt.winblend = 0            -- Pseudo-transparency for floating windows (0-100)
+-- opt.winhighlight = ""        -- Window-local highlights
+-- opt.wrap = true             -- Long lines wrap and display on next line
+-- opt.wrapmargin = 0          -- Characters from the right margin where wrapping starts
+
+-- nvim-tree strongly recommends disabling netrw early.
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+
+-- ============================================================================
 -- Indentation settings
-opt.shiftwidth = 4             -- Number of spaces used for each step of (auto)indent
-opt.tabstop = 4                -- Number of spaces that a <Tab> in the file counts for
-opt.expandtab = true           -- Use spaces instead of tabs when inserting a tab character
+-- ============================================================================
+opt.shiftwidth = 4     -- Number of spaces used for each step of (auto)indent
+opt.tabstop = 4        -- Number of spaces that a <Tab> in the file counts for
+opt.expandtab = true   -- Use spaces instead of tabs when inserting a tab character
+opt.smartindent = true -- Do smart autoindenting when starting a new line
+-- opt.autoindent = true       -- Copy indent from current line when starting a new line
+-- opt.breakindent = false     -- Every wrapped line will continue visually indented
+-- opt.breakindentopt = ""     -- Options for 'breakindent': "min:20", "shift:2", "sbr", "list:-1"
+-- opt.cindent = false         -- Enable automatic C program indenting
+-- opt.cinoptions = ""         -- Options for C-indenting
+-- opt.copyindent = false      -- Copy the structure of the existing indentation
+-- opt.preserveindent = false  -- Preserve kind of whitespace when changing indent
+-- opt.smarttab = true         -- When on, a <Tab> in front of a line inserts blanks according to 'shiftwidth'
+-- opt.softtabstop = 0         -- Number of spaces that a <Tab> counts for while performing editing operations
 
+-- ============================================================================
 -- Line numbers
-opt.number = true               -- Print the line number in front of each line
-opt.relativenumber = true      -- Show the line number relative to the line with the cursor
+-- ============================================================================
+opt.number = true         -- Print the line number in front of each line
+opt.relativenumber = true -- Show the line number relative to the line with the cursor
+opt.signcolumn = "yes"    -- When and how to draw the sign column: "auto", "yes", "no", "number"
+opt.cursorline = true     -- Highlight the screen line of the cursor with CursorLine highlight
+-- opt.cursorlineopt = "both"  -- Options for cursorline: "line", "number", "screenline", "both", "all"
+-- opt.foldcolumn = "0"        -- Width of the fold column (0-12)
+-- opt.statuscolumn = ""       -- Custom format for the status column (line numbers area)
 
+-- ============================================================================
+-- Search
+-- ============================================================================
+opt.ignorecase = true -- Ignore case in search patterns
+opt.smartcase = true  -- Override 'ignorecase' if search pattern contains upper case characters
+opt.hlsearch = true        -- Highlight all matches for the last used search pattern
+opt.incsearch = true        -- Show where the search pattern matches as you type
+opt.inccommand = "split"   -- preview substitutions live
+-- opt.wrapscan = true         -- Searches wrap around the end of the file
+
+-- ============================================================================
 -- Clipboard
-opt.clipboard = "unnamedplus"  -- Use the system clipboard for yank/put operations (unnamedplus register)
+-- ============================================================================
+opt.clipboard = "unnamedplus" -- Use the system clipboard for yank/put operations (unnamedplus register)
+-- opt.clipboard = "unnamed"   -- Use the system clipboard (unnamed register, X11 primary selection)
 
--- Scrolling
-opt.scrolloff = 20             -- Minimal number of screen lines to keep above and below the cursor
+-- ============================================================================
+-- Scrolling / Windows
+-- ============================================================================
+opt.splitright = true -- Vertical splits open to the right
+opt.splitbelow = true -- Horizontal splits open below
+opt.scrolloff = 20    -- Minimal number of screen lines to keep above and below the cursor
+-- opt.scroll = 10             -- Number of lines to scroll with CTRL-U and CTRL-D commands
+-- opt.scrollback = -1         -- Maximum number of lines kept in terminal scrollback buffer (-1=unlimited)
+-- opt.scrollbind = false      -- Scroll the window to show the same relative position in another window
+-- opt.scrolljump = 1          -- Minimum number of lines to scroll when the cursor gets off the screen
+-- opt.scrollopt = "ver,jump"  -- Options for scrolling behavior: "ver", "hor", "jump"
+-- opt.splitkeep = "cursor"    -- How to keep the cursor position when splitting: "cursor", "screen", "topline"
+-- opt.startofline = true      -- Commands move cursor to first non-blank of line
 
+-- ============================================================================
 -- Tabline (custom buffer display)
-opt.showtabline = 2            -- Always show tabline (like browser tabs)
+-- ============================================================================
+opt.showtabline = 2 -- Always show tabline (like browser tabs)
+-- opt.tabpagemax = 50         -- Maximum number of tab pages to be opened by the -p command line argument
 
--- Window options
-vim.wo.wrap = false            -- Don't wrap long lines (window-local option)
+-- ============================================================================
+-- Performance / Responsiveness
+-- ============================================================================
+opt.updatetime = 200 -- Time in milliseconds to wait before triggering CursorHold events
+opt.timeoutlen = 400 -- Time in milliseconds to wait for a mapped sequence to complete
+-- opt.ttimeoutlen = 50        -- Time in milliseconds to wait for a key code sequence to complete
+-- opt.lazyredraw = false      -- Don't redraw while executing macros, registers and other commands
+-- opt.redrawdebug = ""        -- Debug flags for redrawing: "compositor", "flush", "events", "msg", "msgattr"
+-- opt.redrawtime = 2000       -- Maximum time in milliseconds spent on redrawing
+-- opt.ttyfast = true          -- Indicates a fast terminal connection (speeds up scrolling)
+
+-- ============================================================================
+-- Window options (window-local)
+-- ============================================================================
+vim.wo.wrap = false -- Don't wrap long lines (window-local option)
+-- vim.wo.cursorcolumn = false -- Highlight the screen column of the cursor
+-- vim.wo.cursorline = false   -- Highlight the screen line of the cursor
+-- vim.wo.colorcolumn = ""     -- Columns to highlight (e.g., "80" or "80,120")
+-- vim.wo.foldclose = ""       -- When a fold is closed, close folds it contains: "all", "search", "off"
+-- vim.wo.foldcolumn = "0"     -- Width of the fold column
+-- vim.wo.foldenable = true    -- When off, all folds are open
+-- vim.wo.foldignore = "#"     -- Characters to ignore when using "indent" foldmethod
+-- vim.wo.foldlevel = 0        -- Folds with a level higher than this number will be closed
+-- vim.wo.foldlevelstart = -1  -- 'foldlevel' when starting to edit a file (-1=use 'foldlevel')
+-- vim.wo.foldminlines = 1     -- Minimum number of screen lines for a fold to be displayed closed
+-- vim.wo.foldnestmax = 20     -- Maximum nesting of folds for "indent" and "syntax" foldmethods
+-- vim.wo.linebreak = false    -- Wrap long lines at a character in 'breakat' rather than at the last character
+-- vim.wo.number = false       -- Print the line number in front of each line
+-- vim.wo.relativenumber = false -- Show the line number relative to the line with the cursor
+-- vim.wo.signcolumn = "auto"  -- When and how to draw the sign column
+-- vim.wo.spell = false        -- Enable spell checking
+-- vim.wo.winbar = ""          -- Custom format for the window bar
+-- vim.wo.winblend = 0         -- Pseudo-transparency for floating windows (0-100)
+-- vim.wo.winhighlight = ""    -- Window-local highlights
+
+-- ============================================================================
+-- Completion
+-- ============================================================================
+opt.completeopt = { "menuone", "noselect", "popup" } -- Options for Insert mode completion
+-- opt.autocomplete = false    -- Show completion menu automatically as you type
+-- opt.autocompletedelay = 0  -- Delay in milliseconds before autocomplete menu appears
+-- opt.autocompletetimeout = 80 -- Initial timeout for decaying time-sliced completion algorithm
+-- opt.complete = ".,w,b,u,t" -- Specify how Insert mode completion works
+-- opt.completefunc = ""      -- Function to be used for Insert mode completion
+-- opt.completeslash = ""      -- Type of slash to use for completion: "/" or "\"
+-- opt.completetimeout = 0    -- Time in milliseconds to wait for completion to finish
+
+-- ============================================================================
+-- File handling
+-- ============================================================================
+-- opt.autochdir = false       -- Change directory to the file in the current window
+-- opt.autoread = true         -- Automatically read a file when it has been changed outside of Vim
+-- opt.autowrite = false       -- Automatically write a file when leaving a modified buffer
+-- opt.autowriteall = false    -- Like 'autowrite', but also used for :edit, :quit, etc.
+-- opt.backup = true           -- Make a backup before overwriting a file
+-- opt.backupcopy = "auto"     -- Whether to make a copy of the file before overwriting: "yes", "no", "auto"
+-- opt.backupext = "~"         -- String appended to a file name to make the backup file name
+-- opt.backupdir = ".,~/.local/state/nvim/backup//" -- List of directories for backup files
+-- opt.backupskip = ""         -- Patterns for files to skip when making backups
+-- opt.binary = false          -- Edit file in binary mode
+-- opt.bomb = false            -- Add a BOM (Byte Order Mark) to the file
+-- opt.bufhidden = ""          -- What to do when a buffer is no longer in a window: "hide", "unload", "delete", "wipe"
+-- opt.buflisted = true        -- Buffer shows up in the buffer list
+-- opt.buftype = ""            -- Type of buffer: "nofile", "nowrite", "acwrite", "quickfix", "help", "terminal", "prompt"
+-- opt.cdhome = false          -- :cd without argument goes to the home directory
+-- opt.cdpath = ",,"           -- List of directories searched with ":cd" and ":lcd" commands
+-- opt.confirm = false         -- Ask what to do about unsaved/read-only files instead of failing
+-- opt.directory = "~/.local/state/nvim/swap//" -- List of directories for swap files
+-- opt.endoffile = false       -- Don't read the rest of the file when starting to edit
+-- opt.endofline = true        -- Write <EOL> at the end of the file
+-- opt.fileencoding = ""       -- File-content encoding for the current buffer
+-- opt.fileencodings = "ucs-bom,utf-8,default,latin1" -- Automatically detected character encodings
+-- opt.fileformat = "unix"     -- File format used for file I/O: "unix", "dos", "mac"
+-- opt.fileformats = "unix,dos" -- Automatically detected values for 'fileformat'
+-- opt.fileignorecase = true   -- Ignore case when using file names
+-- opt.filetype = ""            -- Type of file, used for autocommands
+-- opt.fsync = false           -- fsync() is called after writing a file
+-- opt.hidden = true           -- Hide buffers when they are abandoned instead of unloading them
+-- opt.modifiable = true       -- Buffer can be modified
+-- opt.modified = false         -- Buffer has been modified
+-- opt.readonly = false        -- Buffer is read-only
+-- opt.swapfile = true         -- Use a swap file for this buffer
+vim.opt.undofile = true                              -- Automatically save and restore undo history
+vim.opt.undodir = vim.fn.stdpath("state") .. "/undo" -- List of directories for undo files
+
+-- opt.write = true            -- Writing to the file is allowed
+-- opt.writeany = false        -- Allow writing to any file
+opt.writebackup = false      -- Make a backup before overwriting a file
+-- opt.writedelay = 0          -- Delay in milliseconds before each character is written to the file
+
+-- ============================================================================
+-- Editing behavior
+-- ============================================================================
+-- opt.backspace = "indent,eol,start" -- Influences the working of <BS>, <Del>, CTRL-W and CTRL-U in Insert mode
+-- opt.delcombine = false      -- Delete combining characters on their own
+-- opt.digraph = false         -- Enable entering digraphs with {char1}<BS>{char2}
+-- opt.edcompatible = false    -- Make the 'g' and 'c' flags of ":substitute" behave differently
+-- opt.endoffile = false       -- Don't read the rest of the file when starting to edit
+-- opt.endofline = true        -- Write <EOL> at the end of the file
+-- opt.equalalways = true      -- Make all windows the same size when adding/removing windows
+-- opt.formatoptions = "tcqj"  -- How automatic formatting is to be done
+-- opt.formatprg = ""          -- External program to use for "gq" command
+-- opt.formatexpr = ""         -- Expression used for "gq" command
+-- opt.insertmode = false      -- Start in Insert mode
+-- opt.joinspaces = true      -- Insert two spaces after a '.', '?' and '!' with a join command
+-- opt.matchpairs = "(:),{:},[:]" -- Pairs of characters that "match" for "%" command
+-- opt.matchtime = 5           -- Tenths of a second to show matching parentheses
+-- opt.maxcombine = 6          -- Maximum number of combining characters displayed
+-- opt.maxfuncdepth = 100      -- Maximum depth of function calls
+-- opt.maxmapdepth = 1000      -- Maximum depth of mapping
+-- opt.maxmempattern = 1000    -- Maximum amount of memory in Kbyte used for pattern matching
+-- opt.operatorfunc = ""       -- Function to be called for the "g@" operator
+-- opt.paste = false           -- Paste mode, insert typed text literally
+-- opt.pastetoggle = ""        -- Key that toggles the 'paste' option
+-- opt.preserveindent = false  -- Preserve kind of whitespace when changing indent
+-- opt.quoteescape = "\\"      -- Characters used to escape quotes in a string
+-- opt.regexpengine = 0        -- Default regexp engine: 0=automatic, 1=old engine, 2=NFA engine
+-- opt.remap = true            -- Allow mappings to work recursively
+-- opt.report = 2              -- Threshold for reporting number of lines changed
+-- opt.revins = false          -- Insert characters backwards (for right-to-left editing)
+-- opt.rightleft = false       -- Display the buffer right-to-left
+-- opt.selectmode = ""         -- Modes in which Select mode is used: "mouse", "key", "cmd"
+-- opt.shiftround = false      -- Round indent to multiple of 'shiftwidth' when using "<" and ">"
+-- opt.shortmess = "ltToOCF"   -- Abbreviate various messages
+-- opt.showmatch = false       -- Show matching brackets when a bracket is inserted
+-- opt.smarttab = true         -- When on, a <Tab> in front of a line inserts blanks according to 'shiftwidth'
+-- opt.suffixes = ".bak,~,.o,.h,.info,.swp,.obj" -- Suffixes that are ignored when doing file name completion
+-- opt.suffixesadd = ""        -- Suffixes added when searching for a file
+-- opt.switchbuf = "uselast"   -- Behavior when switching to an existing buffer: "useopen", "usetab", "uselast"
+-- opt.textwidth = 0           -- Maximum width of text that is being inserted (0=no limit)
+-- opt.thesaurus = ""          -- List of thesaurus files for keyword completion
+-- opt.thesaurusfunc = ""      -- Function to be used for thesaurus completion
+-- opt.undolevels = 1000       -- Maximum number of changes that can be undone
+-- opt.undoreload = 10000      -- Maximum number of lines to save for undo on a buffer reload
+-- opt.virtualedit = ""        -- When to use virtual editing: "block", "insert", "all", "onemore"
+-- opt.whichwrap = "b,s"       -- Allow specified keys to move to the previous/next line
+
+-- ============================================================================
+-- Command line
+-- ============================================================================
+-- opt.cmdheight = 1           -- Number of screen lines to use for the command-line
+-- opt.cmdwinheight = 7        -- Height of the command-line window
+-- opt.history = 10000         -- Number of command-lines that are remembered
+-- opt.more = true             -- Pause listings when the whole screen is filled
+-- opt.wildchar = "<Tab>"      -- Character used for "wildcard" expansion
+-- opt.wildcharm = 0           -- Character used for "wildcard" expansion in mappings
+-- opt.wildignore = ""         -- Patterns to ignore when doing file name completion
+-- opt.wildignorecase = false  -- Ignore case when completing file names
+-- opt.wildmenu = true         -- Enable enhanced mode of command-line completion
+-- opt.wildmode = "full"       -- Completion mode for <Tab> and <Ctrl-D>: "full", "longest", "list", "longest:full"
+-- opt.wildoptions = "pum,tagfile" -- Options for wildcard expansion
+
+-- ============================================================================
+-- Folding
+-- ============================================================================
+-- opt.foldclose = ""          -- When a fold is closed, close folds it contains: "all", "search", "off"
+-- opt.foldcolumn = "0"        -- Width of the fold column (0-12)
+-- opt.foldenable = true       -- When off, all folds are open
+-- opt.foldignore = "#"        -- Characters to ignore when using "indent" foldmethod
+-- opt.foldlevel = 0           -- Folds with a level higher than this number will be closed
+-- opt.foldlevelstart = -1     -- 'foldlevel' when starting to edit a file (-1=use 'foldlevel')
+-- opt.foldmarker = "{{{,}}}"  -- Markers used to specify folds
+-- opt.foldmethod = "manual"   -- Folding method: "manual", "indent", "expr", "marker", "syntax", "diff"
+-- opt.foldminlines = 1        -- Minimum number of screen lines for a fold to be displayed closed
+-- opt.foldnestmax = 20        -- Maximum nesting of folds for "indent" and "syntax" foldmethods
+-- opt.foldopen = "block,hor,mark,percent,quickfix,search,tag,undo" -- Commands that open folds
+-- opt.foldtext = "foldtext()" -- Expression used to display the text for a closed fold
+
+-- ============================================================================
+-- Diff mode
+-- ============================================================================
+-- opt.diff = false            -- Use diff mode for the current window
+-- opt.diffanchors = ""        -- Patterns to identify diff anchors
+-- opt.diffexpr = ""           -- Expression used to obtain a diff file
+-- opt.diffopt = "internal,filler,closeoff,indent-heuristic,inline:char,linematch:40" -- Options for diff mode
+
+-- ============================================================================
+-- Conceal
+-- ============================================================================
+-- opt.concealcursor = ""      -- Conceal text in certain modes: "n", "v", "i", "c"
+-- opt.conceallevel = 0        -- Determine how text with the "conceal" syntax attribute is shown: 0-3
+
+-- ============================================================================
+-- Spell checking
+-- ============================================================================
+-- opt.spell = false           -- Enable spell checking
+-- opt.spellfile = ""          -- List of word lists to be loaded for spell checking
+-- opt.spelllang = "en"        -- Language(s) to do spell checking for
+-- opt.spelloptions = ""       -- Options for spell checking: "camel", "noplainbuffer"
+-- opt.spellsuggest = "best"   -- Methods used to suggest corrections: "best", "fast", "double"
+
+-- ============================================================================
+-- Syntax highlighting
+-- ============================================================================
+-- opt.syntax = ""             -- Name of the syntax highlighting used: "on", "off", or syntax name
+-- opt.synmaxcol = 3000        -- Maximum column to look for syntax items
+
+-- ============================================================================
+-- Tags
+-- ============================================================================
+-- opt.tagbsearch = true       -- Use binary searching in tags files
+-- opt.tagcase = "followic"    -- How to handle case when searching in tags files
+-- opt.tagfunc = ""            -- Function to perform tag searches
+-- opt.taglength = 0           -- Number of significant characters in a tag name (0=all)
+-- opt.tagrelative = true      -- File names in tags files are relative to the tags file
+-- opt.tagstack = true         -- Push tags onto the tag stack
+
+-- ============================================================================
+-- Mouse
+-- ============================================================================
+opt.mouse = "a"           -- Enable mouse support: "n"=normal, "v"=visual, "i"=insert, "a"=all
+-- opt.mousefocus = false      -- Window focus changes when the mouse pointer is moved
+-- opt.mousehide = true        -- Hide the mouse pointer while typing
+-- opt.mousemodel = "popup_setpos" -- Set the mouse model: "extend", "popup", "popup_setpos"
+-- opt.mousemoveevent = false  -- Enable mouse move events
+-- opt.mousescroll = "ver:3,hor:6" -- Mouse scroll speed: "ver:3,hor:6"
+-- opt.mouseshape = "i-r:beam,s-r:updown,sdr:rightupdown,ur:leftup,ul:leftupdown" -- Shape of the mouse pointer
+-- opt.mousetime = 500         -- Maximum time in msec to recognize a double-click
+
+-- ============================================================================
+-- Language / Input method
+-- ============================================================================
+-- opt.imcmdline = false       -- Use IM (Input Method) when starting to edit a command line
+-- opt.imdisable = false       -- Disable IM (Input Method) support
+-- opt.iminsert = 0            -- Whether IM is enabled in Insert mode: 0=off, 1=on, 2=on when 'revins'
+-- opt.imsearch = -1           -- Whether IM is enabled when searching: -1=use 'iminsert', 0=off, 1=on
+-- opt.keymap = ""             -- Name of a keyboard mapping
+-- opt.keymodel = ""           -- Enable starting/stopping selection with <Shift> and <Ctrl>
+-- opt.langmap = ""            -- Characters that are translated in Normal mode
+-- opt.langmenu = "en"         -- Language to be used for the menus
+-- opt.langnoremap = false     -- Do not apply 'langmap' to mapped characters
+-- opt.langremap = false       -- Apply 'langmap' to mapped characters
+
+-- ============================================================================
+-- Miscellaneous
+-- ============================================================================
+-- opt.allowrevins = false    -- Allow CTRL-_ in Insert mode to toggle 'revins'
+-- opt.belloff = "all"         -- When to ring the bell: "all", "backspace", "cmdline", "error", "esc"
+-- opt.browsedir = "last"      -- Which directory to start browsing in: "last", "buffer", "current"
+-- opt.busy = 0                -- When non-zero, don't redraw (for macros)
+-- opt.cdhome = false          -- :cd without argument goes to the home directory
+-- opt.cedit = "^F"            -- Key used to open the command-line window
+-- opt.channel = 0              -- Channel handle for the current buffer
+-- opt.charconvert = ""         -- Expression used for character encoding conversion
+-- opt.chistory = 10            -- Number of command-lines to remember in the command-line window
+-- opt.cmdheight = 1            -- Number of screen lines to use for the command-line
+-- opt.colorcolumn = ""         -- Columns to highlight
+-- opt.columns = 80             -- Number of columns in the display
+-- opt.commentstring = ""       -- Template for comments
+-- opt.complete = ".,w,b,u,t"   -- Specify how Insert mode completion works
+-- opt.completefunc = ""        -- Function to be used for Insert mode completion
+-- opt.completeslash = ""       -- Type of slash to use for completion
+-- opt.completetimeout = 0      -- Time in milliseconds to wait for completion to finish
+-- opt.concealcursor = ""       -- Conceal text in certain modes
+-- opt.conceallevel = 0         -- Determine how text with the "conceal" syntax attribute is shown
+-- opt.confirm = false          -- Ask what to do about unsaved/read-only files
+-- opt.copyindent = false       -- Copy the structure of the existing indentation
+-- opt.cursorbind = false       -- Move cursor in other windows when moving cursor in current window
+-- opt.debug = ""               -- Debug flags: "msg", "throw", "beep", "ui", "file", "profile"
+-- opt.define = ""              -- Pattern to be used to find a macro definition
+-- opt.delcombine = false       -- Delete combining characters on their own
+-- opt.dictionary = ""          -- List of dictionary files for keyword completion
+-- opt.digraph = false         -- Enable entering digraphs
+-- opt.display = "lastline"     -- How to display text that doesn't fit
+-- opt.eadirection = "both"    -- In which direction 'equalalways' works
+-- opt.edcompatible = false     -- Make the 'g' and 'c' flags of ":substitute" behave differently
+-- opt.emoji = true             -- Emoji characters are considered full width
+-- opt.encoding = "utf-8"       -- Character encoding used inside Vim
+-- opt.endoffile = false        -- Don't read the rest of the file when starting to edit
+-- opt.endofline = true         -- Write <EOL> at the end of the file
+-- opt.equalalways = true       -- Make all windows the same size
+-- opt.equalprg = ""            -- External program to use for "=" command
+-- opt.errorbells = false       -- Ring the bell for error messages
+-- opt.errorfile = "errors.err" -- Name of the error file for the QuickFix mode
+-- opt.eventignore = ""         -- List of autocommand events which are to be ignored
+-- opt.exrc = false             -- Enable reading .nvim.lua, .exrc and .vimrc in the current directory
+-- opt.fileencoding = ""        -- File-content encoding for the current buffer
+-- opt.fileencodings = "ucs-bom,utf-8,default,latin1" -- Automatically detected character encodings
+-- opt.fileformat = "unix"      -- File format used for file I/O
+-- opt.fileformats = "unix,dos" -- Automatically detected values for 'fileformat'
+-- opt.fileignorecase = true    -- Ignore case when using file names
+-- opt.filetype = ""            -- Type of file, used for autocommands
+-- opt.fillchars = ""           -- Characters to use for displaying special items
+-- opt.findfunc = ""            -- Function to be used for the "gf" command
+-- opt.foldclose = ""           -- When a fold is closed, close folds it contains
+-- opt.foldcolumn = "0"         -- Width of the fold column
+-- opt.foldenable = true        -- When off, all folds are open
+-- opt.foldignore = "#"         -- Characters to ignore when using "indent" foldmethod
+-- opt.foldlevel = 0            -- Folds with a level higher than this number will be closed
+-- opt.foldlevelstart = -1      -- 'foldlevel' when starting to edit a file
+-- opt.foldmarker = "{{{,}}}"   -- Markers used to specify folds
+-- opt.foldmethod = "manual"    -- Folding method
+-- opt.foldminlines = 1         -- Minimum number of screen lines for a fold to be displayed closed
+-- opt.foldnestmax = 20         -- Maximum nesting of folds
+-- opt.foldopen = "block,hor,mark,percent,quickfix,search,tag,undo" -- Commands that open folds
+-- opt.foldtext = "foldtext()" -- Expression used to display the text for a closed fold
+-- opt.formatexpr = ""          -- Expression used for "gq" command
+-- opt.formatlistpat = "^\\s*\\d\\+[\\]:.)}\\t ]\\s*" -- Pattern to recognize a numbered list
+-- opt.formatoptions = "tcqj"   -- How automatic formatting is to be done
+-- opt.formatprg = ""           -- External program to use for "gq" command
+-- opt.fsync = false            -- fsync() is called after writing a file
+-- opt.grepformat = "%f:%l:%c:%m" -- Format of 'grepprg' output
+-- opt.grepprg = "rg --vimgrep -uu " -- Program to use for the ":grep" command
+-- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon500-blinkoff500-TermCursor" -- GUI: settings for cursor shape and blinking
+-- opt.guifont = ""             -- Name of the font to be used in the GUI
+-- opt.guifontwide = ""         -- Name of the font to be used for double-wide characters
+-- opt.guioptions = ""          -- GUI: Which components and options are used
+-- opt.guitablabel = ""         -- GUI: Custom label for a tab page
+-- opt.guitabtooltip = ""       -- GUI: Custom tooltip for a tab page
+-- opt.helpfile = "/opt/homebrew/Caskroom/neovim-nightly/latest/nvim-macos-arm64/share/nvim/runtime/doc/help.txt" -- Full path name of the main help file
+-- opt.helpheight = 20          -- Minimum height of a new help window
+-- opt.helplang = "en"          -- Preferred help languages
+-- opt.hidden = true            -- Hide buffers when they are abandoned
+-- opt.hkmap = false            -- Hebrew keyboard mapping
+-- opt.hkmapp = false           -- Phonetic Hebrew keyboard mapping
+-- opt.hlsearch = false         -- Highlight all matches for the last used search pattern
+-- opt.iconstring = ""          -- String to use for the icon of the window
+-- opt.ignorecase = true        -- Ignore case in search patterns
+-- opt.imcmdline = false        -- Use IM when starting to edit a command line
+-- opt.imdisable = false        -- Disable IM support
+-- opt.iminsert = 0             -- Whether IM is enabled in Insert mode
+-- opt.imsearch = -1            -- Whether IM is enabled when searching
+-- opt.incsearch = true         -- Show where the search pattern matches as you type
+-- opt.infercase = false        -- Adjust case of match for keyword completion
+-- opt.insertmode = false       -- Start in Insert mode
+-- opt.isprint = "@,161-255"   -- Printable characters
+-- opt.joinspaces = true        -- Insert two spaces after a '.', '?' and '!' with a join command
+-- opt.jumpoptions = "clean"    -- Jump options: "stack", "view", "tagstack", "jumplist"
+-- opt.keymap = ""              -- Name of a keyboard mapping
+-- opt.keymodel = ""            -- Enable starting/stopping selection with <Shift> and <Ctrl>
+-- opt.keywordprg = ":Man"      -- Program to use for the "K" command
+-- opt.langmap = ""             -- Characters that are translated in Normal mode
+-- opt.langmenu = "en"          -- Language to be used for the menus
+-- opt.langnoremap = false      -- Do not apply 'langmap' to mapped characters
+-- opt.langremap = false        -- Apply 'langmap' to mapped characters
+-- opt.laststatus = 2           -- When the last window has a status line
+-- opt.lazyredraw = false       -- Don't redraw while executing macros
+-- opt.lhistory = 10            -- Number of command-lines to remember in the command-line window
+-- opt.linebreak = false        -- Wrap long lines at a character in 'breakat'
+-- opt.lines = 24                -- Number of lines in the display
+-- opt.linespace = 0            -- Number of pixel lines to use between characters
+-- opt.lisp = false             -- Automatic indenting for Lisp
+-- opt.lispoptions = ""         -- Options for Lisp indenting
+-- opt.list = false             -- Show <Tab> and <EOL> characters
+-- opt.listchars = "tab:> ,trail:-,nbsp:+" -- Characters to use for list mode
+-- opt.loadplugins = true       -- Load plugin scripts when starting up
+-- opt.magic = true              -- Changes special characters in search patterns
+-- opt.makeef = ""              -- Name of the errorfile for the ":make" command
+-- opt.makeencoding = ""        -- Encoding of the ":make" command output
+-- opt.makeprg = "make"         -- Program to use for the ":make" command
+-- opt.matchpairs = "(:),{:},[:]" -- Pairs of characters that "match" for "%" command
+-- opt.matchtime = 5            -- Tenths of a second to show matching parentheses
+-- opt.maxcombine = 6           -- Maximum number of combining characters displayed
+-- opt.maxfuncdepth = 100       -- Maximum depth of function calls
+-- opt.maxmapdepth = 1000       -- Maximum depth of mapping
+-- opt.maxmempattern = 1000     -- Maximum amount of memory in Kbyte used for pattern matching
+-- opt.menuitems = 25           -- Maximum number of items in one menu
+-- opt.messagesopt = "hit-enter,history:500" -- Options for messages
+-- opt.mkspellmem = "460000,2000,500" -- Memory used for spell checking
+-- opt.modeline = true           -- Enable modeline support
+-- opt.modelineexpr = false     -- Allow expressions in modelines
+-- opt.modelines = 5             -- Number of lines checked for modeline commands
+-- opt.modifiable = true         -- Buffer can be modified
+-- opt.modified = false          -- Buffer has been modified
+-- opt.more = true               -- Pause listings when the whole screen is filled
+-- opt.mouse = "nvi"             -- Enable mouse support
+-- opt.mousefocus = false        -- Window focus changes when the mouse pointer is moved
+-- opt.mousehide = true          -- Hide the mouse pointer while typing
+-- opt.mousemodel = "popup_setpos" -- Set the mouse model
+-- opt.mousemoveevent = false    -- Enable mouse move events
+-- opt.mousescroll = "ver:3,hor:6" -- Mouse scroll speed
+-- opt.mouseshape = "i-r:beam,s-r:updown,sdr:rightupdown,ur:leftup,ul:leftupdown" -- Shape of the mouse pointer
+-- opt.mousetime = 500           -- Maximum time in msec to recognize a double-click
+-- opt.nrformats = "bin,hex"     -- Number formats recognized for CTRL-A and CTRL-X commands
+-- opt.numberwidth = 4           -- Minimal number of columns to use for the line number
+-- opt.omnifunc = ""             -- Function to be used for Insert mode omni-completion
+-- opt.opendevice = false        -- Allow reading from and writing to character/block devices
+-- opt.operatorfunc = ""        -- Function to be called for the "g@" operator
+-- opt.paste = false             -- Paste mode, insert typed text literally
+-- opt.pastetoggle = ""          -- Key that toggles the 'paste' option
+-- opt.patchexpr = ""            -- Expression used for the ":patch" command
+-- opt.path = ".,,"              -- List of directories searched with "gf", "[f", etc.
+-- opt.preserveindent = false    -- Preserve kind of whitespace when changing indent
+-- opt.previewheight = 12        -- Default height for the preview window
+-- opt.previewwindow = false     -- Identify the preview window
+-- opt.prompt = false            -- Enable prompt mode
+-- opt.pumblend = 0              -- Pseudo-transparency for the popup menu
+-- opt.pumborder = false         -- Draw a border around the popup menu
+-- opt.pumheight = 0             -- Maximum number of items to show in the popup menu
+-- opt.pummaxwidth = 0          -- Maximum width of popup menu items
+-- opt.pumwidth = 15            -- Minimum width for the popup menu
+-- opt.pyxversion = 3           -- Python version: 2 or 3
+-- opt.quickfixtextfunc = ""     -- Function to get text to display in the quickfix window
+-- opt.quoteescape = "\\"       -- Characters used to escape quotes in a string
+-- opt.redrawdebug = ""          -- Debug flags for redrawing
+-- opt.redrawtime = 2000         -- Maximum time in milliseconds spent on redrawing
+-- opt.regexpengine = 0          -- Default regexp engine
+-- opt.remap = true              -- Allow mappings to work recursively
+-- opt.report = 2                -- Threshold for reporting number of lines changed
+-- opt.revins = false            -- Insert characters backwards
+-- opt.rightleft = false         -- Display the buffer right-to-left
+-- opt.ruler = true              -- Show cursor position in status line
+-- opt.rulerformat = ""          -- Custom format for the ruler
+-- opt.runtimepath = "..."       -- List of directories used for runtime files
+-- opt.scroll = 10               -- Number of lines to scroll with CTRL-U and CTRL-D commands
+-- opt.scrollback = -1           -- Maximum number of lines kept in terminal scrollback buffer
+-- opt.scrollbind = false        -- Scroll the window to show the same relative position
+-- opt.scrolljump = 1            -- Minimum number of lines to scroll when the cursor gets off the screen
+-- opt.scrolloff = 0             -- Minimal number of screen lines to keep above and below the cursor
+-- opt.scrollopt = "ver,jump"    -- Options for scrolling behavior
+-- opt.secure = false            -- Disable unsafe commands in .nvim.lua/.exrc/.vimrc
+-- opt.selectmode = ""           -- Modes in which Select mode is used
+-- opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,terminal" -- Options for :mksession
+opt.shada = "!,'200,<50,s10,h" -- String to be written to the ShaDa file
+-- opt.shadafile = ""            -- Name of the ShaDa file
+-- opt.shell = "/bin/zsh"        -- Name of the shell program
+-- opt.shellcmdflag = "-c"       -- Flag to pass to the shell
+-- opt.shellpipe = "2>&1| tee"   -- String to put output of ":make" in a file
+-- opt.shellquote = ""           -- Character(s) to put around the shell command
+-- opt.shellredir = ">%s 2>&1"   -- String to redirect output of a filter command
+-- opt.shellslash = false        -- Use forward slashes when expanding file names
+-- opt.shelltemp = true          -- Use a temp file for shell commands
+-- opt.shellxescape = ""         -- Characters to escape when 'shellxquote' is (
+-- opt.shellxquote = ""          -- How to quote the command for xterm
+-- opt.shiftround = false        -- Round indent to multiple of 'shiftwidth'
+-- opt.shortmess = "ltToOCF"     -- Abbreviate various messages
+-- opt.showbreak = ""             -- String to put at the start of wrapped lines
+-- opt.showcmd = true             -- Show (partial) command in the last line of the screen
+-- opt.showcmdloc = "last"       -- Where to show showcmd
+-- opt.showfulltag = false       -- When completing tags, show the full tag pattern
+-- opt.showmatch = false         -- Show matching brackets when a bracket is inserted
+-- opt.showmode = true           -- Show mode messages
+-- opt.showtabline = 0           -- When to show the tabline
+-- opt.sidescroll = 1            -- Minimal number of columns to scroll horizontally
+-- opt.sidescrolloff = 0         -- Minimal number of screen columns to keep left and right of the cursor
+-- opt.signcolumn = "auto"       -- When and how to draw the sign column
+-- opt.smartcase = true          -- Override 'ignorecase' if search pattern contains upper case characters
+-- opt.smarttab = true           -- When on, a <Tab> in front of a line inserts blanks according to 'shiftwidth'
+-- opt.smoothscroll = false      -- Smooth scrolling for CTRL-U and CTRL-D
+-- opt.spell = false             -- Enable spell checking
+-- opt.spellfile = ""            -- List of word lists to be loaded for spell checking
+-- opt.spelllang = "en"          -- Language(s) to do spell checking for
+-- opt.spelloptions = ""         -- Options for spell checking
+-- opt.spellsuggest = "best"     -- Methods used to suggest corrections
+-- opt.splitbelow = false        -- Horizontal splits open below
+opt.splitkeep = "screen"      -- How to keep the cursor position when splitting
+-- opt.splitright = false        -- Vertical splits open to the right
+-- opt.startofline = true        -- Commands move cursor to first non-blank of line
+-- opt.statuscolumn = ""         -- Custom format for the status column
+-- opt.statusline = ""           -- Custom format for the status line
+-- opt.suffixes = ".bak,~,.o,.h,.info,.swp,.obj" -- Suffixes that are ignored when doing file name completion
+-- opt.suffixesadd = ""          -- Suffixes added when searching for a file
+opt.swapfile = false           -- Use a swap file for this buffer
+-- opt.switchbuf = "uselast"     -- Behavior when switching to an existing buffer
+-- opt.synmaxcol = 3000          -- Maximum column to look for syntax items
+-- opt.syntax = ""               -- Name of the syntax highlighting used
+-- opt.tabclose = ""             -- Command executed when closing a tab page
+-- opt.tabpagemax = 50           -- Maximum number of tab pages to be opened
+-- opt.tagbsearch = true         -- Use binary searching in tags files
+-- opt.tagcase = "followic"      -- How to handle case when searching in tags files
+-- opt.tagfunc = ""              -- Function to perform tag searches
+-- opt.taglength = 0             -- Number of significant characters in a tag name
+-- opt.tagrelative = true        -- File names in tags files are relative to the tags file
+-- opt.tagstack = true            -- Push tags onto the tag stack
+-- opt.tags = "./tags;,tags"     -- List of file names to search for tags
+-- opt.termbidi = false          -- Terminal is in bidirectional mode
+-- opt.termencoding = ""          -- Character encoding used by the terminal
+-- opt.termguicolors = false      -- Enable 24-bit RGB color support in the terminal
+-- opt.termsync = false           -- Synchronize with terminal updates more often
+-- opt.terse = false             -- Shorten some messages
+-- opt.textwidth = 0             -- Maximum width of text that is being inserted
+-- opt.thesaurus = ""            -- List of thesaurus files for keyword completion
+-- opt.thesaurusfunc = ""        -- Function to be used for thesaurus completion
+-- opt.timeout = true            -- Time out on mappings and key codes
+-- opt.timeoutlen = 1000         -- Time in milliseconds to wait for a mapped sequence to complete
+-- opt.title = true              -- Let Vim set the title of the window
+-- opt.titlelen = 85             -- Percentage of 'columns' used for the window title
+-- opt.titleold = ""             -- Old title, restored when exiting
+-- opt.titlestring = ""          -- String to use for the Vim window title
+-- opt.ttimeout = true           -- Time out on key codes
+-- opt.ttimeoutlen = 50          -- Time in milliseconds to wait for a key code sequence to complete
+-- opt.ttyfast = true            -- Indicates a fast terminal connection
+-- opt.undofile = false          -- Automatically save and restore undo history
+-- opt.undolevels = 1000         -- Maximum number of changes that can be undone
+-- opt.undoreload = 10000        -- Maximum number of lines to save for undo on a buffer reload
+-- opt.updatecount = 200         -- After typing this many characters, a swap file will be written to disk
+-- opt.updatetime = 4000         -- Time in milliseconds to wait before triggering CursorHold events
+-- opt.varsofttabstop = ""       -- Variable number of spaces that a <Tab> counts for
+-- opt.vartabstop = ""           -- Variable number of spaces that a <Tab> counts for
+-- opt.verbose = 0               -- Give informative messages
+-- opt.verbosefile = ""          -- File to write messages in
+-- opt.virtualedit = ""          -- When to use virtual editing
+-- opt.visualbell = false        -- Use visual bell instead of beeping
+-- opt.warn = true               -- Warn when using a shell command and the buffer has been changed
+-- opt.whichwrap = "b,s"         -- Allow specified keys to move to the previous/next line
+-- opt.wildchar = "<Tab>"        -- Character used for "wildcard" expansion
+-- opt.wildcharm = 0             -- Character used for "wildcard" expansion in mappings
+-- opt.wildignore = ""           -- Patterns to ignore when doing file name completion
+-- opt.wildignorecase = false    -- Ignore case when completing file names
+-- opt.wildmenu = true           -- Enable enhanced mode of command-line completion
+-- opt.wildmode = "full"         -- Completion mode for <Tab> and <Ctrl-D>
+-- opt.wildoptions = "pum,tagfile" -- Options for wildcard expansion
+-- opt.winaltkeys = "menu"       -- How the Alt key is handled in the GUI
+-- opt.winbar = ""               -- Custom format for the window bar
+-- opt.winblend = 0              -- Pseudo-transparency for floating windows
+-- opt.winborder = ""            -- Border characters for floating windows
+-- opt.window = 23               -- Number of lines to scroll for CTRL-F and CTRL-B
+-- opt.winfixbuf = false         -- Fix the buffer, so it's always displayed in the same window
+-- opt.winfixheight = false      -- Fix the height of the window
+-- opt.winfixwidth = false       -- Fix the width of the window
+-- opt.winheight = 1             -- Minimum height of a window
+-- opt.winhighlight = ""         -- Window-local highlights
+-- opt.winminheight = 1          -- Minimum height of a window when it's not the current window
+-- opt.winminwidth = 1           -- Minimum width of a window when it's not the current window
+-- opt.winwidth = 20             -- Minimal number of columns for the current window
+-- opt.wrap = true               -- Long lines wrap and display on next line
+-- opt.wrapmargin = 0            -- Characters from the right margin where wrapping starts
+-- opt.wrapscan = true           -- Searches wrap around the end of the file
+-- opt.write = true              -- Writing to the file is allowed
+-- opt.writeany = false          -- Allow writing to any file
+opt.writebackup = false        -- Make a backup before overwriting a file
+-- opt.writedelay = 0            -- Delay in milliseconds before each character is written to the file
