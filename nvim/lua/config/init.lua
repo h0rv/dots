@@ -1,3 +1,5 @@
 require('config.options')
 require('config.tabline')
 require('config.keymaps')
+require('config.project')
+require('config.plugins')
