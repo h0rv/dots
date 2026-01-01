@@ -152,10 +152,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
             vim.tbl_extend("force", opts, { desc = "Code action" }))
 
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        vim.keymap.set("n", "[d", function()
+            vim.diagnostic.jump({ count = -1 })
+        end, vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
+        vim.keymap.set("n", "]d", function()
+            vim.diagnostic.jump({ count = 1 })
+        end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
         vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist,
             vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
+
+        -- Vscode-like goto def
+        vim.o.mouse = "a"
+        vim.keymap.set("n", "<C-LeftMouse>", function()
+            vim.lsp.buf.definition()
+        end, { desc = "LSP: go to definition (Ctrl+Click)" })
+        vim.keymap.set("n", "<2-LeftMouse>", vim.lsp.buf.definition,
+            { desc = "LSP: go to definition (double click)" })
 
         pcall(function()
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
