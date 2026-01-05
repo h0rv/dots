@@ -1,29 +1,30 @@
-return {
-	"nvim-treesitter/nvim-treesitter",
-	build = ":TSUpdate",
-	config = function () 
-		local configs = require("nvim-treesitter.configs")
+local ts = require("nvim-treesitter")
 
-		configs.setup({
-			ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
-			auto_install = true,
-			sync_install = false,
-			highlight = {
-				enable = true,
+ts.setup({
+    install_dir = vim.fn.stdpath("data") .. "/site",
+})
 
-				disable = function(lang, buf)
-					local max_filesize = 100 * 1024 -- 100 KB
-					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-					if ok and stats and stats.size > max_filesize then
-						return true
-					end
-				end,
+-- Install parsers on-demand (NOT every startup)
+vim.api.nvim_create_user_command("TSBootstrap", function()
+    ts.install({
+        "python", "lua", "vim", "vimdoc",
+        "markdown", "json", "toml", "yaml", "bash", "dockerfile",
+        "javascript", "typescript",
+    }):wait(300000)
+end, { desc = "Install core Treesitter parsers (run once)" })
 
-				additional_vim_regex_highlighting = false,
-			},
-			indent = {
-				enable = true
-			},  
-		})
-	end
-}
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "python", "lua", "vim", "vimdoc",
+        "markdown", "json", "toml", "yaml", "bash", "dockerfile",
+        "javascript", "typescript",
+    },
+    callback = function()
+        pcall(vim.treesitter.start)
+    end,
+})
+
+-- Treesitter-based folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
