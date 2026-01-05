@@ -1,23 +1,23 @@
 {
   "plugins": {
     "fzf-lua": {
-      "rev": "9d579feab4d3035627150e5e9b6e8fbf5e814ef6",
+      "rev": "19d7020b700879759d7f834fc717dde086f673a7",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "nvim-lint": {
-      "rev": "c47b71d146a0b638f46672e6704c322369385df6",
+      "rev": "1f19dacd945a7b1a57f29f32b2d7168384df3d36",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-tree.lua": {
-      "rev": "eb33612bff2fb31f54946fb5dcadc89e905e81ec",
+      "rev": "b8b44b6a2494d086a9177251a119f9daec6cace8",
       "src": "https://github.com/nvim-tree/nvim-tree.lua"
     },
     "nvim-treesitter": {
-      "rev": "4fc09bee78e91bf4ba471cdab4bf9dfa37fde51c",
+      "rev": "737088f8571293f6a1ef8cd6c858d5daf9a38162",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-web-devicons": {
-      "rev": "8dcb311b0c92d460fac00eac706abd43d94d68af",
+      "rev": "6788013bb9cb784e606ada44206b0e755e4323d7",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "plenary.nvim": {
@@ -33,7 +33,7 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "yazi.nvim": {
-      "rev": "2a7d1cbbc6691846845a89ef172067c1a62aa9a5",
+      "rev": "aaf3d74d3de8b693b13da47b45b7f7ffcd5751c7",
       "src": "git@github.com:mikavilpas/yazi.nvim"
     }
   }
