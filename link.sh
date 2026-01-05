@@ -2,8 +2,10 @@
 
 set -e
 
-if [ -d ~/.config/nvim ]; then
-    mv ~/.config/nvim ~/.config/nvim.bak
-fi
+# nvim
+mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null || true
+ln -s "$(pwd)/nvim" ~/.config/nvim 2>/dev/null || true
 
-ln -s "$(pwd)/nvim" ~/.config
+# tmux
+mv ~/.config/tmux ~/.config/tmux.bak 2>/dev/null || true
+ln -s "$(pwd)/tmux" ~/.config/tmux 2>/dev/null || true
