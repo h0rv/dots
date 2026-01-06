@@ -117,7 +117,43 @@ vim.lsp.config("taplo", {
     root_markers = { ".git" },
 })
 
-vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo" })
+vim.lsp.config("rust_analyzer", {
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    root_markers = { "Cargo.toml", "rust-project.json", ".git" },
+    settings = {
+        ["rust-analyzer"] = {
+            cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                buildScripts = { enable = true },
+            },
+
+            checkOnSave = true,
+            check = {
+                command = "clippy",
+            },
+
+            procMacro = { enable = true },
+
+            formatting = {
+                enable = true, -- rustfmt
+            },
+
+            inlayHints = {
+                bindingModeHints = { enable = true },
+                chainingHints = { enable = true },
+                closureReturnTypeHints = { enable = "always" },
+                lifetimeElisionHints = { enable = "always", useParameterNames = true },
+                parameterHints = { enable = true },
+                reborrowHints = { enable = "always" },
+                typeHints = { enable = true },
+            },
+        },
+    },
+})
+
+vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", })
 
 vim.diagnostic.config({
     underline = true,
