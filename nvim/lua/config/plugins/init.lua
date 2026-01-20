@@ -8,10 +8,13 @@
 vim.pack.add({
     "https://github.com/folke/tokyonight.nvim",
     "https://github.com/nvim-tree/nvim-tree.lua",
+    "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/mikavilpas/yazi.nvim",
     "https://github.com/nvim-tree/nvim-web-devicons", -- optional icons (Nerd Font)
     "https://github.com/ibhagwan/fzf-lua",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/mfussenegger/nvim-lint",
+    "https://github.com/serhez/bento.nvim",
 })
 
 vim.api.nvim_create_user_command("PackUpdate", function()
@@ -25,6 +28,7 @@ require("config.plugins.treesitter")
 -- Navigation
 require("config.plugins.file-explorer")
 require("config.plugins.fuzzy-finder")
+require("config.plugins.bento")
 
 -- Language Support
 require("config.plugins.lsp")
