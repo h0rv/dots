@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "bento.nvim": {
+      "rev": "e7faad6469f4bf70bc7cca8cba7e154ece9c697d",
+      "src": "https://github.com/serhez/bento.nvim"
+    },
     "fzf-lua": {
       "rev": "19d7020b700879759d7f834fc717dde086f673a7",
       "src": "https://github.com/ibhagwan/fzf-lua"
@@ -22,7 +26,7 @@
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
-      "src": "git@github.com:nvim-lua/plenary.nvim"
+      "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "tokyonight.nvim": {
       "rev": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd",
@@ -33,8 +37,8 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "yazi.nvim": {
-      "rev": "aaf3d74d3de8b693b13da47b45b7f7ffcd5751c7",
-      "src": "git@github.com:mikavilpas/yazi.nvim"
+      "rev": "5634692fab930cb3ef8359760a11418b2d4d2d85",
+      "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }
 }
