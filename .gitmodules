@@ -1,0 +1,3 @@
+[submodule "nvim/pack/core/start/cursortab.nvim"]
+	path = nvim/pack/core/start/cursortab.nvim
+	url = https://github.com/leonardcser/cursortab.nvim

@@ -15,6 +15,7 @@ vim.pack.add({
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/mfussenegger/nvim-lint",
     "https://github.com/serhez/bento.nvim",
+    "https://github.com/leonardcser/cursortab.nvim",
 })
 
 vim.api.nvim_create_user_command("PackUpdate", function()
@@ -36,3 +37,6 @@ require("config.plugins.formatting")
 require("config.plugins.linting")
 
 require("config.plugins.which-key")
+
+-- AI
+require("config.plugins.cursortab")
