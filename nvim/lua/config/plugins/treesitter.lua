@@ -1,5 +1,11 @@
 local ts = require("nvim-treesitter")
 
+-- Add nvim-treesitter runtime to runtimepath for queries
+local ts_runtime = vim.fn.stdpath("data") .. "/site/pack/core/opt/nvim-treesitter/runtime"
+if vim.fn.isdirectory(ts_runtime) == 1 then
+    vim.opt.runtimepath:prepend(ts_runtime)
+end
+
 ts.setup({
     install_dir = vim.fn.stdpath("data") .. "/site",
 })
@@ -10,6 +16,7 @@ vim.api.nvim_create_user_command("TSBootstrap", function()
         "python", "lua", "vim", "vimdoc",
         "markdown", "json", "toml", "yaml", "bash", "dockerfile",
         "javascript", "typescript",
+        "elixir", "heex",
     }):wait(300000)
 end, { desc = "Install core Treesitter parsers (run once)" })
 
@@ -18,6 +25,7 @@ vim.api.nvim_create_autocmd("FileType", {
         "python", "lua", "vim", "vimdoc",
         "markdown", "json", "toml", "yaml", "bash", "dockerfile",
         "javascript", "typescript",
+        "elixir", "heex",
     },
     callback = function()
         pcall(vim.treesitter.start)
