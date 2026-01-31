@@ -153,7 +153,22 @@ vim.lsp.config("rust_analyzer", {
     },
 })
 
-vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", })
+-- Elixir: elixir-ls
+vim.lsp.config("elixirls", {
+    cmd = { "elixir-ls" },
+    filetypes = { "elixir", "heex" },
+    root_markers = { "mix.exs", ".git" },
+    settings = {
+        elixirLS = {
+            dialyzerEnabled = true,
+            fetchDeps = false,
+            enableTestLenses = true,
+            suggestSpecs = true,
+        },
+    },
+})
+
+vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", "elixirls", })
 
 vim.diagnostic.config({
     underline = true,
@@ -173,6 +188,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
         -- Ruff docs recommend disabling hover to avoid conflicts with basedpyright
         if client.name == "ruff" then
             client.server_capabilities.hoverProvider = false
+        end
+
+        -- Extend trigger characters for completion on every keystroke
+        if client.server_capabilities.completionProvider then
+            local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
+            for char in string.gmatch("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", ".") do
+                if not vim.tbl_contains(triggers, char) then
+                    table.insert(triggers, char)
+                end
+            end
+            client.server_capabilities.completionProvider.triggerCharacters = triggers
         end
 
         vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
