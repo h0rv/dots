@@ -1,26 +1,17 @@
--- ============================================================================
 -- Plugin configurations
---
--- This file loads all plugin configurations in order.
--- Each feature is organized into its own module for maintainability.
--- ============================================================================
+-- Each feature is organized into its own module.
 
 vim.pack.add({
     "https://github.com/folke/tokyonight.nvim",
-    "https://github.com/nvim-neo-tree/neo-tree.nvim",
-    "https://github.com/nvim-lua/plenary.nvim",
-    -- "https://github.com/mikavilpas/yazi.nvim",
-    "https://github.com/nvim-tree/nvim-web-devicons", -- optional icons (Nerd Font)
-    "https://github.com/ibhagwan/fzf-lua",
+    "https://github.com/folke/snacks.nvim",
+    "https://github.com/folke/persistence.nvim",
+    "https://github.com/folke/which-key.nvim",
+    "https://github.com/alexghergh/nvim-tmux-navigation",
+    "https://github.com/nvim-tree/nvim-web-devicons",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/mfussenegger/nvim-lint",
-    "https://github.com/serhez/bento.nvim",
-    "https://github.com/stevearc/oil.nvim",
-    "https://github.com/leonardcser/cursortab.nvim",
-    "https://github.com/MunifTanjim/nui.nvim",
-    "https://github.com/esmuellert/codediff.nvim",
     "https://github.com/sindrets/diffview.nvim",
-    "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+    "https://github.com/folke/flash.nvim",
 })
 
 vim.api.nvim_create_user_command("PackUpdate", function()
@@ -30,22 +21,22 @@ end, { desc = "Update plugins via vim.pack (review tab, then :write to apply)" }
 -- UI & Visual
 require("config.plugins.colorscheme")
 require("config.plugins.treesitter")
-require("config.plugins.markdown")
 
--- Navigation
-require("config.plugins.file-explorer")
-require("config.plugins.fuzzy-finder")
-require("config.plugins.bento")
-require("config.plugins.oil")
+-- Navigation & UI
+require("config.plugins.snacks")
+require("config.plugins.tmux-nav")
+require("config.plugins.flash")
+
+-- Session
+require("config.plugins.session")
 
 -- Language Support
 require("config.plugins.lsp")
 require("config.plugins.formatting")
 require("config.plugins.linting")
 
-require("config.plugins.which-key")
-
+-- Git
 require("config.plugins.diff")
 
--- AI
--- require("config.plugins.cursortab")
+-- Keys
+require("config.plugins.which-key")

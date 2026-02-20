@@ -1,9 +1,10 @@
 local ts = require("nvim-treesitter")
 
 -- Add nvim-treesitter runtime to runtimepath for queries
+-- Appended (not prepended) so built-in nvim 0.12+ queries take priority
 local ts_runtime = vim.fn.stdpath("data") .. "/site/pack/core/opt/nvim-treesitter/runtime"
 if vim.fn.isdirectory(ts_runtime) == 1 then
-    vim.opt.runtimepath:prepend(ts_runtime)
+    vim.opt.runtimepath:append(ts_runtime)
 end
 
 ts.setup({

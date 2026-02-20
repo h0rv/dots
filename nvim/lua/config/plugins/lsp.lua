@@ -205,10 +205,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         local opts = { buffer = bufnr, silent = true }
 
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+        vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References" }))
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Implementation" }))
+        vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end, vim.tbl_extend("force", opts, { desc = "References" }))
+        vim.keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end, vim.tbl_extend("force", opts, { desc = "Implementation" }))
+        vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end, vim.tbl_extend("force", opts, { desc = "Type definition" }))
         vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover" }))
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
@@ -220,6 +221,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "]d", function()
             vim.diagnostic.jump({ count = 1 })
         end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        vim.keymap.set("n", "<leader>dd", function() Snacks.picker.diagnostics() end, vim.tbl_extend("force", opts, { desc = "All diagnostics" }))
         vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist,
             vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
 
