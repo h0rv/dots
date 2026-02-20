@@ -10,7 +10,12 @@ set('i', 'kj', '<ESC>')
 -- File operations
 set('n', '<leader>w', cmd.w, { desc = 'Write' })
 set('n', '<leader>cf', function()
-    vim.lsp.buf.format({ async = true })
+    local ft = vim.bo.filetype
+    local opts = { async = true }
+    if ft == "python" then
+        opts.filter = function(c) return c.name == "ruff" end
+    end
+    vim.lsp.buf.format(opts)
 end, { desc = 'Format' })
 
 -- Buffer navigation

@@ -194,17 +194,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
             client.server_capabilities.hoverProvider = false
         end
 
-        -- Completion on every keystroke
-        if client.server_capabilities.completionProvider then
-            local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
-            for char in string.gmatch("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", ".") do
-                if not vim.tbl_contains(triggers, char) then
-                    table.insert(triggers, char)
-                end
-            end
-            client.server_capabilities.completionProvider.triggerCharacters = triggers
-        end
-
+        -- Built-in LSP completion (autotrigger handles typing + server trigger chars like ".")
         vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
 
         local opts = { buffer = bufnr, silent = true }
@@ -235,12 +225,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+-- Completion / snippet keymaps
 vim.keymap.set("i", "<Tab>", function()
     if vim.fn.pumvisible() == 1 then return "<C-n>" end
+    if vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+        return ""
+    end
     return "<Tab>"
 end, { expr = true, silent = true })
 
 vim.keymap.set("i", "<S-Tab>", function()
     if vim.fn.pumvisible() == 1 then return "<C-p>" end
+    if vim.snippet.active({ direction = -1 }) then
+        vim.snippet.jump(-1)
+        return ""
+    end
     return "<S-Tab>"
 end, { expr = true, silent = true })
+
+vim.keymap.set("i", "<CR>", function()
+    if vim.fn.pumvisible() == 1 then return "<C-y>" end
+    return "<CR>"
+end, { expr = true, silent = true })
+
+vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { silent = true })
