@@ -6,6 +6,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
             return
         end
 
+        -- Only format if ruff is actually attached to this buffer
+        local clients = vim.lsp.get_clients({ bufnr = args.buf, name = "ruff" })
+        if #clients == 0 then return end
+
         vim.lsp.buf.format({
             bufnr = args.buf,
             timeout_ms = 2000,
