@@ -64,7 +64,10 @@ local function activate_venv(root)
     -- vim.notify("Activated venv: " .. venv, vim.log.levels.DEBUG)
 end
 
--- Activate venv when entering buffers
+-- Activate venv at startup for the initial cwd (before LSPs start)
+activate_venv(uv.cwd())
+
+-- Activate venv when entering buffers (handles switching projects)
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     callback = function(args)
         if vim.bo[args.buf].buftype ~= "" then

@@ -9,7 +9,9 @@ set('i', 'kj', '<ESC>')
 
 -- File operations
 set('n', '<leader>w', cmd.w, { desc = 'Write' })
-set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Format' })
+set('n', '<leader>cf', function()
+    vim.lsp.buf.format({ async = true })
+end, { desc = 'Format' })
 
 -- Buffer navigation
 local function get_buffer_list()
