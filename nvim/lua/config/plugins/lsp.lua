@@ -1,29 +1,44 @@
+-- Resolve a binary from the nearest .venv, falling back to PATH
+local function venv_bin(name, bufnr)
+    bufnr = bufnr or 0
+    local buf = vim.api.nvim_buf_get_name(bufnr)
+    local dir = buf ~= "" and vim.fs.dirname(buf) or vim.uv.cwd()
+    local venv = vim.fs.find(".venv", { path = dir, upward = true, type = "directory" })[1]
+    if venv then
+        local bin = venv .. "/bin/" .. name
+        if vim.uv.fs_stat(bin) then return bin end
+    end
+    return name
+end
+
 -- Python stack: basedpyright (types/navigation) + ruff (lint/format)
+-- Note: project.lua activates .venv/bin on PATH at startup, so bare
+-- commands like "ruff" and "basedpyright-langserver" resolve from venv.
 vim.lsp.config("basedpyright", {
     cmd = { "basedpyright-langserver", "--stdio" },
     filetypes = { "python" },
-    root_markers = { "pyrightconfig.json", ".venv", ".git" },
+    root_markers = { "pyrightconfig.json", "pyproject.toml", ".venv", ".git" },
     settings = {
-        python = {
-            pythonPath = ".venv/bin/python",
-        },
         basedpyright = {
-            disableOrganizeImports = true,        -- Ruff handles formatting
+            disableOrganizeImports = true,
             analysis = {
-                diagnosticMode = "openFilesOnly", -- Monorepo-friendly
+                diagnosticMode = "openFilesOnly",
                 typeCheckingMode = "standard",
-                autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
-                stubPath = "stubs",
             },
         },
     },
+    on_init = function(client)
+        -- Point at venv python for import resolution
+        client.config.settings.python = { pythonPath = venv_bin("python") }
+        client:notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end,
 })
 
 vim.lsp.config("ruff", {
     cmd = { "ruff", "server" },
     filetypes = { "python" },
-    root_markers = { ".venv", ".git" },
+    root_markers = { "pyproject.toml", ".venv", ".git" },
 })
 
 -- TypeScript/JavaScript/React: typescript-language-server
@@ -128,18 +143,10 @@ vim.lsp.config("rust_analyzer", {
                 loadOutDirsFromCheck = true,
                 buildScripts = { enable = true },
             },
-
             checkOnSave = true,
-            check = {
-                command = "clippy",
-            },
-
+            check = { command = "clippy" },
             procMacro = { enable = true },
-
-            formatting = {
-                enable = true, -- rustfmt
-            },
-
+            formatting = { enable = true },
             inlayHints = {
                 bindingModeHints = { enable = true },
                 chainingHints = { enable = true },
@@ -153,7 +160,6 @@ vim.lsp.config("rust_analyzer", {
     },
 })
 
--- Elixir: elixir-ls
 vim.lsp.config("elixirls", {
     cmd = { "elixir-ls" },
     filetypes = { "elixir", "heex" },
@@ -168,7 +174,7 @@ vim.lsp.config("elixirls", {
     },
 })
 
-vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", "elixirls", })
+vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", "elixirls" })
 
 vim.diagnostic.config({
     underline = true,
@@ -181,16 +187,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if not client then
-            return
-        end
+        if not client then return end
 
-        -- Ruff docs recommend disabling hover to avoid conflicts with basedpyright
+        -- Ruff: disable hover (basedpyright handles it)
         if client.name == "ruff" then
             client.server_capabilities.hoverProvider = false
         end
 
-        -- Extend trigger characters for completion on every keystroke
+        -- Completion on every keystroke
         if client.server_capabilities.completionProvider then
             local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
             for char in string.gmatch("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", ".") do
@@ -205,6 +209,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         local opts = { buffer = bufnr, silent = true }
 
+        -- Navigation (via snacks picker)
         vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
         vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end, vim.tbl_extend("force", opts, { desc = "References" }))
@@ -212,26 +217,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end, vim.tbl_extend("force", opts, { desc = "Type definition" }))
         vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover" }))
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
-            vim.tbl_extend("force", opts, { desc = "Code action" }))
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
 
-        vim.keymap.set("n", "[d", function()
-            vim.diagnostic.jump({ count = -1 })
-        end, vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
-        vim.keymap.set("n", "]d", function()
-            vim.diagnostic.jump({ count = 1 })
-        end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        -- Diagnostics
+        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
+        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
         vim.keymap.set("n", "<leader>dd", function() Snacks.picker.diagnostics() end, vim.tbl_extend("force", opts, { desc = "All diagnostics" }))
-        vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist,
-            vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
+        vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
 
-        -- Vscode-like goto def
-        vim.o.mouse = "a"
-        vim.keymap.set("n", "<C-LeftMouse>", function()
-            vim.lsp.buf.definition()
-        end, { desc = "LSP: go to definition (Ctrl+Click)" })
-        vim.keymap.set("n", "<2-LeftMouse>", vim.lsp.buf.definition,
-            { desc = "LSP: go to definition (double click)" })
+        -- Mouse goto def
+        vim.keymap.set("n", "<C-LeftMouse>", function() vim.lsp.buf.definition() end, { desc = "Go to definition (Ctrl+Click)" })
+        vim.keymap.set("n", "<2-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition (double click)" })
 
         pcall(function()
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
@@ -240,15 +236,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.keymap.set("i", "<Tab>", function()
-    if vim.fn.pumvisible() == 1 then
-        return "<C-n>"
-    end
+    if vim.fn.pumvisible() == 1 then return "<C-n>" end
     return "<Tab>"
 end, { expr = true, silent = true })
 
 vim.keymap.set("i", "<S-Tab>", function()
-    if vim.fn.pumvisible() == 1 then
-        return "<C-p>"
-    end
+    if vim.fn.pumvisible() == 1 then return "<C-p>" end
     return "<S-Tab>"
 end, { expr = true, silent = true })
