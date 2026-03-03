@@ -1,0 +1,25 @@
+# Ghostty Theme: Sweetspot Light Pastel
+# Generated from Sweetspot Theme System
+
+palette = 0=#f5f5f5
+palette = 1=#de5e5e
+palette = 2=#1f9d7a
+palette = 3=#d9a030
+palette = 4=#4d79e0
+palette = 5=#b336c1
+palette = 6=#2e9d93
+palette = 7=#3f3f46
+palette = 8=#a3a3a3
+palette = 9=#de5e5e
+palette = 10=#1f9d7a
+palette = 11=#e79264
+palette = 12=#2d8db8
+palette = 13=#fa3a95
+palette = 14=#28a1b8
+palette = 15=#18181b
+
+background = #ffffff
+foreground = #18181b
+cursor-color = #fa3a95
+selection-background = #737373
+selection-foreground = #18181b
