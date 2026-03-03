@@ -1,0 +1,25 @@
+# Ghostty Theme: Sweetspot Dark
+# Generated from Sweetspot Theme System
+
+palette = 0=#27272a
+palette = 1=#ef4444
+palette = 2=#10b981
+palette = 3=#fbbf24
+palette = 4=#3b82f6
+palette = 5=#d946ef
+palette = 6=#14b8a6
+palette = 7=#e4e4e7
+palette = 8=#71717a
+palette = 9=#ef4444
+palette = 10=#10b981
+palette = 11=#fb923c
+palette = 12=#0ea5e9
+palette = 13=#ff66b3
+palette = 14=#06b6d4
+palette = 15=#f4f4f5
+
+background = #111113
+foreground = #f4f4f5
+cursor-color = #ff66b3
+selection-background = #a1a1aa
+selection-foreground = #f4f4f5

@@ -1,0 +1,25 @@
+# Ghostty Theme: Sweetspot Light Pink
+# Generated from Sweetspot Theme System
+
+palette = 0=#f5f5f5
+palette = 1=#ef4444
+palette = 2=#059669
+palette = 3=#ea1871
+palette = 4=#ea1871
+palette = 5=#ea1871
+palette = 6=#ea1871
+palette = 7=#3f3f46
+palette = 8=#a3a3a3
+palette = 9=#ef4444
+palette = 10=#059669
+palette = 11=#ea580c
+palette = 12=#0284c7
+palette = 13=#ea1871
+palette = 14=#ea1871
+palette = 15=#18181b
+
+background = #ffffff
+foreground = #18181b
+cursor-color = #ea1871
+selection-background = #737373
+selection-foreground = #18181b

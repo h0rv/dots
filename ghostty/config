@@ -1,0 +1,48 @@
+macos-titlebar-style = hidden
+
+shell-integration = zsh
+window-inherit-working-directory = true
+working-directory = inherit
+
+keybind = shift+enter=text:\n
+
+# font-family = JetBrains Mono Nerd Font
+font-family = Maple Mono NF Regular
+font-size = 16
+window-padding-x = 4
+window-padding-y = 0
+theme = gruvbox-material
+# theme = dark:sweetspot-dark,light:sweetspot-light
+# theme = dark:catppuccin-macchiato,light:catppuccin-latte
+# theme = dark:/Users/robby/.config/ghostty/themes/Monokai Pro Spectrum,light:/Users/robby/.config/ghostty/themes/Monokai Pro Light Sun
+# theme = dark:/Users/robby/.config/ghostty/themes/tokyonight,light:/Users/robby/.config/ghostty/themes/tokyonight_day
+mouse-hide-while-typing = true
+scrollback-limit = 100000000
+
+# Remove ALL default Ghostty keybinds (tabs/splits/windows/etc.)
+# keybind = clear
+
+# Font size
+keybind = cmd+equal=increase_font_size:1
+keybind = cmd+shift+equal=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+0=reset_font_size
+
+# Add back only what you still want Ghostty to handle
+keybind = performable:cmd+c=copy_to_clipboard
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+,=open_config
+keybind = cmd+shift+,=reload_config
+
+# aerospace nav
+keybind = alt+h=unbind
+keybind = alt+j=unbind
+keybind = alt+k=unbind
+keybind = alt+l=unbind
+# neovim
+keybind = ctrl+n=unbind
+
+window-save-state = always
+
+unfocused-split-opacity = 1
+

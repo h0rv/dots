@@ -9,3 +9,7 @@ ln -s "$(pwd)/nvim" ~/.config/nvim 2>/dev/null || true
 # tmux
 mv ~/.config/tmux ~/.config/tmux.bak 2>/dev/null || true
 ln -s "$(pwd)/tmux" ~/.config/tmux 2>/dev/null || true
+
+# ghostty
+mv ~/.config/ghostty ~/.config/ghostty.bak 2>/dev/null || true
+ln -s "$(pwd)/ghostty" ~/.config/ghostty 2>/dev/null || true
