@@ -24,6 +24,10 @@
       "rev": "b2c0603216adb92c6bba81053bc996d7ae95b77a",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "gruvbox-material.nvim": {
+      "rev": "b5bb00910e98f49cc9311d19e03bc17ae8531c12",
+      "src": "https://github.com/f4z3r/gruvbox-material.nvim"
+    },
     "neo-tree.nvim": {
       "rev": "9a1f0461c4cc62e64616bafe9425572ff6a5f245",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
