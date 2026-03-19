@@ -174,6 +174,18 @@ vim.lsp.config("elixirls", {
     },
 })
 
+vim.lsp.config("ruff", {
+    cmd = { "ruff", "server" },
+    filetypes = { "python" },
+    root_markers = { "pyproject.toml", ".venv", ".git" },
+})
+
+vim.lsp.config("racket_langserver", {
+    cmd = { "racket", "--lib", "racket-langserver" },
+    filetypes = { "scheme", "racket" },
+    root_markers = { ".git" },
+})
+
 vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", "elixirls" })
 
 vim.diagnostic.config({
