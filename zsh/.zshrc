@@ -31,6 +31,10 @@ export FZF_CTRL_R_OPTS='--border-label=" history " --border=rounded --preview-wi
 
 typeset -U path PATH fpath
 
+if [[ "$OSTYPE" == darwin* ]] && [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
+  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+fi
+
 add_path() {
   [[ -d "$1" ]] && path=("$1" $path)
 }

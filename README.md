@@ -6,6 +6,21 @@ Neovim + tmux config. Designed to feel like one unified tool.
 
 Prefix is `C-Space` (Ctrl+Space).
 
+### Bootstrap
+
+Install tmux plugins (including TPM + tmux-resurrect):
+
+```sh
+~/.config/tmux/bootstrap.sh
+```
+
+### Session restore
+
+| Key | Action |
+|-----|--------|
+| `C-Space S` | Save tmux session with tmux-resurrect |
+| `C-Space R` | Restore tmux session with tmux-resurrect |
+
 | Key | Action |
 |-----|--------|
 | `C-Space r` | Reload tmux config |
