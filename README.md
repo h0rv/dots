@@ -21,6 +21,8 @@ Install tmux plugins (including TPM + tmux-resurrect):
 | `C-Space S` | Save tmux session with tmux-resurrect |
 | `C-Space R` | Restore tmux session with tmux-resurrect |
 
+`tmux-continuum` is also enabled, so tmux auto-saves every 15 minutes and restores the last saved session when tmux starts.
+
 | Key | Action |
 |-----|--------|
 | `C-Space r` | Reload tmux config |
