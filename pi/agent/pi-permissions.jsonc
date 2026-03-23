@@ -1,0 +1,61 @@
+{
+  "defaultPolicy": {
+    "tools": "ask",
+    "bash": "ask",
+    "mcp": "ask",
+    "skills": "ask",
+    "special": "ask"
+  },
+  "tools": {
+    "read": "allow",
+    "grep": "allow",
+    "find": "allow",
+    "ls": "allow",
+    "edit": "ask",
+    "write": "ask",
+    "bash": "ask"
+  },
+  "skills": {
+    "*": "allow"
+  },
+  "bash": {
+    "*": "ask",
+
+    "pwd": "allow",
+    "ls": "allow",
+    "ls *": "allow",
+    "stat *": "allow",
+    "file *": "allow",
+    "du *": "allow",
+    "tree": "allow",
+    "tree *": "allow",
+    "head *": "allow",
+    "tail *": "allow",
+    "wc *": "allow",
+
+    "rg": "allow",
+    "rg *": "allow",
+    "fd": "allow",
+    "fd *": "allow",
+    "find *": "allow",
+    "grep *": "allow",
+
+    "gh": "allow",
+    "gh *": "allow",
+    "gh auth token*": "deny",
+    "gh secret *": "ask",
+
+    "cargo": "allow",
+    "cargo *": "allow",
+    "cargo publish*": "deny",
+    "cargo login*": "deny",
+    "cargo owner*": "ask",
+
+    "uv": "allow",
+    "uv *": "allow",
+    "uv publish*": "deny",
+
+    "pytest": "allow",
+    "pytest *": "allow"
+  }
+}
