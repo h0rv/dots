@@ -7,3 +7,7 @@ fish/conf.d
 fish/functions
 fish/fish_variables
 fish/secrets.fish
+pi/agent/auth.json
+pi/agent/auth*.json
+pi/agent/mcp-oauth/
+pi/agent/sessions/

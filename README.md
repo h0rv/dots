@@ -18,10 +18,10 @@ Install tmux plugins (including TPM + tmux-resurrect):
 
 | Key | Action |
 |-----|--------|
-| `C-Space S` | Save tmux session with tmux-resurrect |
-| `C-Space R` | Restore tmux session with tmux-resurrect |
+| `C-Space s` or `C-Space S` | Save tmux session with tmux-resurrect |
+| `C-Space r` or `C-Space R` | Restore tmux session with tmux-resurrect |
 
-`tmux-continuum` is also enabled, so tmux auto-saves every 15 minutes and restores the last saved session when tmux starts.
+`tmux-continuum` is also enabled, so tmux auto-saves every 5 minutes and restores the last saved session when tmux starts.
 
 | Key | Action |
 |-----|--------|
@@ -144,3 +144,30 @@ Sessions auto-save on exit and auto-restore when you open `nvim` with no argumen
 ## Plugins
 
 snacks.nvim, persistence.nvim, nvim-tmux-navigation, diffview.nvim, which-key.nvim, tokyonight.nvim, nvim-treesitter, nvim-lint, nvim-web-devicons, flash.nvim
+
+## Pi
+
+Tracked Pi files live under `pi/agent/` and only include non-sensitive bootstrap/config files:
+
+- `pi/agent/settings.json`
+- `pi/agent/pi-permissions.jsonc`
+
+Excluded from the repo:
+
+- `~/.pi/agent/auth.json`
+- `~/.pi/agent/mcp-oauth/`
+- `~/.pi/agent/sessions/`
+
+### Bootstrap
+
+Install the Pi packages declared in `pi/agent/settings.json`:
+
+```sh
+~/.dots/pi/bootstrap.sh
+```
+
+This also applies a local patch to `pi-permission-system` so skill loads do not get blocked when Pi has no active agent context.
+
+### Link config
+
+`./link.sh` links the tracked Pi config files into `~/.pi/agent/` and, when `pi` + `node` are available, also runs `pi/bootstrap.sh` so package installs and the local `pi-permission-system` patch stay in sync automatically.
