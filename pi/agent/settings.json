@@ -1,13 +1,57 @@
 {
   "lastChangelogVersion": "0.62.0",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
+  "defaultProvider": "cursor",
+  "defaultModel": "composer-2-fast",
   "packages": [
     "npm:@benvargas/pi-openai-fast",
-    "npm:@benvargas/pi-exa-mcp",
-    "npm:pi-permission-system",
-    "npm:@javimolina/pi-rg"
+    {
+      "source": "npm:@benvargas/pi-exa-mcp",
+      "extensions": [
+        "+extensions/index.ts"
+      ]
+    },
+    "npm:@javimolina/pi-rg",
+    {
+      "source": "npm:pi-hooks",
+      "extensions": [
+        "+permission/permission.ts",
+        "-lsp/lsp-tool.ts",
+        "-lsp/lsp.ts",
+        "-ralph-loop/ralph-loop.ts",
+        "-repeat/repeat.ts",
+        "-checkpoint/checkpoint.ts"
+      ]
+    },
+    "npm:@tintinweb/pi-subagents",
+    "npm:pi-cursor-oauth"
   ],
   "hideThinkingBlock": true,
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "xhigh",
+  "permissionLevel": "high",
+  "permissionMode": "block",
+  "permissionConfig": {
+    "overrides": {
+      "dangerous": [
+        "rm *",
+        "trash *",
+        "trash-put *",
+        "git clean*",
+        "git reset --hard*",
+        "find * -delete*",
+        "find * -exec rm *",
+        "sudo *",
+        "dd *",
+        "mkfs*",
+        "fdisk*",
+        "parted*",
+        "shutdown*",
+        "reboot*",
+        "halt*",
+        "poweroff*"
+      ]
+    }
+  },
+  "lsp": {
+    "hookMode": "disabled"
+  }
 }
