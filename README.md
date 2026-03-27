@@ -29,7 +29,9 @@ Install tmux plugins (including TPM + tmux-resurrect):
 | `C-Space \|` | Split horizontal |
 | `C-Space -` | Split vertical |
 | `C-Space t` | New window |
+| `C-Space h/l` | Prev / next window (repeatable: `C-Space l l l`) |
 | `C-Space n/p` | Next/prev window |
+| `C-Space 1-9` | Jump directly to window number |
 | `C-Space H/J/K/L` | Resize pane |
 | `C-Space b` | Toggle status bar |
 | `C-Space Escape` | Enter copy mode (vi keys, `v` select, `y` yank) |
@@ -49,9 +51,22 @@ Install tmux plugins (including TPM + tmux-resurrect):
 
 Since `Ctrl+L` is taken by navigation, use `C-Space C-l` to clear the terminal instead.
 
+Window labels in the tmux status bar are centered and show:
+- window number
+- current directory basename
+
+The current pane's git branch is shown separately on the bottom right when available.
+
 ## Neovim
 
 Leader is `Space`.
+
+Run `make -C ~/.dots/nvim nvim` after linking/bootstrap. That now also ensures the `difft` CLI from `difftastic` is installed via Homebrew when available.
+
+Useful review commands:
+- `:PRReview` — GitHub-style review against the detected base branch
+- `:PRReview main` — GitHub-style review against `main`/`origin/main`
+- `:PRReviewDifftastic` — structural review via `difft`
 
 ### Files & Search
 
@@ -89,8 +104,12 @@ Leader is `Space`.
 |-----|--------|
 | `<leader>gg` | Lazygit |
 | `<leader>gd` | Diff open (working changes) |
-| `<leader>gm` | Diff vs main |
-| `<leader>gc` | Close diff |
+| `<leader>gm` | Review current branch vs `main`/`origin/main` |
+| `<leader>gp` | Review current branch like a PR (auto-detect base branch) |
+| `<leader>gt` | Structural PR review with difftastic |
+| `<leader>gf` | Toggle changed files in review |
+| `<leader>gr` | Refresh review |
+| `<leader>gc` | Close diff/review |
 | `<leader>gB` | Open file on GitHub |
 
 ### Session
@@ -143,7 +162,7 @@ Sessions auto-save on exit and auto-restore when you open `nvim` with no argumen
 
 ## Plugins
 
-snacks.nvim, persistence.nvim, nvim-tmux-navigation, diffview.nvim, which-key.nvim, tokyonight.nvim, nvim-treesitter, nvim-lint, nvim-web-devicons, flash.nvim
+snacks.nvim, persistence.nvim, nvim-tmux-navigation, diffview.nvim, difftastic.nvim, which-key.nvim, tokyonight.nvim, nvim-treesitter, nvim-lint, nvim-web-devicons, plenary.nvim, flash.nvim
 
 ## Pi
 
