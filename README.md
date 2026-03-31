@@ -67,6 +67,7 @@ Useful review commands:
 - `:PRReview` — GitHub-style review against the detected base branch
 - `:PRReview main` — GitHub-style review against `main`/`origin/main`
 - `:PRReviewDifftastic` — structural review via `difft`
+- `:PRReviewClose` — close the current diff/review
 
 ### Files & Search
 

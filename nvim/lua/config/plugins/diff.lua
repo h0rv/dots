@@ -8,13 +8,6 @@ require("diffview").setup({
     watch_index = true,
 })
 
-pcall(function()
-    local difftastic = require("difftastic")
-    if type(difftastic.setup) == "function" then
-        difftastic.setup({})
-    end
-end)
-
 local function repo_root()
     local path = vim.api.nvim_buf_get_name(0)
     if path == "" then
@@ -90,6 +83,19 @@ local function open_pr_review(base_ref)
     vim.cmd({ cmd = "DiffviewOpen", args = { revspec } })
 end
 
+local function close_review()
+    if pcall(vim.cmd, "DiffviewClose") then
+        return
+    end
+
+    if vim.bo.buftype == "terminal" then
+        vim.cmd("tabclose")
+        return
+    end
+
+    pcall(vim.cmd, "close")
+end
+
 local function open_pr_review_difftastic(base_ref)
     if vim.fn.executable("difft") ~= 1 then
         vim.notify("difftastic is not installed (missing 'difft' binary)", vim.log.levels.ERROR)
@@ -104,6 +110,8 @@ local function open_pr_review_difftastic(base_ref)
     vim.cmd("tabnew")
     vim.bo.buflisted = false
     vim.bo.filetype = "diff"
+    local bufnr = vim.api.nvim_get_current_buf()
+
     vim.fn.termopen({
         "git",
         "--no-pager",
@@ -114,6 +122,9 @@ local function open_pr_review_difftastic(base_ref)
         "diff",
         revspec,
     })
+
+    vim.keymap.set("n", "q", close_review, { buffer = bufnr, silent = true, desc = "Close review" })
+    vim.keymap.set("t", "q", [[<C-\><C-n><cmd>PRReviewClose<cr>]], { buffer = bufnr, silent = true, desc = "Close review" })
 end
 
 vim.api.nvim_create_user_command("PRReview", function(opts)
@@ -128,6 +139,10 @@ vim.api.nvim_create_user_command("PRReviewDifftastic", function(opts)
 end, {
     nargs = "?",
     desc = "Review current branch with difftastic",
+})
+
+vim.api.nvim_create_user_command("PRReviewClose", close_review, {
+    desc = "Close diff/review",
 })
 
 vim.api.nvim_create_user_command("PRReviewFiles", function()
@@ -146,4 +161,4 @@ vim.keymap.set("n", "<leader>gp", open_pr_review, { desc = "Review PR" })
 vim.keymap.set("n", "<leader>gt", open_pr_review_difftastic, { desc = "Review PR (difftastic)" })
 vim.keymap.set("n", "<leader>gf", "<cmd>PRReviewFiles<cr>", { desc = "Review files" })
 vim.keymap.set("n", "<leader>gr", "<cmd>PRReviewRefresh<cr>", { desc = "Review refresh" })
-vim.keymap.set("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Diff close" })
+vim.keymap.set("n", "<leader>gc", "<cmd>PRReviewClose<cr>", { desc = "Close diff/review" })
