@@ -11,3 +11,12 @@ pi/agent/auth.json
 pi/agent/auth*.json
 pi/agent/mcp-oauth/
 pi/agent/sessions/
+/emacs/elpa
+/emacs/transient
+/emacs/url/
+/emacs/recentf
+/emacs/projects
+/emacs/places
+/emacs/auto-save-list
+/emacs/eshell
+/emacs/tramp

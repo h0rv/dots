@@ -10,6 +10,7 @@ vim.pack.add({
     "https://github.com/alexghergh/nvim-tmux-navigation",
     "https://github.com/nvim-tree/nvim-web-devicons",
     "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/MunifTanjim/nui.nvim",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     "https://github.com/mfussenegger/nvim-lint",
     "https://github.com/sindrets/diffview.nvim",

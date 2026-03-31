@@ -12,6 +12,10 @@
       "rev": "c6f9058ed8b7347b6c8bdf935c56c25143cbff8e",
       "src": "https://github.com/leonardcser/cursortab.nvim"
     },
+    "difftastic.nvim": {
+      "rev": "6041ef0244b3fecf3b7f07de9af8cfbf8dbc4945",
+      "src": "https://github.com/clabby/difftastic.nvim"
+    },
     "diffview.nvim": {
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"
