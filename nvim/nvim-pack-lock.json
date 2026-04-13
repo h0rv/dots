@@ -32,6 +32,10 @@
       "rev": "b5bb00910e98f49cc9311d19e03bc17ae8531c12",
       "src": "https://github.com/f4z3r/gruvbox-material.nvim"
     },
+    "monokai-pro.nvim": {
+      "rev": "5b06ae0736813b1c65d76a4be9edbe92be0b9c74",
+      "src": "https://github.com/gthelding/monokai-pro.nvim"
+    },
     "neo-tree.nvim": {
       "rev": "9a1f0461c4cc62e64616bafe9425572ff6a5f245",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
@@ -83,6 +87,10 @@
     "tokyonight.nvim": {
       "rev": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd",
       "src": "https://github.com/folke/tokyonight.nvim"
+    },
+    "vantablack.nvim": {
+      "rev": "8a05ea96343914f1001e937b4fa7d9d44b51d221",
+      "src": "https://github.com/bjarneo/vantablack.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",

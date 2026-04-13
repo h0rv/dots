@@ -1,44 +1,134 @@
--- Resolve a binary from the nearest .venv, falling back to PATH
-local function venv_bin(name, bufnr)
-    bufnr = bufnr or 0
-    local buf = vim.api.nvim_buf_get_name(bufnr)
-    local dir = buf ~= "" and vim.fs.dirname(buf) or vim.uv.cwd()
-    local venv = vim.fs.find(".venv", { path = dir, upward = true, type = "directory" })[1]
-    if venv then
-        local bin = venv .. "/bin/" .. name
-        if vim.uv.fs_stat(bin) then return bin end
+local project = require("config.project")
+
+local function python_root_dir_with(executable, blockers)
+    return function(bufnr, on_dir)
+        for _, blocker in ipairs(blockers or {}) do
+            if project.local_executable(blocker, bufnr) then
+                on_dir(nil)
+                return
+            end
+        end
+
+        if project.local_executable(executable, bufnr) then
+            on_dir(project.project_root(bufnr))
+            return
+        end
+
+        on_dir(nil)
     end
-    return name
+end
+
+local function python_server(binary, ...)
+    local args = { ... }
+
+    return function(dispatchers, config)
+        local command = project.local_executable(binary, config.root_dir) or
+        project.resolve_executable(binary, config.root_dir)
+
+        return vim.lsp.rpc.start(
+            vim.list_extend({ command }, vim.deepcopy(args)),
+            dispatchers,
+            {
+                cwd = config.root_dir,
+                env = project.command_env(config.root_dir),
+                detached = config.detached,
+            }
+        )
+    end
 end
 
 -- Python stack: basedpyright (types/navigation) + ruff (lint/format)
--- Note: project.lua activates .venv/bin on PATH at startup, so bare
--- commands like "ruff" and "basedpyright-langserver" resolve from venv.
+-- Each server resolves its executable and env from the current workspace.
 vim.lsp.config("basedpyright", {
-    cmd = { "basedpyright-langserver", "--stdio" },
+    cmd = python_server("basedpyright-langserver", "--stdio"),
     filetypes = { "python" },
-    root_markers = { "pyrightconfig.json", "pyproject.toml", ".venv", ".git" },
+    root_dir = python_root_dir_with("basedpyright-langserver"),
     settings = {
         basedpyright = {
             disableOrganizeImports = true,
             analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
                 diagnosticMode = "openFilesOnly",
                 typeCheckingMode = "standard",
                 useLibraryCodeForTypes = true,
             },
         },
     },
-    on_init = function(client)
-        -- Point at venv python for import resolution
-        client.config.settings.python = { pythonPath = venv_bin("python") }
-        client:notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    before_init = function(_, config)
+        local settings = {
+            python = {
+                pythonPath = project.python_path(config.root_dir),
+            },
+            basedpyright = {
+                analysis = {
+                    autoImportCompletions = true,
+                    autoSearchPaths = true,
+                    diagnosticMode = "openFilesOnly",
+                    typeCheckingMode = "standard",
+                    useLibraryCodeForTypes = true,
+                },
+            },
+        }
+
+        local config_path = project.basedpyright_config_path(config.root_dir)
+        if config_path then
+            settings.basedpyright.analysis.configFilePath = config_path
+        end
+
+        config.settings = vim.tbl_deep_extend("force", config.settings or {}, settings)
+    end,
+})
+
+vim.lsp.config("ty", {
+    cmd = python_server("ty", "server"),
+    filetypes = { "python" },
+    root_dir = python_root_dir_with("ty", { "basedpyright-langserver" }),
+    settings = {
+        ty = {},
+    },
+})
+
+vim.lsp.config("pyright", {
+    cmd = python_server("pyright-langserver", "--stdio"),
+    filetypes = { "python" },
+    root_dir = python_root_dir_with("pyright-langserver", { "basedpyright-langserver", "ty" }),
+    settings = {
+        python = {
+            analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                diagnosticMode = "openFilesOnly",
+                typeCheckingMode = "standard",
+                useLibraryCodeForTypes = true,
+            },
+        },
+    },
+    before_init = function(_, config)
+        config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+            python = {
+                pythonPath = project.python_path(config.root_dir),
+            },
+        })
     end,
 })
 
 vim.lsp.config("ruff", {
-    cmd = { "ruff", "server" },
+    cmd = python_server("ruff", "server"),
     filetypes = { "python" },
-    root_markers = { "pyproject.toml", ".venv", ".git" },
+    root_dir = function(bufnr, on_dir)
+        if project.local_executable("ruff", bufnr) then
+            on_dir(project.project_root(bufnr))
+            return
+        end
+
+        on_dir(nil)
+    end,
+    init_options = {
+        settings = {
+            configurationPreference = "filesystemFirst",
+        },
+    },
 })
 
 -- TypeScript/JavaScript/React: typescript-language-server
@@ -174,19 +264,14 @@ vim.lsp.config("elixirls", {
     },
 })
 
-vim.lsp.config("ruff", {
-    cmd = { "ruff", "server" },
-    filetypes = { "python" },
-    root_markers = { "pyproject.toml", ".venv", ".git" },
-})
-
 vim.lsp.config("racket_langserver", {
     cmd = { "racket", "--lib", "racket-langserver" },
     filetypes = { "scheme", "racket" },
     root_markers = { ".git" },
 })
 
-vim.lsp.enable({ "basedpyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo", "rust_analyzer", "elixirls" })
+vim.lsp.enable({ "basedpyright", "ty", "pyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo",
+    "rust_analyzer", "elixirls" })
 
 vim.diagnostic.config({
     underline = true,
@@ -212,23 +297,36 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local opts = { buffer = bufnr, silent = true }
 
         -- Navigation (via snacks picker)
-        vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+        vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end,
+            vim.tbl_extend("force", opts, { desc = "Go to definition" }))
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
-        vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end, vim.tbl_extend("force", opts, { desc = "References" }))
-        vim.keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end, vim.tbl_extend("force", opts, { desc = "Implementation" }))
-        vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end, vim.tbl_extend("force", opts, { desc = "Type definition" }))
+        vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end,
+            vim.tbl_extend("force", opts, { desc = "References" }))
+        vim.keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end,
+            vim.tbl_extend("force", opts, { desc = "Implementation" }))
+        vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end,
+            vim.tbl_extend("force", opts, { desc = "Type definition" }))
         vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover" }))
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+        vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
+            vim.tbl_extend("force", opts, { desc = "Code action" }))
 
         -- Diagnostics
-        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
-        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
-        vim.keymap.set("n", "<leader>dd", function() Snacks.picker.diagnostics() end, vim.tbl_extend("force", opts, { desc = "All diagnostics" }))
-        vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
+        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end,
+            vim.tbl_extend("force", opts, { desc = "Prev diagnostic" }))
+        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end,
+            vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        vim.keymap.set("n", "<leader>dd", function() Snacks.picker.diagnostics() end,
+            vim.tbl_extend("force", opts, { desc = "All diagnostics" }))
+        vim.keymap.set("n", "<leader>de", function()
+            vim.diagnostic.open_float(nil, { scope = "line", border = "rounded" })
+        end, vim.tbl_extend("force", opts, { desc = "Line diagnostic" }))
+        vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist,
+            vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
 
         -- Mouse goto def
-        vim.keymap.set("n", "<C-LeftMouse>", function() vim.lsp.buf.definition() end, { desc = "Go to definition (Ctrl+Click)" })
+        vim.keymap.set("n", "<C-LeftMouse>", function() vim.lsp.buf.definition() end,
+            { desc = "Go to definition (Ctrl+Click)" })
         vim.keymap.set("n", "<2-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition (double click)" })
 
         pcall(function()
