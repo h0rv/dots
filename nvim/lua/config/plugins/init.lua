@@ -4,6 +4,7 @@
 vim.pack.add({
     "https://github.com/folke/tokyonight.nvim",
     "https://github.com/f4z3r/gruvbox-material.nvim",
+    "https://github.com/gthelding/monokai-pro.nvim",
     "https://github.com/folke/snacks.nvim",
     "https://github.com/folke/persistence.nvim",
     "https://github.com/folke/which-key.nvim",

@@ -55,6 +55,8 @@ opt.shada = "!,'200,<50,s10,h"
 
 -- Completion
 opt.completeopt = { "menuone", "noselect", "popup" }
+opt.autocomplete = true
+opt.complete:append("o")
 
 -- Mouse
 opt.mouse = "a"
