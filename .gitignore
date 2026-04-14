@@ -20,3 +20,7 @@ pi/agent/sessions/
 /emacs/auto-save-list
 /emacs/eshell
 /emacs/tramp
+/nvim/nvim
+/tmux/tmux
+/ghostty/ghostty
+/kitty/kitty
