@@ -270,8 +270,15 @@ vim.lsp.config("racket_langserver", {
     root_markers = { ".git" },
 })
 
+vim.lsp.config("zls", {
+    cmd = { "zls" },
+    filetypes = { "zig", "zir" },
+    root_markers = { "zls.json", "build.zig", ".git" },
+    workspace_required = false,
+})
+
 vim.lsp.enable({ "basedpyright", "ty", "pyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo",
-    "rust_analyzer", "elixirls" })
+    "rust_analyzer", "elixirls", "zls" })
 
 vim.diagnostic.config({
     underline = true,
