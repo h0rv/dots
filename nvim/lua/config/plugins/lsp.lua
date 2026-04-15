@@ -275,6 +275,12 @@ vim.lsp.config("zls", {
     filetypes = { "zig", "zir" },
     root_markers = { "zls.json", "build.zig", ".git" },
     workspace_required = false,
+    settings = {
+        zls = {
+            enable_build_on_save = true,
+            zig_exe_path = vim.fn.exepath("zig"),
+        },
+    },
 })
 
 vim.lsp.enable({ "basedpyright", "ty", "pyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo",

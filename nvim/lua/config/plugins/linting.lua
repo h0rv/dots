@@ -1,4 +1,5 @@
 local lint = require("lint")
+local parser = require("lint.parser")
 local project = require("config.project")
 
 local function local_tool(name, bufnr)
@@ -15,6 +16,26 @@ end
 
 local function lint_cwd()
     return project.typecheck_root(0)
+end
+
+local function zig_cwd(bufnr)
+    local file = vim.api.nvim_buf_get_name(bufnr)
+    local dir = vim.fs.dirname(file)
+    local root = vim.fs.find({ "build.zig", ".git" }, { path = dir, upward = true })[1]
+    if root then
+        return vim.fs.dirname(root)
+    end
+    return dir
+end
+
+local function zig_has_main(bufnr)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    for _, line in ipairs(lines) do
+        if line:match("^%s*pub%s+fn%s+main%s*%(") or line:match("^%s*fn%s+main%s*%(") then
+            return true
+        end
+    end
+    return false
 end
 
 local function decode_github_data(value)
@@ -94,7 +115,6 @@ if lint.linters.mypy then
     lint.linters.project_mypy = function()
         return vim.tbl_deep_extend("force", {}, mypy, {
             cmd = function() return local_tool("mypy", 0) end,
-            cwd = lint_cwd,
         })
     end
 
@@ -102,7 +122,6 @@ if lint.linters.mypy then
         return vim.tbl_deep_extend("force", {}, mypy, {
             cmd = function() return local_tool("dmypy", 0) end,
             args = vim.list_extend({ "run", "--" }, vim.deepcopy(mypy.args or {})),
-            cwd = lint_cwd,
         })
     end
 end
@@ -112,7 +131,6 @@ lint.linters.project_ty = {
     stdin = false,
     stream = "both",
     ignore_exitcode = true,
-    cwd = lint_cwd,
     args = {
         "check",
         "--output-format",
@@ -154,8 +172,61 @@ local function run_python_typecheck(bufnr)
     end
 
     vim.api.nvim_buf_call(bufnr, function()
-        lint.try_lint(linter)
+        lint.try_lint(linter, { cwd = lint_cwd() })
     end)
+end
+
+local zig_parser = parser.from_pattern(
+    function(line)
+        return { line:match("^(.-):(%d+):(%d+): (%a+): (.+)$") }
+    end,
+    { "file", "lnum", "col", "severity", "message" },
+    {
+        error = vim.diagnostic.severity.ERROR,
+        warning = vim.diagnostic.severity.WARN,
+        note = vim.diagnostic.severity.INFO,
+    },
+    { source = "zig" }
+)
+
+local zig_compile_ns = vim.api.nvim_create_namespace("zig_compile")
+
+local function run_zig_compile(bufnr)
+    local zig = vim.fn.exepath("zig")
+    if zig == "" then
+        vim.diagnostic.reset(zig_compile_ns, bufnr)
+        return
+    end
+
+    local file = vim.api.nvim_buf_get_name(bufnr)
+    if file == "" then
+        vim.diagnostic.reset(zig_compile_ns, bufnr)
+        return
+    end
+
+    local cwd = zig_cwd(bufnr)
+    local cmd = zig_has_main(bufnr)
+        and { zig, "build-exe", "-fno-emit-bin", file }
+        or { zig, "test", file }
+
+    local result = vim.system(cmd, { cwd = cwd, text = true }):wait()
+    local output = table.concat(vim.tbl_filter(function(chunk)
+        return chunk and chunk ~= ""
+    end, { result.stderr, result.stdout }), "\n")
+
+    local diagnostics = output ~= "" and zig_parser(output, bufnr, cwd) or {}
+    vim.diagnostic.set(zig_compile_ns, bufnr, diagnostics)
+end
+
+local function run_current_typecheck(bufnr)
+    local ft = vim.bo[bufnr].filetype
+    if ft == "python" then
+        run_python_typecheck(bufnr)
+        return
+    end
+    if ft == "zig" then
+        run_zig_compile(bufnr)
+    end
 end
 
 vim.api.nvim_create_autocmd("BufWritePost", {
@@ -169,6 +240,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     end,
 })
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*.zig",
+    callback = function(args)
+        run_zig_compile(args.buf)
+    end,
+})
+
 vim.keymap.set("n", "<leader>ct", function()
-    run_python_typecheck(0)
-end, { desc = "Typecheck now (ty/dmypy/mypy)" })
+    run_current_typecheck(0)
+end, { desc = "Typecheck/compile now" })
