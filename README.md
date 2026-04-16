@@ -170,7 +170,6 @@ snacks.nvim, persistence.nvim, nvim-tmux-navigation, diffview.nvim, difftastic.n
 Tracked Pi files live under `pi/agent/` and only include non-sensitive bootstrap/config files:
 
 - `pi/agent/settings.json`
-- `pi/agent/pi-permissions.jsonc`
 
 Excluded from the repo:
 
@@ -180,14 +179,22 @@ Excluded from the repo:
 
 ### Bootstrap
 
-Install the Pi packages declared in `pi/agent/settings.json`:
+The easiest setup path is:
 
 ```sh
-~/.dots/pi/bootstrap.sh
+cd ~/.dots
+./bootstrap
 ```
 
-This also applies a local patch to `pi-permission-system` so skill loads do not get blocked when Pi has no active agent context.
+That links the tracked config and syncs the Pi packages declared in `pi/agent/settings.json`.
+
+If you only want the Pi packages:
+
+```sh
+cd ~/.dots
+./pi/bootstrap.sh
+```
 
 ### Link config
 
-`./link.sh` links the tracked Pi config files into `~/.pi/agent/` and, when `pi` + `node` are available, also runs `pi/bootstrap.sh` so package installs and the local `pi-permission-system` patch stay in sync automatically.
+`./link.sh` links the tracked Pi config files into `~/.pi/agent/` and, when `pi` + `node` are available, also runs `pi/bootstrap.sh` so package installs stay in sync automatically.
