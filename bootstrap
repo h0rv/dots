@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -e
+
+DOTS_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+exec "$DOTS_DIR/link.sh"

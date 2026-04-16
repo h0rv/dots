@@ -22,7 +22,15 @@ pi list 2>/dev/null | awk '/^  [^ ].*:/{print $1}' >"$INSTALLED_PACKAGES"
 node -e '
 const fs = require("fs");
 const settings = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
-for (const pkg of settings.packages || []) console.log(pkg);
+for (const pkg of settings.packages || []) {
+  if (typeof pkg === "string") {
+    console.log(pkg);
+    continue;
+  }
+  if (pkg && typeof pkg.source === "string") {
+    console.log(pkg.source);
+  }
+}
 ' "$SETTINGS_FILE" | while IFS= read -r pkg; do
 	[ -n "$pkg" ] || continue
 	if grep -Fqx "$pkg" "$INSTALLED_PACKAGES"; then
@@ -33,6 +41,4 @@ for (const pkg of settings.packages || []) console.log(pkg);
 	pi install "$pkg"
 done
 
-"$DOTS_DIR/patch-permission-system.sh"
-
-echo "Pi packages synced and patched. Run /reload in pi if it is already open."
+echo "Pi packages synced. Run /reload in pi if it is already open."

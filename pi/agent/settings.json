@@ -1,57 +1,14 @@
 {
-  "lastChangelogVersion": "0.62.0",
-  "defaultProvider": "cursor",
-  "defaultModel": "composer-2-fast",
+  "lastChangelogVersion": "0.67.3",
   "packages": [
     "npm:@benvargas/pi-openai-fast",
-    {
-      "source": "npm:@benvargas/pi-exa-mcp",
-      "extensions": [
-        "+extensions/index.ts"
-      ]
-    },
-    "npm:@javimolina/pi-rg",
-    {
-      "source": "npm:pi-hooks",
-      "extensions": [
-        "+permission/permission.ts",
-        "-lsp/lsp-tool.ts",
-        "-lsp/lsp.ts",
-        "-ralph-loop/ralph-loop.ts",
-        "-repeat/repeat.ts",
-        "-checkpoint/checkpoint.ts"
-      ]
-    },
-    "npm:@tintinweb/pi-subagents",
-    "npm:pi-cursor-oauth"
+    "npm:pi-worktree"
   ],
   "hideThinkingBlock": true,
-  "defaultThinkingLevel": "xhigh",
-  "permissionLevel": "high",
-  "permissionMode": "block",
-  "permissionConfig": {
-    "overrides": {
-      "dangerous": [
-        "rm *",
-        "trash *",
-        "trash-put *",
-        "git clean*",
-        "git reset --hard*",
-        "find * -delete*",
-        "find * -exec rm *",
-        "sudo *",
-        "dd *",
-        "mkfs*",
-        "fdisk*",
-        "parted*",
-        "shutdown*",
-        "reboot*",
-        "halt*",
-        "poweroff*"
-      ]
-    }
-  },
+  "defaultThinkingLevel": "high",
   "lsp": {
     "hookMode": "disabled"
-  }
+  },
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4"
 }
