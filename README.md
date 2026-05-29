@@ -72,10 +72,8 @@ Useful review commands:
 AI completion setup:
 - `:CursortabProvider zeta-2` — local next-edit completion via llama.cpp on `127.0.0.1:8000`
 - `:CursortabProvider inline` — lighter local fallback for smaller models
-- `:CursortabProvider copilot` — GitHub Copilot fallback path
 - `:CursortabBuild` — rebuild the Go daemon after plugin updates
-- `:CopilotLspSignIn` / `:CopilotLspSignOut` — manage Copilot language-server auth
-- Shell helpers: `ct-zeta2`, `ct-qwen`, `copilot-lsp`
+- Shell helpers: `ct-zeta2`, `ct-qwen`
 
 ### Files & Search
 

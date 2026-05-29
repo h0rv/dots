@@ -65,7 +65,7 @@ local function normalize_provider(name)
     if provider == "zeta2" then
         provider = "zeta-2"
     end
-    if provider == "inline" or provider == "zeta-2" or provider == "copilot" then
+    if provider == "inline" or provider == "zeta-2" then
         return provider
     end
     return "inline"
@@ -233,13 +233,6 @@ local function ensure_local_server(provider)
 end
 
 local function provider_config(provider)
-    if provider == "copilot" then
-        return {
-            type = "copilot",
-            completion_timeout = 6000,
-        }
-    end
-
     if provider == "zeta-2" then
         return {
             type = "zeta-2",
@@ -276,10 +269,6 @@ local function setup(provider_name)
             vim.notify("cursortab.nvim is not available", vim.log.levels.WARN)
         end)
         return false
-    end
-
-    if provider == "copilot" then
-        pcall(vim.lsp.enable, { "copilot" })
     end
 
     cursortab.setup({
@@ -322,7 +311,7 @@ vim.api.nvim_create_user_command("CursortabProvider", function(opts)
 end, {
     nargs = 1,
     complete = function()
-        return { "inline", "zeta-2", "copilot" }
+        return { "inline", "zeta-2" }
     end,
     desc = "Switch cursortab provider",
 })

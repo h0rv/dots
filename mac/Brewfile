@@ -1,0 +1,53 @@
+tap "anomalyco/tap"
+
+# Core shell/dev workflow.
+brew "git"
+brew "gh"
+brew "jq"
+brew "just"
+brew "lazygit"
+brew "tmux"
+brew "neovim", args: ["HEAD"]
+brew "ripgrep"
+brew "fd"
+brew "fzf"
+brew "zoxide"
+brew "yazi"
+brew "difftastic"
+brew "glow"
+brew "btop"
+brew "tree"
+brew "trash"
+brew "sqlite"
+brew "curl"
+brew "wget"
+brew "uutils-coreutils"
+
+# Language runtimes and package managers.
+brew "node"
+brew "uv"
+brew "mise"
+brew "python@3.13"
+
+# Database tooling.
+brew "postgresql@17"
+brew "libpq"
+
+# macOS window management.
+brew "paneru"
+
+# Neovim language servers and helpers.
+brew "lua-language-server"
+brew "typescript-language-server"
+brew "vscode-langservers-extracted"
+brew "yaml-language-server"
+brew "taplo"
+
+# Terminal AI agents.
+brew "anomalyco/tap/opencode"
+
+# Desktop apps.
+cask "ghostty"
+cask "zen"
+cask "zed"
+cask "cursor"
