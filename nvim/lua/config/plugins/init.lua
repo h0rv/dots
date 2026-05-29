@@ -1,7 +1,30 @@
 -- Plugin configurations
 -- Each feature is organized into its own module.
 
+vim.api.nvim_create_autocmd("PackChanged", {
+    callback = function(ev)
+        local data = ev.data or {}
+        local spec = data.spec or {}
+        if spec.name ~= "cursortab.nvim" or (data.kind ~= "install" and data.kind ~= "update") then
+            return
+        end
+        if vim.fn.executable("go") == 0 then
+            return
+        end
+        local binary = "cursortab"
+        if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+            binary = binary .. ".exe"
+        end
+        vim.system({ "go", "build", "-o", binary }, {
+            cwd = vim.fs.joinpath(data.path, "server"),
+            text = true,
+        })
+    end,
+})
+
 vim.pack.add({
+    "https://github.com/benlubas/molten-nvim",
+    "https://github.com/GCBallesteros/jupytext.nvim",
     "https://github.com/folke/tokyonight.nvim",
     "https://github.com/f4z3r/gruvbox-material.nvim",
     "https://github.com/gthelding/monokai-pro.nvim",
@@ -17,7 +40,11 @@ vim.pack.add({
     "https://github.com/sindrets/diffview.nvim",
     "https://github.com/clabby/difftastic.nvim",
     "https://github.com/folke/flash.nvim",
-})
+    "https://github.com/cursortab/cursortab.nvim",
+    "https://github.com/nvim-mini/mini.surround",
+    -- "https://github.com/pablopunk/pi.nvim",
+    -- { src = "https://github.com/h0rv/pi.nvim", version = "persistent-rpc" },
+}, { confirm = false })
 
 vim.api.nvim_create_user_command("PackUpdate", function()
     vim.pack.update()
@@ -31,6 +58,7 @@ require("config.plugins.treesitter")
 require("config.plugins.snacks")
 require("config.plugins.tmux-nav")
 require("config.plugins.flash")
+require("config.plugins.surround")
 
 -- Session
 require("config.plugins.session")
@@ -39,6 +67,11 @@ require("config.plugins.session")
 require("config.plugins.lsp")
 require("config.plugins.formatting")
 require("config.plugins.linting")
+require("config.plugins.notebook")
+
+-- AI
+-- require("config.plugins.cursortab")
+-- require("config.plugins.pi")
 
 -- Git
 require("config.plugins.diff")

@@ -7,5 +7,6 @@ require("which-key").setup({
         { "<leader>d", group = "Diagnostics" },
         { "<leader>r", group = "Refactor" },
         { "<leader>c", group = "Code" },
+        { "<leader>j", group = "Jupyter" },
     },
 })

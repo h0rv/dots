@@ -1,5 +1,58 @@
 local project = require("config.project")
 
+local function copilot_cmd()
+    if vim.fn.executable("copilot-language-server") == 1 then
+        return { "copilot-language-server", "--stdio" }
+    end
+
+    if vim.fn.executable("mise") == 1 then
+        return {
+            "mise",
+            "exec",
+            "node@latest",
+            "--",
+            "npx",
+            "--yes",
+            "@github/copilot-language-server",
+            "--stdio",
+        }
+    end
+
+    if vim.fn.executable("npx") == 1 then
+        return { "npx", "--yes", "@github/copilot-language-server", "--stdio" }
+    end
+
+    return nil
+end
+
+local function get_copilot_client(bufnr)
+    local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "copilot" })
+    if clients[1] then
+        return clients[1]
+    end
+
+    clients = vim.lsp.get_clients({ bufnr = bufnr, name = "GitHub Copilot" })
+    return clients[1]
+end
+
+local function buf_supports(bufnr, method)
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+        if client:supports_method(method) then
+            return true
+        end
+    end
+    return false
+end
+
+local function goto_definition(bufnr)
+    if buf_supports(bufnr, "textDocument/definition") then
+        vim.lsp.buf.definition()
+        return
+    end
+
+    vim.notify("No LSP definition provider for this buffer", vim.log.levels.WARN)
+end
+
 local function python_root_dir_with(executable, blockers)
     return function(bufnr, on_dir)
         for _, blocker in ipairs(blockers or {}) do
@@ -283,8 +336,110 @@ vim.lsp.config("zls", {
     },
 })
 
+local copilot = copilot_cmd()
+if copilot then
+    vim.lsp.config("copilot", {
+        cmd = copilot,
+        filetypes = {
+            "bash",
+            "c",
+            "cpp",
+            "css",
+            "elixir",
+            "go",
+            "heex",
+            "html",
+            "javascript",
+            "javascriptreact",
+            "json",
+            "lua",
+            "markdown",
+            "python",
+            "racket",
+            "rust",
+            "toml",
+            "typescript",
+            "typescriptreact",
+            "yaml",
+            "zig",
+        },
+        root_markers = { ".git" },
+        workspace_required = false,
+        init_options = {
+            editorInfo = {
+                name = "Neovim",
+                version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch,
+            },
+            editorPluginInfo = {
+                name = "cursortab.nvim",
+                version = "local-dotfiles",
+            },
+        },
+    })
+end
+
 vim.lsp.enable({ "basedpyright", "ty", "pyright", "ruff", "typescript", "lua_ls", "jsonls", "yamlls", "taplo",
     "rust_analyzer", "elixirls", "zls" })
+
+vim.api.nvim_create_user_command("CopilotLspSignIn", function()
+    if copilot then
+        pcall(vim.lsp.enable, { "copilot" })
+    end
+
+    local client = get_copilot_client(0)
+    if not client then
+        vim.notify("Copilot LSP is not ready yet; retry in a moment", vim.log.levels.WARN)
+        return
+    end
+
+    client:request("signIn", {}, function(err, result)
+        vim.schedule(function()
+            if err then
+                vim.notify("Copilot sign-in failed: " .. (err.message or tostring(err)), vim.log.levels.ERROR)
+                return
+            end
+
+            if result and result.userCode and vim.fn.has("clipboard") == 1 then
+                vim.fn.setreg("+", result.userCode)
+            end
+
+            if result and result.command then
+                client:request("workspace/executeCommand", result.command, function(exec_err)
+                    if exec_err then
+                        vim.schedule(function()
+                            vim.notify("Copilot browser launch failed: " .. (exec_err.message or tostring(exec_err)),
+                                vim.log.levels.WARN)
+                        end)
+                    end
+                end, 0)
+            end
+
+            local msg = "Copilot sign-in started"
+            if result and result.userCode then
+                msg = msg .. " — code copied: " .. result.userCode
+            end
+            vim.notify(msg, vim.log.levels.INFO)
+        end)
+    end, 0)
+end, { desc = "Start GitHub Copilot language-server sign-in" })
+
+vim.api.nvim_create_user_command("CopilotLspSignOut", function()
+    local client = get_copilot_client(0)
+    if not client then
+        vim.notify("Copilot LSP is not attached to this buffer", vim.log.levels.WARN)
+        return
+    end
+
+    client:request("signOut", {}, function(err)
+        vim.schedule(function()
+            if err then
+                vim.notify("Copilot sign-out failed: " .. (err.message or tostring(err)), vim.log.levels.ERROR)
+                return
+            end
+            vim.notify("Copilot signed out", vim.log.levels.INFO)
+        end)
+    end, 0)
+end, { desc = "Sign out of GitHub Copilot language server" })
 
 vim.diagnostic.config({
     underline = true,
@@ -338,9 +493,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.tbl_extend("force", opts, { desc = "Diagnostics -> quickfix" }))
 
         -- Mouse goto def
-        vim.keymap.set("n", "<C-LeftMouse>", function() vim.lsp.buf.definition() end,
-            { desc = "Go to definition (Ctrl+Click)" })
-        vim.keymap.set("n", "<2-LeftMouse>", vim.lsp.buf.definition, { desc = "Go to definition (double click)" })
+        vim.keymap.set("n", "<C-LeftMouse>", function() goto_definition(bufnr) end,
+            { buffer = bufnr, silent = true, desc = "Go to definition (Ctrl+Click)" })
+        vim.keymap.set("n", "<2-LeftMouse>", function() goto_definition(bufnr) end,
+            { buffer = bufnr, silent = true, desc = "Go to definition (double click)" })
 
         pcall(function()
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })

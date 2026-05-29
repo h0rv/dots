@@ -7,6 +7,12 @@ local opt = vim.opt
 g.mapleader = ' '
 g.maplocalleader = ' '
 
+-- Python provider for Python-backed plugins
+local nvim_python = vim.fn.stdpath("data") .. "/python/bin/python"
+if vim.fn.executable(nvim_python) == 1 then
+    g.python3_host_prog = nvim_python
+end
+
 -- Disable netrw (snacks.explorer replaces it)
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
