@@ -29,6 +29,10 @@ backup_and_link "$DOTS_DIR/ghostty" ~/.config/ghostty
 # kitty
 backup_and_link "$DOTS_DIR/kitty" ~/.config/kitty
 
+# git
+mkdir -p ~/.config/git
+backup_and_link "$DOTS_DIR/git/config" ~/.config/git/config
+
 # zsh
 backup_and_link "$DOTS_DIR/zsh/.zshrc" ~/.zshrc
 backup_and_link "$DOTS_DIR/zsh/.zprofile" ~/.zprofile
