@@ -45,6 +45,27 @@ Install tmux plugins (including TPM + tmux-resurrect):
 | `C-Space M-4` | Equal columns |
 | `C-Space M-5` | Equal rows |
 
+## macOS window management
+
+AeroSpace and SketchyBar live under `mac/` and link into `~/.config`. Run `./mac/bootstrap.sh`, then launch AeroSpace once and grant Accessibility permission.
+
+| Key | Action |
+|-----|--------|
+| `Alt-h/j/k/l` | Focus |
+| `Alt-Shift-h/j/k/l` | Move window |
+| `Ctrl-Alt-h/j/k/l` | Resize |
+| `Alt-1..5` | Workspace |
+| `Alt-Shift-1..5` | Move window to workspace |
+| `Alt-Enter` | Ghostty |
+| `Alt-Space` | Float/tiling |
+| `Alt-Shift-q` | Close focused window |
+| `Alt-f` / `Alt-b` / `Alt-r` | Fullscreen / balance / reload |
+| `Alt-Shift-Left/Right` | Move workspace to monitor |
+
+Mouse follows keyboard focus. For meetings, keep the laptop display arranged to the right in macOS Settings -> Displays. Workspaces are intentionally not pinned to monitors, so clamshell and open-laptop mode both stay flexible.
+
+SketchyBar is intentionally minimal: five workspaces and date/time.
+
 ## Navigation (tmux + neovim)
 
 `Ctrl+h/j/k/l` moves seamlessly between neovim splits and tmux panes. No prefix needed. If you're in neovim with two splits and a tmux pane to the right, `Ctrl+l` goes from neovim split -> neovim split -> tmux pane automatically.

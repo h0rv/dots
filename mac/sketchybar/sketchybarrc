@@ -1,0 +1,91 @@
+#!/usr/bin/env sh
+
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+black=0xff000000
+fg=0xffd4be98
+
+FONT="Maple Mono:Bold:12.0"
+
+BAR_H=32   # visible bar height — match the notch height so the boxes sit flush
+R=10       # corner radius
+FILL=100   # spacer on the notch side that keeps text clear of the physical notch
+
+# The notch trick, in three moves:
+#   1. notch_width=0 lets the q/e boxes meet at screen center (behind the notch).
+#   2. Backgrounds are drawn 2*R taller than the bar and shifted up by R, so the
+#      rounded TOP corners land above the bar and get clipped — leaving a square
+#      top and only the bottom corners rounded.
+#   3. The outer-bottom corner stays rounded; the inner one sits under the notch.
+BG_H=$((BAR_H + 2 * R))
+BG_Y=$R
+
+# q items stack from the notch outward, so list workspaces reversed once here and
+# they render 1..5 left-to-right.
+SPACES="5 4 3 2 1"
+
+sketchybar --remove '/.*/'
+
+# Transparent bar; the visible black lives on the brackets below.
+sketchybar --bar \
+	position=top \
+	height=$BAR_H \
+	notch_width=0 \
+	color=0x00000000 \
+	topmost=window
+
+sketchybar --default \
+	icon.drawing=off \
+	label.font="$FONT" \
+	label.color="$fg"
+
+sketchybar --add event aerospace_workspace_change
+
+# --- Workspaces (q = left of notch) ---
+# Spacer added first so it sits nearest the notch, holding the numbers clear of it.
+sketchybar --add item space.fill q \
+	--set space.fill width=$FILL label.drawing=off
+
+for sid in $SPACES; do
+	sketchybar --add item "space.$sid" q \
+		--set "space.$sid" \
+		width=24 \
+		label="$sid" \
+		label.width=24 \
+		label.align=center \
+		script="$PLUGIN_DIR/aerospace_workspace.sh" \
+		click_script="aerospace workspace --fail-if-noop $sid >/dev/null 2>&1 || true" \
+		--subscribe "space.$sid" aerospace_workspace_change
+done
+
+sketchybar --add bracket spaces_bg /space\..*/ \
+	--set spaces_bg \
+	background.drawing=on \
+	background.color=$black \
+	background.height=$BG_H \
+	background.y_offset=$BG_Y \
+	background.corner_radius=$R
+
+# --- Date (e = right of notch) ---
+sketchybar --add item clock.fill e \
+	--set clock.fill width=$FILL label.drawing=off
+
+sketchybar --add item clock e \
+	--set clock \
+	label.padding_left=10 \
+	label.padding_right=10 \
+	update_freq=30 \
+	script="$PLUGIN_DIR/clock.sh" \
+	--subscribe clock system_woke
+
+sketchybar --add bracket clock_bg clock.fill clock \
+	--set clock_bg \
+	background.drawing=on \
+	background.color=$black \
+	background.height=$BG_H \
+	background.y_offset=$BG_Y \
+	background.corner_radius=$R
+
+sketchybar --trigger aerospace_workspace_change
+sketchybar --update

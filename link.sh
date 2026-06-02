@@ -33,6 +33,13 @@ backup_and_link "$DOTS_DIR/kitty" ~/.config/kitty
 mkdir -p ~/.config/git
 backup_and_link "$DOTS_DIR/git/config" ~/.config/git/config
 
+# aerospace
+mkdir -p ~/.config/aerospace
+backup_and_link "$DOTS_DIR/mac/aerospace/aerospace.toml" ~/.config/aerospace/aerospace.toml
+
+# sketchybar
+backup_and_link "$DOTS_DIR/mac/sketchybar" ~/.config/sketchybar
+
 # zsh
 backup_and_link "$DOTS_DIR/zsh/.zshrc" ~/.zshrc
 backup_and_link "$DOTS_DIR/zsh/.zprofile" ~/.zprofile

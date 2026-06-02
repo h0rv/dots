@@ -1,4 +1,6 @@
 tap "anomalyco/tap"
+tap "FelixKratz/formulae"
+tap "nikitabobko/tap"
 
 # Core shell/dev workflow.
 brew "git"
@@ -33,8 +35,8 @@ brew "python@3.13"
 brew "postgresql@17"
 brew "libpq"
 
-# macOS window management.
-brew "paneru"
+# macOS desktop.
+brew "FelixKratz/formulae/sketchybar"
 
 # Neovim language servers and helpers.
 brew "lua-language-server"
@@ -48,6 +50,11 @@ brew "anomalyco/tap/opencode"
 
 # Desktop apps.
 cask "ghostty"
+cask "nikitabobko/tap/aerospace"
 cask "zen"
 cask "zed"
 cask "cursor"
+cask "codex"
+cask "codex-app"
+cask "claude"
+cask "claude-code@latest"

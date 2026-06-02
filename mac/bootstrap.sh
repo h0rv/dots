@@ -15,6 +15,10 @@ brew bundle --file "$MAC_DIR/Brewfile"
 
 "$DOTS_DIR/link.sh"
 
+if command -v sketchybar >/dev/null 2>&1; then
+	env -u TMUX brew services restart sketchybar || env -u TMUX brew services start sketchybar || true
+fi
+
 if [ -x "$DOTS_DIR/tmux/bootstrap.sh" ]; then
 	"$DOTS_DIR/tmux/bootstrap.sh" || true
 fi
@@ -24,3 +28,4 @@ if command -v make >/dev/null 2>&1; then
 fi
 
 echo "Mac bootstrap complete. Restart the terminal so zsh picks up Homebrew paths and completions."
+echo "Launch AeroSpace once and grant Accessibility permission if macOS prompts for it."
