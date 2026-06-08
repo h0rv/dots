@@ -21,17 +21,51 @@ FILL=100   # spacer on the notch side that keeps text clear of the physical notc
 BG_H=$((BAR_H + 2 * R))
 BG_Y=$R
 
-# q items stack from the notch outward, so list workspaces reversed once here and
-# they render 1..5 left-to-right.
-SPACES="5 4 3 2 1"
+# Even spacing everywhere: G px between the bar pill and the screen edges, and
+# the same G between the pill and the windows below (AeroSpace's outer.top is
+# BAR_H + G to match). Keep this in sync with outer.* in aerospace.toml.
+GAP=8
+
+# Normal pill background for external displays (all corners rounded, floating).
+# Height = BAR_H - GAP so the pill bottom sits flush with the bar bottom and
+# leaves GAP above it; y_offset shifts it down from vertical-centered to there.
+NBG_H=$((BAR_H - GAP))
+NBG_Y=$(((NBG_H - BAR_H) / 2))
+
+# --- Which displays are which ---------------------------------------------
+# SketchyBar numbers displays left-to-right in the macOS arrangement, the same
+# order AeroSpace uses, so map names from `aerospace list-monitors` to indices.
+# The notch look only makes sense on the built-in display; everything else gets
+# a normal bar. A missing side falls back to 99 (a non-existent index) so those
+# items simply don't draw.
+# At login this config can run before AeroSpace is up; without monitor data both
+# indices fall back to 99 and the bar renders blank. Wait up to ~5s for it.
+MONITORS=""
+i=0
+while [ -z "$MONITORS" ] && [ "$i" -lt 20 ]; do
+	MONITORS="$(aerospace list-monitors --format '%{monitor-id}|%{monitor-name}' 2>/dev/null)"
+	[ -n "$MONITORS" ] && break
+	sleep 0.25
+	i=$((i + 1))
+done
+
+NOTCH_DISPLAY="$(printf '%s\n' "$MONITORS" \
+	| awk -F'|' 'tolower($2) ~ /built-?in|color lcd|liquid retina/ {gsub(/[^0-9]/,"",$1); print $1; exit}')"
+EXTERNAL_DISPLAYS="$(printf '%s\n' "$MONITORS" \
+	| awk -F'|' 'tolower($2) !~ /built-?in|color lcd|liquid retina/ {gsub(/[^0-9]/,"",$1); printf "%s%s", (c++?",":""), $1}')"
+NOTCH_DISPLAY="${NOTCH_DISPLAY:-99}"
+EXTERNAL_DISPLAYS="${EXTERNAL_DISPLAYS:-99}"
 
 sketchybar --remove '/.*/'
 
-# Transparent bar; the visible black lives on the brackets below.
+# Transparent bar on every display; the visible black lives on the item
+# backgrounds below, which differ per display.
 sketchybar --bar \
 	position=top \
 	height=$BAR_H \
 	notch_width=0 \
+	padding_left=$GAP \
+	padding_right=$GAP \
 	color=0x00000000 \
 	topmost=window
 
@@ -42,14 +76,20 @@ sketchybar --default \
 
 sketchybar --add event aerospace_workspace_change
 
-# --- Workspaces (q = left of notch) ---
+# =========================================================================
+# Built-in (notched) display — the extended-notch look
+# =========================================================================
+
 # Spacer added first so it sits nearest the notch, holding the numbers clear of it.
 sketchybar --add item space.fill q \
-	--set space.fill width=$FILL label.drawing=off
+	--set space.fill display=$NOTCH_DISPLAY width=$FILL label.drawing=off
 
-for sid in $SPACES; do
+# q items stack from the notch outward, so list workspaces reversed (5..1) and
+# they render 1..5 left-to-right.
+for sid in 5 4 3 2 1; do
 	sketchybar --add item "space.$sid" q \
 		--set "space.$sid" \
+		display=$NOTCH_DISPLAY \
 		width=24 \
 		label="$sid" \
 		label.width=24 \
@@ -59,20 +99,21 @@ for sid in $SPACES; do
 		--subscribe "space.$sid" aerospace_workspace_change
 done
 
-sketchybar --add bracket spaces_bg /space\..*/ \
+sketchybar --add bracket spaces_bg '/^space\./' \
 	--set spaces_bg \
+	display=$NOTCH_DISPLAY \
 	background.drawing=on \
 	background.color=$black \
 	background.height=$BG_H \
 	background.y_offset=$BG_Y \
 	background.corner_radius=$R
 
-# --- Date (e = right of notch) ---
 sketchybar --add item clock.fill e \
-	--set clock.fill width=$FILL label.drawing=off
+	--set clock.fill display=$NOTCH_DISPLAY width=$FILL label.drawing=off
 
 sketchybar --add item clock e \
 	--set clock \
+	display=$NOTCH_DISPLAY \
 	label.padding_left=10 \
 	label.padding_right=10 \
 	update_freq=30 \
@@ -81,11 +122,55 @@ sketchybar --add item clock e \
 
 sketchybar --add bracket clock_bg clock.fill clock \
 	--set clock_bg \
+	display=$NOTCH_DISPLAY \
 	background.drawing=on \
 	background.color=$black \
 	background.height=$BG_H \
 	background.y_offset=$BG_Y \
 	background.corner_radius=$R
+
+# =========================================================================
+# External displays — a normal bar (workspaces top-left, date top-right)
+# =========================================================================
+
+# left items stack left-to-right in add order, so 1..5 here renders 1..5.
+for sid in 1 2 3 4 5; do
+	sketchybar --add item "xspace.$sid" left \
+		--set "xspace.$sid" \
+		display=$EXTERNAL_DISPLAYS \
+		width=24 \
+		label="$sid" \
+		label.width=24 \
+		label.align=center \
+		label.y_offset=$NBG_Y \
+		script="$PLUGIN_DIR/aerospace_workspace.sh" \
+		click_script="aerospace workspace --fail-if-noop $sid >/dev/null 2>&1 || true" \
+		--subscribe "xspace.$sid" aerospace_workspace_change
+done
+
+sketchybar --add bracket xspaces_bg '/^xspace\./' \
+	--set xspaces_bg \
+	display=$EXTERNAL_DISPLAYS \
+	background.drawing=on \
+	background.color=$black \
+	background.height=$NBG_H \
+	background.y_offset=$NBG_Y \
+	background.corner_radius=$R
+
+sketchybar --add item xclock right \
+	--set xclock \
+	display=$EXTERNAL_DISPLAYS \
+	label.padding_left=10 \
+	label.padding_right=10 \
+	label.y_offset=$NBG_Y \
+	background.drawing=on \
+	background.color=$black \
+	background.height=$NBG_H \
+	background.y_offset=$NBG_Y \
+	background.corner_radius=$R \
+	update_freq=30 \
+	script="$PLUGIN_DIR/clock.sh" \
+	--subscribe xclock system_woke
 
 sketchybar --trigger aerospace_workspace_change
 sketchybar --update

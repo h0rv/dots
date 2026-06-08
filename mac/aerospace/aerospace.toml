@@ -29,7 +29,11 @@ inner.horizontal = 6
 inner.vertical = 6
 outer.left = 8
 outer.bottom = 8
-outer.top = 8
+# Reserve room for the SketchyBar at the top (the macOS menu bar is auto-hidden,
+# so it reserves nothing). The built-in display still reserves the physical notch
+# (~BAR_H), so it needs only an 8px gap; external displays need the full bar
+# height + 8 = 40 so windows clear the bar with the same even gap as the sides.
+outer.top = [{ monitor.'built-?in|color lcd|liquid retina' = 8 }, 40]
 outer.right = 8
 
 [mode.main.binding]

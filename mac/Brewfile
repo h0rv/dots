@@ -1,6 +1,7 @@
 tap "anomalyco/tap"
 tap "FelixKratz/formulae"
 tap "nikitabobko/tap"
+tap "typewhisper/tap"
 
 # Core shell/dev workflow.
 brew "git"
@@ -23,6 +24,7 @@ brew "trash"
 brew "sqlite"
 brew "curl"
 brew "wget"
+brew "httpie"
 brew "uutils-coreutils"
 
 # Language runtimes and package managers.
@@ -58,3 +60,7 @@ cask "codex"
 cask "codex-app"
 cask "claude"
 cask "claude-code@latest"
+cask "typewhisper/tap/typewhisper"
+cask "iina"
+cask "localsend"
+cask "notion"

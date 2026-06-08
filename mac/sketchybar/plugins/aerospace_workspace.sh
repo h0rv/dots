@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-sid="${NAME#space.}"
+sid="${NAME##*.}"
 focused="${FOCUSED_WORKSPACE:-}"
 
 if [ -z "$focused" ] && command -v aerospace >/dev/null 2>&1; then
