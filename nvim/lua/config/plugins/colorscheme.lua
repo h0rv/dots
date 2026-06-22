@@ -8,6 +8,21 @@ require("gruvbox-material").setup({
 })
 vim.cmd.colorscheme("gruvbox-material")
 
+-- Follow the macOS system appearance. auto-dark-mode polls the OS and flips
+-- vim.o.background; gruvbox-material reads &background and repaints, so light
+-- mode gives "Gruvbox Material Light" with no restart needed.
+require("auto-dark-mode").setup({
+    update_interval = 3000,
+    set_dark_mode = function()
+        vim.o.background = "dark"
+        vim.cmd.colorscheme("gruvbox-material")
+    end,
+    set_light_mode = function()
+        vim.o.background = "light"
+        vim.cmd.colorscheme("gruvbox-material")
+    end,
+})
+
 -- require("monokai-pro").setup({
 -- filter = "ristretto",
 -- override = function()

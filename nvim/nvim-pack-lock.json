@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "auto-dark-mode.nvim": {
+      "rev": "54058b4fe414bd64bd2904a6f8a63f1f14e3d8df",
+      "src": "https://github.com/f-person/auto-dark-mode.nvim"
+    },
     "bento.nvim": {
       "rev": "3b529fb1ff417fe0ab5759a712372a6a64152271",
       "src": "https://github.com/serhez/bento.nvim"

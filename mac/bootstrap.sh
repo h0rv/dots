@@ -15,6 +15,10 @@ brew bundle --file "$MAC_DIR/Brewfile"
 
 "$DOTS_DIR/link.sh"
 
+if [ -x "$MAC_DIR/macos-defaults.sh" ]; then
+	"$MAC_DIR/macos-defaults.sh" || true
+fi
+
 if command -v sketchybar >/dev/null 2>&1; then
 	env -u TMUX brew services restart sketchybar || env -u TMUX brew services start sketchybar || true
 fi

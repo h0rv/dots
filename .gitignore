@@ -7,6 +7,12 @@ fish/conf.d
 fish/functions
 fish/fish_variables
 fish/secrets.fish
+
+# Secrets — never commit, anywhere in the tree
+.secrets
+**/.secrets
+.secrets.*
+**/.secrets.*
 pi/agent/auth.json
 pi/agent/auth*.json
 pi/agent/mcp-oauth/

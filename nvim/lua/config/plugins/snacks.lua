@@ -14,7 +14,10 @@ local function package_root()
 end
 
 require("snacks").setup({
-    picker = { enabled = true },
+    picker = {
+        enabled = true,
+        ui_select = true, -- route vim.ui.select through the picker (fixes checkhealth)
+    },
     explorer = { enabled = true },
     dashboard = {
         enabled = true,
@@ -52,7 +55,7 @@ set("n", "<leader>ff", function()
 end, { desc = "Find files" })
 
 set("n", "<leader>fg", function()
-    Snacks.picker.grep({ cwd = project.project_root(0) })
+    Snacks.picker.grep({ cwd = project.project_root(0), live = true })
 end, { desc = "Live grep" })
 
 set("n", "<leader>fb", function()
@@ -79,7 +82,7 @@ end, { desc = "Find files (package)" })
 
 set("n", "<leader>fP", function()
     local root = package_root()
-    Snacks.picker.grep({ cwd = root })
+    Snacks.picker.grep({ cwd = root, live = true })
 end, { desc = "Grep (package)" })
 
 -- Manual subdir scope

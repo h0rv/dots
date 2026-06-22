@@ -17,6 +17,13 @@ if [[ "$OSTYPE" == darwin* ]]; then
   is_macos=1
 fi
 
+# secrets
+source ~/.secrets
+
+# uv / python
+export UV_KEYRING_PROVIDER=subprocess
+export UV_INDEX_ANATOMY_PYTHON_USERNAME=oauth2accesstoken
+
 export FZF_DEFAULT_OPTS='
   --style=minimal
   --height=40%
@@ -147,3 +154,7 @@ if [[ -o interactive && -z ${ZSH_EXECUTION_STRING-} ]]; then
 
   bindkey '^L' clear-screen
 fi
+
+source <(mani completion zsh)
+
+mdfmt() { uvx --with mdformat-gfm mdformat --wrap no --number "$@"; }
