@@ -194,9 +194,10 @@ snacks.nvim, persistence.nvim, nvim-tmux-navigation, diffview.nvim, difftastic.n
 
 ## Pi
 
-Tracked Pi files live under `pi/agent/` and only include non-sensitive bootstrap/config files:
+Tracked Pi files live under `pi/agent/` and only include non-sensitive configuration and extensions:
 
 - `pi/agent/settings.json`
+- `pi/agent/extensions/gondolin/`
 
 Excluded from the repo:
 
