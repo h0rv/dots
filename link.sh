@@ -47,7 +47,8 @@ backup_and_link "$DOTS_DIR/zsh/.zprofile" ~/.zprofile
 # pi
 mkdir -p ~/.pi/agent ~/.pi/agent/extensions
 backup_and_link "$DOTS_DIR/pi/agent/settings.json" ~/.pi/agent/settings.json
-backup_and_link "$DOTS_DIR/pi/agent/extensions/gondolin" ~/.pi/agent/extensions/gondolin
+rm -rf ~/.pi/agent/extensions/gondolin
+cp -R "$DOTS_DIR/pi/agent/extensions/gondolin" ~/.pi/agent/extensions/gondolin
 
 if [ -x "$DOTS_DIR/pi/bootstrap.sh" ] && command -v pi >/dev/null 2>&1 && command -v node >/dev/null 2>&1; then
 	echo "Syncing pi packages"

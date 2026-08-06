@@ -246,7 +246,7 @@ function createGondolinBashOps(vm: VM, localCwd: string, additionalMounts: Addit
         if (hostArgs && isBrokeredCommand(hostArgs[0])) {
           onData(
             Buffer.from(
-              `Host command broker denied this command. Use one of: ${hostBrokerGuidance()\n`,
+              `Host command broker denied this command. Use one of: ${hostBrokerGuidance()}\n`,
             ),
           );
           return { exitCode: 126 };
