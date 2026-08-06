@@ -67,24 +67,7 @@ function currentBranch(cwd: string): string | null {
   return branch || null;
 }
 
-function gitSubcommandIndex(args: string[]): number {
-  let index = 1;
-  while (args[index] === "-C") index += 2;
-  while (args[index]?.startsWith("--git-dir=") || args[index]?.startsWith("--work-tree=")) index++;
-  return index;
-}
-
-function gitWorkingDirectory(args: string[], cwd: string): string {
-  const gitCwdIndex = args.indexOf("-C");
-  return gitCwdIndex >= 0 && args[gitCwdIndex + 1] ? args[gitCwdIndex + 1] : cwd;
-}
-
 function hostWriteGuard(args: string[], cwd: string): string | null {
-  if (args[0] === "git" && args[gitSubcommandIndex(args)] === "push") {
-    const branch = currentBranch(gitWorkingDirectory(args, cwd));
-    if (!branch || isProtectedBranch(branch))
-      return "Push requires a non-protected current branch.";
-  }
   if (args[0] !== "gh" || args[1] !== "pr" || args[2] !== "create") return null;
   const rest = args.slice(3);
   const headIndex = rest.findIndex((arg) => arg === "--head" || arg === "-H");

@@ -169,13 +169,6 @@ function isApprovedRepoPath(value: string, cwd: string, approvedRoots: string[])
   const resolved = path.resolve(cwd, value);
   return approvedRoots.some((root) => isInside(path.resolve(root), resolved));
 }
-function referencesProtectedBranch(value: string): boolean {
-  return value
-    .split(":")
-    .map((ref) => ref.replace(/^refs\/heads\//, ""))
-    .some((ref) => ref === "main" || ref === "master");
-}
-
 function validateGitWrite(subcommand: string, rest: string[]): string | null {
   if (subcommand === "add") {
     const broadFlags = [
@@ -213,8 +206,8 @@ function validateGitWrite(subcommand: string, rest: string[]): string | null {
     ];
     if (rest.some((arg) => blocked.includes(arg) || /^(--force|--delete)=/.test(arg)))
       return "Force, delete, mirror, all-refs, tags, and atomic pushes are blocked.";
-    if (rest.some((arg) => arg.startsWith(":") || referencesProtectedBranch(arg)))
-      return "Deleting refs and pushing to main or master are blocked.";
+    if (rest.some((arg) => arg.startsWith(":")))
+      return "Deleting refs is blocked.";
   }
   return null;
 }
