@@ -10,10 +10,7 @@ import path from "node:path";
 import os from "node:os";
 import { spawn, spawnSync } from "node:child_process";
 
-import type {
-  ExtensionAPI,
-  ExtensionContext,
-} from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import {
   type BashOperations,
   createBashTool,
@@ -27,16 +24,26 @@ import {
 
 import { ReadonlyProvider, RealFSProvider, VM } from "@earendil-works/gondolin";
 import {
-  hostBrokerGuidance, hostCommandDenial, isBrokeredCommand,
-  parseGitPathMappings, parseSingleCommand, secretEnv, httpHooks, translateGitGuestPaths, validateMountRequest,
+  hostBrokerGuidance,
+  hostCommandDenial,
+  isBrokeredCommand,
+  parseGitPathMappings,
+  parseSingleCommand,
+  secretEnv,
+  httpHooks,
+  translateGitGuestPaths,
+  validateMountRequest,
 } from "./policy";
 import { Type } from "typebox";
 
 const GUEST_WORKSPACE = "/workspace";
+// Skills are already advertised to the agent. Mount only that explicit directory,
+// read-only, so the agent can load the skills it was given.
+const HOST_AGENT_SKILLS_DIR = path.join(os.homedir(), ".agents", "skills");
+const GUEST_AGENT_SKILLS_DIR = "/agent-skills";
 // Explicit mappings avoid coupling the extension to a developer's host layout.
 // GONDOLIN_GIT_PATH_MOUNTS uses guest=host pairs separated by `;`.
 const GIT_PATH_MAPPINGS = parseGitPathMappings(process.env.GONDOLIN_GIT_PATH_MOUNTS);
-const HOST_REPOSITORY_ROOTS = GIT_PATH_MAPPINGS.map((mapping) => mapping.hostRoot);
 
 type AdditionalMount = { hostPath: string; guestPath: string; readWrite: boolean };
 
@@ -75,13 +82,15 @@ function gitWorkingDirectory(args: string[], cwd: string): string {
 function hostWriteGuard(args: string[], cwd: string): string | null {
   if (args[0] === "git" && args[gitSubcommandIndex(args)] === "push") {
     const branch = currentBranch(gitWorkingDirectory(args, cwd));
-    if (!branch || isProtectedBranch(branch)) return "Push requires a non-protected current branch.";
+    if (!branch || isProtectedBranch(branch))
+      return "Push requires a non-protected current branch.";
   }
   if (args[0] !== "gh" || args[1] !== "pr" || args[2] !== "create") return null;
   const rest = args.slice(3);
   const headIndex = rest.findIndex((arg) => arg === "--head" || arg === "-H");
   const head = headIndex >= 0 ? rest[headIndex + 1] : currentBranch(cwd);
-  if (!head || isProtectedBranch(head)) return "Pull requests must use a non-protected head branch.";
+  if (!head || isProtectedBranch(head))
+    return "Pull requests must use a non-protected head branch.";
   return null;
 }
 
@@ -107,21 +116,40 @@ function runHostCommand(
   });
 }
 
-function toGuestPath(localCwd: string, localPath: string, additionalMounts: AdditionalMount[] = []): string {
+function toGuestPath(
+  localCwd: string,
+  localPath: string,
+  additionalMounts: AdditionalMount[] = [],
+): string {
   // Pi tools pass absolute host paths; permit the workspace and shared skills only.
   const rel = path.relative(localCwd, localPath);
   if (rel === "") return GUEST_WORKSPACE;
   if (!rel.startsWith("..") && !path.isAbsolute(rel)) {
-    return path.posix.join(
-      GUEST_WORKSPACE,
-      rel.split(path.sep).join(path.posix.sep),
-    );
+    return path.posix.join(GUEST_WORKSPACE, rel.split(path.sep).join(path.posix.sep));
+  }
+
+  for (const mount of additionalMounts) {
+    const mountRel = path.relative(mount.hostPath, localPath);
+    if (mountRel === "") return mount.guestPath;
+    if (!mountRel.startsWith("..") && !path.isAbsolute(mountRel)) {
+      return path.posix.join(mount.guestPath, mountRel.split(path.sep).join(path.posix.sep));
+    }
+  }
+
+  const skillRel = path.relative(HOST_AGENT_SKILLS_DIR, localPath);
+  if (skillRel === "") return GUEST_AGENT_SKILLS_DIR;
+  if (!skillRel.startsWith("..") && !path.isAbsolute(skillRel)) {
+    return path.posix.join(GUEST_AGENT_SKILLS_DIR, skillRel.split(path.sep).join(path.posix.sep));
   }
 
   throw new Error(`path is outside the permitted mounts: ${localPath}`);
 }
 
-function createGondolinReadOps(vm: VM, localCwd: string, additionalMounts: AdditionalMount[] = []): ReadOperations {
+function createGondolinReadOps(
+  vm: VM,
+  localCwd: string,
+  additionalMounts: AdditionalMount[] = [],
+): ReadOperations {
   return {
     readFile: async (p) => {
       const guestPath = toGuestPath(localCwd, p, additionalMounts);
@@ -133,11 +161,7 @@ function createGondolinReadOps(vm: VM, localCwd: string, additionalMounts: Addit
     },
     access: async (p) => {
       const guestPath = toGuestPath(localCwd, p, additionalMounts);
-      const r = await vm.exec([
-        "/bin/sh",
-        "-lc",
-        `test -r ${shQuote(guestPath)}`,
-      ]);
+      const r = await vm.exec(["/bin/sh", "-lc", `test -r ${shQuote(guestPath)}`]);
       if (!r.ok) {
         throw new Error(`not readable: ${p}`);
       }
@@ -146,18 +170,10 @@ function createGondolinReadOps(vm: VM, localCwd: string, additionalMounts: Addit
       const guestPath = toGuestPath(localCwd, p, additionalMounts);
       try {
         // Run through the shell because `file` might live in `/usr/bin` depending on the image
-        const r = await vm.exec([
-          "/bin/sh",
-          "-lc",
-          `file --mime-type -b ${shQuote(guestPath)}`,
-        ]);
+        const r = await vm.exec(["/bin/sh", "-lc", `file --mime-type -b ${shQuote(guestPath)}`]);
         if (!r.ok) return null;
         const m = r.stdout.trim();
-        return ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(
-          m,
-        )
-          ? m
-          : null;
+        return ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(m) ? m : null;
       } catch {
         return null;
       }
@@ -165,7 +181,11 @@ function createGondolinReadOps(vm: VM, localCwd: string, additionalMounts: Addit
   };
 }
 
-function createGondolinWriteOps(vm: VM, localCwd: string, additionalMounts: AdditionalMount[] = []): WriteOperations {
+function createGondolinWriteOps(
+  vm: VM,
+  localCwd: string,
+  additionalMounts: AdditionalMount[] = [],
+): WriteOperations {
   return {
     writeFile: async (p, content) => {
       const guestPath = toGuestPath(localCwd, p, additionalMounts);
@@ -194,15 +214,17 @@ function createGondolinWriteOps(vm: VM, localCwd: string, additionalMounts: Addi
   };
 }
 
-function createGondolinEditOps(vm: VM, localCwd: string, additionalMounts: AdditionalMount[] = []): EditOperations {
+function createGondolinEditOps(
+  vm: VM,
+  localCwd: string,
+  additionalMounts: AdditionalMount[] = [],
+): EditOperations {
   const r = createGondolinReadOps(vm, localCwd, additionalMounts);
   const w = createGondolinWriteOps(vm, localCwd, additionalMounts);
   return { readFile: r.readFile, access: r.access, writeFile: w.writeFile };
 }
 
-function sanitizeEnv(
-  env?: NodeJS.ProcessEnv,
-): Record<string, string> | undefined {
+function sanitizeEnv(env?: NodeJS.ProcessEnv): Record<string, string> | undefined {
   if (!env) return undefined;
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(env)) {
@@ -211,7 +233,11 @@ function sanitizeEnv(
   return out;
 }
 
-function createGondolinBashOps(vm: VM, localCwd: string, additionalMounts: AdditionalMount[] = []): BashOperations {
+function createGondolinBashOps(
+  vm: VM,
+  localCwd: string,
+  additionalMounts: AdditionalMount[] = [],
+): BashOperations {
   return {
     exec: async (command, cwd, { onData, signal, timeout, env }) => {
       const ac = new AbortController();
@@ -229,11 +255,19 @@ function createGondolinBashOps(vm: VM, localCwd: string, additionalMounts: Addit
 
       try {
         const hostArgs = parseSingleCommand(command);
+        const activeGitPathMappings = [
+          ...GIT_PATH_MAPPINGS,
+          ...additionalMounts.map((mount) => ({
+            guestRoot: mount.guestPath,
+            hostRoot: mount.hostPath,
+          })),
+        ];
+        const activeHostRepositoryRoots = activeGitPathMappings.map((mapping) => mapping.hostRoot);
         const translatedHostArgs = hostArgs
-          ? translateGitGuestPaths(hostArgs, GIT_PATH_MAPPINGS)
+          ? translateGitGuestPaths(hostArgs, activeGitPathMappings)
           : null;
         const denial = translatedHostArgs
-          ? hostCommandDenial(translatedHostArgs, localCwd, HOST_REPOSITORY_ROOTS)
+          ? hostCommandDenial(translatedHostArgs, localCwd, activeHostRepositoryRoots)
           : "Invalid command syntax.";
         if (translatedHostArgs && !denial) {
           const guardError = hostWriteGuard(translatedHostArgs, localCwd);
@@ -299,22 +333,24 @@ export default function (pi: ExtensionAPI) {
     vmStarting = (async () => {
       ctx?.ui.setStatus(
         "gondolin",
-        ctx.ui.theme.fg(
-          "accent",
-          `Gondolin: starting (mount ${GUEST_WORKSPACE})`,
-        ),
+        ctx.ui.theme.fg("accent", `Gondolin: starting (mount ${GUEST_WORKSPACE})`),
       );
 
       const created = await VM.create({
         vfs: {
           mounts: {
             [GUEST_WORKSPACE]: new RealFSProvider(localCwd),
-            ...Object.fromEntries(additionalMounts.map((mount) => [
-              mount.guestPath,
-              mount.readWrite
-                ? new RealFSProvider(mount.hostPath)
-                : new ReadonlyProvider(new RealFSProvider(mount.hostPath)),
-            ])),
+            [GUEST_AGENT_SKILLS_DIR]: new ReadonlyProvider(
+              new RealFSProvider(HOST_AGENT_SKILLS_DIR),
+            ),
+            ...Object.fromEntries(
+              additionalMounts.map((mount) => [
+                mount.guestPath,
+                mount.readWrite
+                  ? new RealFSProvider(mount.hostPath)
+                  : new ReadonlyProvider(new RealFSProvider(mount.hostPath)),
+              ]),
+            ),
           },
         },
         httpHooks,
@@ -324,15 +360,9 @@ export default function (pi: ExtensionAPI) {
       vm = created;
       ctx?.ui.setStatus(
         "gondolin",
-        ctx.ui.theme.fg(
-          "accent",
-          `Gondolin: running (${localCwd} -> ${GUEST_WORKSPACE})`,
-        ),
+        ctx.ui.theme.fg("accent", `Gondolin: running (${localCwd} -> ${GUEST_WORKSPACE})`),
       );
-      ctx?.ui.notify(
-        `Gondolin VM ready. Host ${localCwd} mounted at ${GUEST_WORKSPACE}`,
-        "info",
-      );
+      ctx?.ui.notify(`Gondolin VM ready. Host ${localCwd} mounted at ${GUEST_WORKSPACE}`, "info");
       return created;
     })();
 
@@ -346,10 +376,7 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("session_shutdown", async (_event, ctx) => {
     if (!vm) return;
-    ctx.ui.setStatus(
-      "gondolin",
-      ctx.ui.theme.fg("muted", "Gondolin: stopping"),
-    );
+    ctx.ui.setStatus("gondolin", ctx.ui.theme.fg("muted", "Gondolin: stopping"));
     try {
       await vm.close();
     } finally {
@@ -361,30 +388,64 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "gondolin_mount",
     label: "Request Gondolin mount",
-    description: "Request a user-approved host directory mount. Approved mounts are read-only by default; read-write requires separate confirmation.",
+    description:
+      "Request a user-approved host directory mount. Approved mounts are read-only by default; read-write requires separate confirmation.",
     parameters: Type.Object({
       sourcePath: Type.String({ description: "Absolute host directory path" }),
-      readWrite: Type.Optional(Type.Boolean({ description: "Request read-write access (requires separate approval)" })),
+      readWrite: Type.Optional(
+        Type.Boolean({ description: "Request read-write access (requires separate approval)" }),
+      ),
     }),
     async execute(_id, params, _signal, _onUpdate, ctx) {
       const validation = validateMountRequest(params);
-      if (!validation.ok) return { content: [{ type: "text", text: `Mount denied: ${validation.reason}` }], details: {} };
+      if (!validation.ok)
+        return {
+          content: [{ type: "text", text: `Mount denied: ${validation.reason}` }],
+          details: {},
+        };
       const guestPath = path.posix.join("/workspace/mounts", path.basename(validation.sourcePath));
-      const existingMount = additionalMounts.find((mount) => mount.guestPath === guestPath || mount.hostPath === validation.sourcePath);
+      const existingMount = additionalMounts.find(
+        (mount) => mount.guestPath === guestPath || mount.hostPath === validation.sourcePath,
+      );
       if (existingMount?.readWrite || (existingMount && !validation.readWrite)) {
-        return { content: [{ type: "text", text: `Mount already exists: ${validation.sourcePath} -> ${existingMount.guestPath} (${existingMount.readWrite ? "read-write" : "read-only"}).` }], details: {} };
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Mount already exists: ${validation.sourcePath} -> ${existingMount.guestPath} (${existingMount.readWrite ? "read-write" : "read-only"}).`,
+            },
+          ],
+          details: {},
+        };
       }
       const mode = validation.readWrite ? "read-write" : "read-only";
       const action = existingMount ? "Upgrade" : "Mount";
-      const approved = await ctx.ui.confirm("Approve Gondolin mount?", `${action} ${validation.sourcePath} at ${guestPath} to ${mode}. This restarts the Gondolin VM.`);
-      if (!approved) return { content: [{ type: "text", text: "Mount request was not approved." }], details: {} };
+      const approved = await ctx.ui.confirm(
+        "Approve Gondolin mount?",
+        `${action} ${validation.sourcePath} at ${guestPath} to ${mode}. This restarts the Gondolin VM.`,
+      );
+      if (!approved)
+        return {
+          content: [{ type: "text", text: "Mount request was not approved." }],
+          details: {},
+        };
       if (existingMount) existingMount.readWrite = true;
-      else additionalMounts.push({ hostPath: validation.sourcePath, guestPath, readWrite: validation.readWrite });
+      else
+        additionalMounts.push({
+          hostPath: validation.sourcePath,
+          guestPath,
+          readWrite: validation.readWrite,
+        });
       if (vm) await vm.close();
       vm = null;
       vmStarting = null;
       await ensureVm(ctx);
-      return { content: [{ type: "text", text: `Mounted ${validation.sourcePath} -> ${guestPath} (${mode}).` }], details: {} };
+      return {
+        content: [
+          { type: "text", text: `Mounted ${validation.sourcePath} -> ${guestPath} (${mode}).` },
+        ],
+        details: {},
+      };
     },
   });
 
@@ -433,7 +494,7 @@ export default function (pi: ExtensionAPI) {
   });
 
   // Run user `!` commands inside the VM too
-  pi.on("user_bash", (_event, ctx) => {
+  pi.on("user_bash", (_event, _ctx) => {
     if (!vm) return;
     return { operations: createGondolinBashOps(vm, localCwd, additionalMounts) };
   });

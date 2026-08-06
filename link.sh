@@ -17,6 +17,18 @@ backup_and_link() {
 	ln -s "$src" "$dest"
 }
 
+sync_pi_extension() {
+	src="$1"
+	dest="$2"
+	tmp="${dest}.next.$$"
+
+	rm -rf "$tmp"
+	cp -R "$src" "$tmp"
+	rm -rf "$dest"
+	mv "$tmp" "$dest"
+	echo "Synced Pi extension: $src -> $dest"
+}
+
 # nvim
 backup_and_link "$DOTS_DIR/nvim" ~/.config/nvim
 
@@ -45,10 +57,10 @@ backup_and_link "$DOTS_DIR/zsh/.zshrc" ~/.zshrc
 backup_and_link "$DOTS_DIR/zsh/.zprofile" ~/.zprofile
 
 # pi
+sh "$DOTS_DIR/pi/validate.sh"
 mkdir -p ~/.pi/agent ~/.pi/agent/extensions
 backup_and_link "$DOTS_DIR/pi/agent/settings.json" ~/.pi/agent/settings.json
-rm -rf ~/.pi/agent/extensions/gondolin
-cp -R "$DOTS_DIR/pi/agent/extensions/gondolin" ~/.pi/agent/extensions/gondolin
+sync_pi_extension "$DOTS_DIR/pi/agent/extensions/gondolin" ~/.pi/agent/extensions/gondolin
 
 if [ -x "$DOTS_DIR/pi/bootstrap.sh" ] && command -v pi >/dev/null 2>&1 && command -v node >/dev/null 2>&1; then
 	echo "Syncing pi packages"
