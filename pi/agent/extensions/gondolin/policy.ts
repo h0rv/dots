@@ -60,6 +60,7 @@ const GIT_COMMANDS = new Set([
   "log",
   "show",
   "branch",
+  "switch",
   "fetch",
   "remote",
   "worktree",

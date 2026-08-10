@@ -47,6 +47,16 @@ const GIT_PATH_MAPPINGS = parseGitPathMappings(process.env.GONDOLIN_GIT_PATH_MOU
 
 type AdditionalMount = { hostPath: string; guestPath: string; readWrite: boolean };
 
+function isAdditionalMount(value: unknown): value is AdditionalMount {
+  if (!value || typeof value !== "object") return false;
+  const mount = value as Record<string, unknown>;
+  return (
+    typeof mount.hostPath === "string" &&
+    typeof mount.guestPath === "string" &&
+    typeof mount.readWrite === "boolean"
+  );
+}
+
 function shQuote(value: string): string {
   // POSIX shell quoting: wraps in single quotes and escapes internal quotes
   return "'" + value.replace(/'/g, "'\\''") + "'";
@@ -353,7 +363,26 @@ export default function (pi: ExtensionAPI) {
   }
 
   pi.on("session_start", async (_event, ctx) => {
-    // Start eagerly so the user sees errors early (missing qemu, etc.)
+    for (const entry of [...ctx.sessionManager.getBranch()].reverse()) {
+      if (entry.type !== "message" || entry.message.role !== "toolResult") continue;
+      if (entry.message.toolName !== "gondolin_mount") continue;
+      const details = entry.message.details as { mounts?: unknown } | undefined;
+      if (!Array.isArray(details?.mounts)) continue;
+      for (const mount of details.mounts) {
+        if (!isAdditionalMount(mount)) continue;
+        const validation = validateMountRequest({
+          sourcePath: mount.hostPath,
+          readWrite: mount.readWrite,
+        });
+        if (!validation.ok) continue;
+        additionalMounts.push({
+          hostPath: validation.sourcePath,
+          guestPath: path.posix.join("/workspace/mounts", path.basename(validation.sourcePath)),
+          readWrite: validation.readWrite,
+        });
+      }
+      break;
+    }
     await ensureVm(ctx);
   });
 
@@ -427,7 +456,7 @@ export default function (pi: ExtensionAPI) {
         content: [
           { type: "text", text: `Mounted ${validation.sourcePath} -> ${guestPath} (${mode}).` },
         ],
-        details: {},
+        details: { mounts: additionalMounts },
       };
     },
   });
