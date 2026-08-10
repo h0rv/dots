@@ -11,6 +11,7 @@ setopt HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_IGNORE_SPACE INC_APPEND_HIST
 export EDITOR='nvim'
 export GOPATH="$HOME/.go"
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=16284
+export GONDOLIN_COMMAND_PREFIXES='[["jira"]]'
 
 is_macos=0
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -56,7 +57,7 @@ if (( is_macos )); then
   add_path "/opt/homebrew/opt/postgresql@17/bin"
 fi
 
-if [[ -o interactive ]] && [[ -z "$TMUX" ]] && [[ -z ${ZSH_EXECUTION_STRING-} ]] && command -v tmux >/dev/null 2>&1; then
+if [[ -o interactive ]] && [[ -z "$TMUX" ]] && [[ -z "$HERDR_ENV" ]] && [[ -z ${ZSH_EXECUTION_STRING-} ]] && command -v tmux >/dev/null 2>&1; then
   tmux_start_dir="$PWD"
   if [[ -z "$tmux_start_dir" || "$tmux_start_dir" == / ]]; then
     tmux_start_dir="$HOME"
@@ -103,6 +104,50 @@ alias c='claude'
 alias cr='claude --resume'
 alias j='just'
 alias jc='just --choose'
+
+# My open (not Done/Aborted) Jira issues as a tree, with clickable links (OSC 8).
+# Usage: jmine [extra `jira issue list` flags, e.g. -p IN]
+jmine() {
+  local data
+  data=$(jira issue list -a"$(jira me)" -s~Done -s~Aborted --raw "$@") || return
+  JMINE_DATA="$data" python3 <<'JMINE_PY'
+import os, json
+BASE = "https://anatomy.atlassian.net/browse"
+R = "\033[0m"
+def link(k):  # OSC 8 hyperlink on a bold-blue key
+    return f"\033]8;;{BASE}/{k}\033\\\033[1;34m{k}\033[0m\033]8;;\033\\"
+def col(s):
+    s = s.lower()
+    if any(x in s for x in ("progress", "build", "review")): return "\033[33m"
+    if "backlog" in s: return "\033[90m"
+    if "done" in s:    return "\033[32m"
+    return "\033[36m"
+nodes = {}
+for i in json.loads(os.environ["JMINE_DATA"]):
+    f = i["fields"]
+    nodes[i["key"]] = {"key": i["key"], "summary": f["summary"],
+                       "status": f["status"]["name"],
+                       "parent": (f.get("parent") or {}).get("key"), "kids": []}
+roots = []
+for n in nodes.values():
+    p = n["parent"]
+    (nodes[p]["kids"] if p in nodes else roots).append(n)
+def num(n):
+    try: return int(n["key"].split("-")[1])
+    except Exception: return 0
+def render(n, prefix="", last=True, top=False):
+    conn = "" if top else ("└─ " if last else "├─ ")
+    st = n["status"]
+    print(f"{prefix}{conn}{link(n['key'])}  {col(st)}{st:<12}{R} {n['summary']}")
+    kids = sorted(n["kids"], key=num)
+    cp = prefix + ("" if top else ("   " if last else "│  "))
+    for j, k in enumerate(kids):
+        render(k, cp, j == len(kids) - 1)
+roots.sort(key=num)
+for j, r in enumerate(roots):
+    render(r, "", j == len(roots) - 1, top=True)
+JMINE_PY
+}
 
 if (( is_macos )); then
   export CLICOLOR=1
