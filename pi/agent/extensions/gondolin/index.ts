@@ -298,7 +298,7 @@ function createGondolinBashOps(
         if (
           r.exitCode !== 127 ||
           !hostArgs ||
-          !ctx?.hasUI ||
+          !ctx ||
           hostArgs[0] === "git" ||
           hostArgs[0] === "gh"
         ) {
