@@ -230,6 +230,7 @@ function createGondolinBashOps(
   vm: VM,
   localCwd: string,
   additionalMounts: AdditionalMount[] = [],
+  ctx?: ExtensionContext,
 ): BashOperations {
   return {
     exec: async (command, cwd, { onData, signal, timeout, env }) => {
@@ -294,7 +295,21 @@ function createGondolinBashOps(
         }
 
         const r = await proc;
-        return { exitCode: r.exitCode };
+        if (
+          r.exitCode !== 127 ||
+          !hostArgs ||
+          !ctx?.hasUI ||
+          hostArgs[0] === "git" ||
+          hostArgs[0] === "gh"
+        ) {
+          return { exitCode: r.exitCode };
+        }
+        const approved = await ctx.ui.confirm(
+          "Run unavailable command on host?",
+          command,
+        );
+        if (!approved) return { exitCode: 126 };
+        return await runHostCommand(hostArgs, localCwd, onData, ac.signal);
       } catch (err) {
         if (signal?.aborted) throw new Error("aborted");
         if (timedOut) throw new Error(`timeout:${timeout}`);
@@ -499,16 +514,16 @@ export default function (pi: ExtensionAPI) {
     async execute(id, params, signal, onUpdate, ctx) {
       const activeVm = await ensureVm(ctx);
       const tool = createBashTool(localCwd, {
-        operations: createGondolinBashOps(activeVm, localCwd, additionalMounts),
+        operations: createGondolinBashOps(activeVm, localCwd, additionalMounts, ctx),
       });
       return tool.execute(id, params, signal, onUpdate);
     },
   });
 
   // Run user `!` commands inside the VM too
-  pi.on("user_bash", (_event, _ctx) => {
+  pi.on("user_bash", (_event, ctx) => {
     if (!vm) return;
-    return { operations: createGondolinBashOps(vm, localCwd, additionalMounts) };
+    return { operations: createGondolinBashOps(vm, localCwd, additionalMounts, ctx) };
   });
 
   // Replace the CWD line in the system prompt so the model sees /workspace
