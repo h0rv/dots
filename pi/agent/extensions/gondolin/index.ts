@@ -256,7 +256,10 @@ function createGondolinBashOps(
             hostRoot: mount.hostPath,
           })),
         ];
-        const activeHostRepositoryRoots = activeGitPathMappings.map((mapping) => mapping.hostRoot);
+        const activeHostRepositoryRoots = [
+          localCwd,
+          ...activeGitPathMappings.map((mapping) => mapping.hostRoot),
+        ];
         const translatedHostArgs = hostArgs
           ? translateGitGuestPaths(hostArgs, activeGitPathMappings)
           : null;

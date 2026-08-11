@@ -132,7 +132,20 @@ export function parseCommandPrefixes(
   });
 }
 
-export const configuredCommandPrefixes = [...parseCommandPrefixes(), ["jira"]];
+const HOST_READ_COMMANDS = new Map<string, string[]>([
+  ["rg", ["--pre"]],
+  ["fd", ["-x", "-X", "--exec", "--exec-batch"]],
+  ["bat", []],
+  ["eza", []],
+  ["jq", []],
+  ["delta", []],
+]);
+
+export const configuredCommandPrefixes = [
+  ...parseCommandPrefixes(),
+  ["jira"],
+  ...HOST_READ_COMMANDS.keys().map((command) => [command]),
+];
 
 export function parseSingleCommand(command: string): string[] | null {
   const args: string[] = [];
@@ -246,6 +259,29 @@ function validateGit(args: string[], cwd: string, approvedRoots: string[]): stri
     return "Only git worktree list and add are approved.";
   return validateGitWrite(subcommand, rest);
 }
+function validateHostRead(
+  args: string[],
+  cwd: string,
+  approvedRoots: string[],
+): string | null {
+  const blockedOptions = HOST_READ_COMMANDS.get(args[0]);
+  if (!blockedOptions) return "This command is not approved.";
+  if (
+    args.some(
+      (arg) =>
+        blockedOptions.includes(arg) ||
+        blockedOptions.some((option) => arg.startsWith(`${option}=`)),
+    )
+  )
+    return "Options that execute commands are blocked.";
+  for (const arg of args.slice(1)) {
+    if (arg.startsWith("-") || (!arg.startsWith("/") && !arg.startsWith("."))) continue;
+    if (!isApprovedRepoPath(arg, cwd, approvedRoots))
+      return "Read paths must be below the workspace or an approved mount.";
+  }
+  return null;
+}
+
 function validateGh(args: string[]): string | null {
   if (args.some((arg) => arg === "--admin" || arg.startsWith("--admin=")))
     return "GitHub administrative operations are blocked.";
@@ -339,6 +375,8 @@ export function hostCommandDenial(
     return "Administrative operations are blocked.";
   if (args[0] === "git") return validateGit(args, cwd, approvedRepoRoots);
   if (args[0] === "gh") return validateGh(args);
+  if (HOST_READ_COMMANDS.has(args[0]))
+    return validateHostRead(args, cwd, approvedRepoRoots);
   return configuredCommandPrefixes.some(
     (prefix) => args.length >= prefix.length && prefix.every((part, index) => args[index] === part),
   )
@@ -353,7 +391,7 @@ export function isBrokeredCommand(command: string): boolean {
   );
 }
 export function hostBrokerGuidance(): string {
-  return "git status/diff/log/show/branch/fetch/remote/worktree/rev-parse/merge-base/ls-tree/cat-file/blame (limited to configured Git path mappings); gh pr diff/view/checks/list, issue/repo/run/release list/view, search, and GET gh api; plus configured direct-command prefixes";
+  return "git status/diff/log/show/branch/switch/fetch/remote/worktree/rev-parse/merge-base/ls-tree/cat-file/blame; gh pr diff/view/checks/list, issue/repo/run/release list/view, search, and GET gh api; jira; and rg, fd, bat, eza, jq, or delta limited to the workspace and approved mounts";
 }
 
 export type MountRequest = { sourcePath: string; readWrite?: boolean };
