@@ -138,6 +138,26 @@ function toGuestPath(
   throw new Error(`path is outside the permitted mounts: ${localPath}`);
 }
 
+function toHostPath(
+  localCwd: string,
+  guestPath: string,
+  additionalMounts: AdditionalMount[],
+): string {
+  const workspaceRelative = path.relative(GUEST_WORKSPACE, guestPath);
+  if (workspaceRelative === "") return localCwd;
+  if (!workspaceRelative.startsWith("..") && !path.isAbsolute(workspaceRelative)) {
+    return path.join(localCwd, workspaceRelative);
+  }
+  for (const mount of additionalMounts) {
+    const mountRelative = path.relative(mount.guestPath, guestPath);
+    if (mountRelative === "") return mount.hostPath;
+    if (!mountRelative.startsWith("..") && !path.isAbsolute(mountRelative)) {
+      return path.join(mount.hostPath, mountRelative);
+    }
+  }
+  return guestPath;
+}
+
 function createGondolinReadOps(
   vm: VM,
   localCwd: string,
@@ -272,7 +292,12 @@ function createGondolinBashOps(
             onData(Buffer.from(`Host command broker denied this command. ${guardError}\n`));
             return { exitCode: 126 };
           }
-          return await runHostCommand(translatedHostArgs, localCwd, onData, ac.signal);
+          return await runHostCommand(
+            translatedHostArgs,
+            toHostPath(localCwd, cwd, additionalMounts),
+            onData,
+            ac.signal,
+          );
         }
         if (hostArgs && isBrokeredCommand(hostArgs[0])) {
           onData(
@@ -299,7 +324,12 @@ function createGondolinBashOps(
               command,
             );
             if (!approved) return { exitCode: 126 };
-            return await runHostCommand(hostArgs, localCwd, onData, ac.signal);
+            return await runHostCommand(
+              hostArgs,
+              toHostPath(localCwd, cwd, additionalMounts),
+              onData,
+              ac.signal,
+            );
           }
         }
         const proc = vm.exec(["/bin/bash", "-lc", command], {
@@ -329,7 +359,12 @@ function createGondolinBashOps(
           command,
         );
         if (!approved) return { exitCode: 126 };
-        return await runHostCommand(hostArgs, localCwd, onData, ac.signal);
+        return await runHostCommand(
+          hostArgs,
+          toHostPath(localCwd, cwd, additionalMounts),
+          onData,
+          ac.signal,
+        );
       } catch (err) {
         if (signal?.aborted) throw new Error("aborted");
         if (timedOut) throw new Error(`timeout:${timeout}`);

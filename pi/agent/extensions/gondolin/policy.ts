@@ -144,6 +144,7 @@ const HOST_READ_COMMANDS = new Map<string, string[]>([
 export const configuredCommandPrefixes = [
   ...parseCommandPrefixes(),
   ["jira"],
+  ["uv"],
   ...HOST_READ_COMMANDS.keys().map((command) => [command]),
 ];
 
@@ -192,7 +193,6 @@ function validateGitWrite(subcommand: string, rest: string[]): string | null {
       "--update",
       "--ignore-removal",
       "--pathspec-from-file",
-      ".",
       ":/",
     ];
     if (rest.some((arg) => broadFlags.includes(arg) || arg.startsWith("--pathspec-from-file=")))
@@ -391,7 +391,7 @@ export function isBrokeredCommand(command: string): boolean {
   );
 }
 export function hostBrokerGuidance(): string {
-  return "git status/diff/log/show/branch/switch/fetch/remote/worktree/rev-parse/merge-base/ls-tree/cat-file/blame; gh pr diff/view/checks/list, issue/repo/run/release list/view, search, and GET gh api; jira; and rg, fd, bat, eza, jq, or delta limited to the workspace and approved mounts";
+  return "git status/diff/log/show/branch/switch/fetch/remote/worktree/rev-parse/merge-base/ls-tree/cat-file/blame/add/commit/push; gh pr diff/view/checks/list, issue/repo/run/release list/view, search, and GET gh api; jira; uv; and rg, fd, bat, eza, jq, or delta limited to the workspace and approved mounts";
 }
 
 export type MountRequest = { sourcePath: string; readWrite?: boolean };
