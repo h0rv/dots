@@ -147,7 +147,7 @@ export function parseSingleCommand(command: string): string[] | null {
     } else if (char === "\\") escaped = true;
     else if (quote) {
       if (char === quote) quote = null;
-      else if (/[;&|<>`$()\n\r]/.test(char)) return null;
+      else if (/[;&|<>`$\n\r]/.test(char)) return null;
       else current += char;
     } else if (char === "'" || char === '"') quote = char;
     else if (/[;&|<>`$()\n\r]/.test(char)) return null;
