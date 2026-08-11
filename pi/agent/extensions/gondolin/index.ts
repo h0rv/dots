@@ -602,6 +602,8 @@ export default function (pi: ExtensionAPI) {
 Approved session mounts:
 ${mounts}
 
+For project tooling on an approved mount, use `uv --directory /workspace/mounts/<repository> ...` so uv runs on the host in that repository.
+
 Host CLI broker: Use one direct command, without pipes, redirects, substitutions, or wrappers. The approved host commands are generated from the active broker policy: ${hostBrokerGuidance()}. Commands outside that policy execute in Gondolin and do not inherit host credentials.`,
     };
   });
