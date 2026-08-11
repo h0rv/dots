@@ -284,7 +284,24 @@ function createGondolinBashOps(
         }
 
         const guestCwd = toGuestPath(localCwd, cwd, additionalMounts);
-        // `/bin/bash -lc` for a familiar environment (pipelines, expansions, etc.)
+        if (hostArgs && !hostArgs[0].includes("/")) {
+          const available = await vm.exec(
+            ["/bin/sh", "-lc", `command -v -- ${shQuote(hostArgs[0])}`],
+            { cwd: guestCwd, signal: ac.signal },
+          );
+          if (!available.ok) {
+            if (!ctx) {
+              onData(Buffer.from(`${hostArgs[0]} is not installed in Gondolin.\n`));
+              return { exitCode: 127 };
+            }
+            const approved = await ctx.ui.confirm(
+              "Run unavailable command on host?",
+              command,
+            );
+            if (!approved) return { exitCode: 126 };
+            return await runHostCommand(hostArgs, localCwd, onData, ac.signal);
+          }
+        }
         const proc = vm.exec(["/bin/bash", "-lc", command], {
           cwd: guestCwd,
           signal: ac.signal,
