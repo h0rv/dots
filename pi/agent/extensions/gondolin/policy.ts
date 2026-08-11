@@ -132,7 +132,7 @@ export function parseCommandPrefixes(
   });
 }
 
-export const configuredCommandPrefixes = parseCommandPrefixes();
+export const configuredCommandPrefixes = [...parseCommandPrefixes(), ["jira"]];
 
 export function parseSingleCommand(command: string): string[] | null {
   const args: string[] = [];
