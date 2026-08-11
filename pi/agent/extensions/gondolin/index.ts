@@ -553,8 +553,19 @@ export default function (pi: ExtensionAPI) {
       `Current working directory: ${localCwd}`,
       `Current working directory: ${GUEST_WORKSPACE} (Gondolin VM, mounted from host: ${localCwd})`,
     );
+    const mounts = additionalMounts.length
+      ? additionalMounts
+          .map(
+            (mount) =>
+              `${mount.guestPath} -> ${mount.hostPath} (${mount.readWrite ? "read-write" : "read-only"})`,
+          )
+          .join("\n")
+      : "None.";
     return {
       systemPrompt: `${modified}
+
+Approved session mounts:
+${mounts}
 
 Host CLI broker: Use one direct command, without pipes, redirects, substitutions, or wrappers. The approved host commands are generated from the active broker policy: ${hostBrokerGuidance()}. Commands outside that policy execute in Gondolin and do not inherit host credentials.`,
     };
