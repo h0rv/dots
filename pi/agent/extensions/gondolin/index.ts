@@ -319,10 +319,7 @@ function createGondolinBashOps(
               onData(Buffer.from(`${hostArgs[0]} is not installed in Gondolin.\n`));
               return { exitCode: 127 };
             }
-            const approved = await ctx.ui.confirm(
-              "Run unavailable command on host?",
-              command,
-            );
+            const approved = await ctx.ui.confirm("Run unavailable command on host?", command);
             if (!approved) return { exitCode: 126 };
             return await runHostCommand(
               hostArgs,
@@ -354,10 +351,7 @@ function createGondolinBashOps(
         ) {
           return { exitCode: r.exitCode };
         }
-        const approved = await ctx.ui.confirm(
-          "Run unavailable command on host?",
-          command,
-        );
+        const approved = await ctx.ui.confirm("Run unavailable command on host?", command);
         if (!approved) return { exitCode: 126 };
         return await runHostCommand(
           hostArgs,
@@ -602,7 +596,7 @@ export default function (pi: ExtensionAPI) {
 Approved session mounts:
 ${mounts}
 
-For project tooling on an approved mount, use `uv --directory /workspace/mounts/<repository> ...` so uv runs on the host in that repository.
+For project tooling on an approved mount, use \`uv --directory /workspace/mounts/<repository> ...\` so uv runs on the host in that repository.
 
 Host CLI broker: Use one direct command, without pipes, redirects, substitutions, or wrappers. The approved host commands are generated from the active broker policy: ${hostBrokerGuidance()}. Commands outside that policy execute in Gondolin and do not inherit host credentials.`,
     };

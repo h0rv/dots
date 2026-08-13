@@ -220,8 +220,7 @@ function validateGitWrite(subcommand: string, rest: string[]): string | null {
     ];
     if (rest.some((arg) => blocked.includes(arg) || /^(--force|--delete)=/.test(arg)))
       return "Force, delete, mirror, all-refs, tags, and atomic pushes are blocked.";
-    if (rest.some((arg) => arg.startsWith(":")))
-      return "Deleting refs is blocked.";
+    if (rest.some((arg) => arg.startsWith(":"))) return "Deleting refs is blocked.";
   }
   return null;
 }
@@ -259,11 +258,7 @@ function validateGit(args: string[], cwd: string, approvedRoots: string[]): stri
     return "Only git worktree list and add are approved.";
   return validateGitWrite(subcommand, rest);
 }
-function validateHostRead(
-  args: string[],
-  cwd: string,
-  approvedRoots: string[],
-): string | null {
+function validateHostRead(args: string[], cwd: string, approvedRoots: string[]): string | null {
   const blockedOptions = HOST_READ_COMMANDS.get(args[0]);
   if (!blockedOptions) return "This command is not approved.";
   if (
@@ -375,8 +370,7 @@ export function hostCommandDenial(
     return "Administrative operations are blocked.";
   if (args[0] === "git") return validateGit(args, cwd, approvedRepoRoots);
   if (args[0] === "gh") return validateGh(args);
-  if (HOST_READ_COMMANDS.has(args[0]))
-    return validateHostRead(args, cwd, approvedRepoRoots);
+  if (HOST_READ_COMMANDS.has(args[0])) return validateHostRead(args, cwd, approvedRepoRoots);
   return configuredCommandPrefixes.some(
     (prefix) => args.length >= prefix.length && prefix.every((part, index) => args[index] === part),
   )
